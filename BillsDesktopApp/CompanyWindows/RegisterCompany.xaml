@@ -46,9 +46,9 @@
         </DockPanel>
 
         <DockPanel Margin="10" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2">
-            <Button x:Name="btnViewOrders" Content="تسجيل" Margin="5" 
+            <Button x:Name="btnRegister" Content="تسجيل" Margin="5" 
                     HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                    VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="btnViewOrders_Click"/>
+                    VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="btnRegister_Click"/>
         </DockPanel>
     </Grid>
 </Window>

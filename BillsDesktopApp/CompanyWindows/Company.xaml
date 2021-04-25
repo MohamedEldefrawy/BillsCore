@@ -13,7 +13,7 @@
         FontFamily="{materialDesign:MaterialDesignFont}" 
         ScrollViewer.HorizontalScrollBarVisibility="Auto"
         WindowStartupLocation="CenterScreen" HorizontalContentAlignment="Stretch" 
-        VerticalContentAlignment="Stretch">
+        VerticalContentAlignment="Stretch" LostFocus="Window_LostFocus" GotFocus="Window_GotFocus">
 
     <Grid>
         <Grid.ColumnDefinitions>
