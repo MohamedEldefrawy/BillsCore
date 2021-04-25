@@ -4,6 +4,7 @@ using System.Windows;
 using BillsDesktopApp.ErrorMessages;
 using DAL;
 using DAL.UnitOfWork;
+using DAL.Repositories.Origin;
 
 namespace BillsDesktopApp.AuthWindows
 {
@@ -15,12 +16,14 @@ namespace BillsDesktopApp.AuthWindows
         private readonly BillsContext _context;
 
         private readonly UnitOfWork unitOfWork;
+        private readonly IRepository<BL.Models.Users> UsersService;
         private bool IsValid = false;
 
         public ChangeProfile(BillsContext Context)
         {
             _context = Context;
             unitOfWork = new UnitOfWork(_context);
+            UsersService = unitOfWork.Repository<BL.Models.Users>();
 
             InitializeComponent();
             lblPasswordErrorMessage.Content = PasswordErrorMessages.Password;
@@ -30,7 +33,7 @@ namespace BillsDesktopApp.AuthWindows
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            var user = unitOfWork.Repository<BL.Models.Users>().Find(u => u.UserName.ToLower() == txtUserName.Text.ToLower()).FirstOrDefault();
+            var user = UsersService.Find(u => u.UserName.ToLower() == txtUserName.Text.ToLower()).FirstOrDefault();
 
             if (!IsValid)
             {
@@ -50,7 +53,7 @@ namespace BillsDesktopApp.AuthWindows
                     if (isPwCorrect)
                     {
                         user.Password = Hash(txtNewPassword.Password);
-                        unitOfWork.Repository<BL.Models.Users>().Update(user);
+                        UsersService.Update(user);
                         int result = unitOfWork.Complete();
 
                         if (result < 0)
