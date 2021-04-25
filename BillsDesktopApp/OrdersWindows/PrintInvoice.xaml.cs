@@ -1,6 +1,4 @@
-﻿using Bills.DL;
-using Bills.DTO;
-using BillsDesktopApp.Dtos.OrdersDtos;
+﻿using BillsDesktopApp.Dtos.OrdersDtos;
 using DAL;
 using DAL.UnitOfWork;
 using System.Collections.ObjectModel;

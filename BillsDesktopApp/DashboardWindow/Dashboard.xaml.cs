@@ -5,6 +5,7 @@ using BillsDesktopApp.OrdersWindows;
 using DAL;
 using DAL.UnitOfWork;
 using System.Windows;
+using BillsDesktopApp.CompanyWindows;
 
 namespace BillsDesktopApp.DashboardWindow
 {
