@@ -1,5 +1,7 @@
 ﻿using BillsDesktopApp.AuthWindows;
+using BillsDesktopApp.CustomersWindows;
 using BillsDesktopApp.ProductsWindows;
+using BillsDesktopApp.OrdersWindows;
 using DAL;
 using DAL.UnitOfWork;
 using System.Windows;
