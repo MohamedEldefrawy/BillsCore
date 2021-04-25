@@ -18,6 +18,8 @@ namespace DAL
         {
             services.AddDbContext<BillsContext>(options => options
             .UseSqlServer(Configuration.GetConnectionString("MyConn")), ServiceLifetime.Transient);
+
+            services.AddDependency();
         }
     }
 }
