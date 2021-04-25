@@ -1,4 +1,5 @@
-﻿using DAL;
+﻿using BillsDesktopApp.DashboardWindow;
+using DAL;
 using DAL.UnitOfWork;
 using System.Linq;
 using System.Windows;
@@ -14,6 +15,7 @@ namespace BillsDesktopApp.AuthWindows
         private readonly BillsContext _context;
 
         private readonly UnitOfWork unitOfWork;
+
         public Login(BillsContext Context)
         {
             _context = Context;
