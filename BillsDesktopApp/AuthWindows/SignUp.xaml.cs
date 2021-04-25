@@ -1,11 +1,12 @@
-﻿using Bills.DL;
-using Bills.ErrorMessages;
+﻿using BillsDesktopApp.ErrorMessages;
 using BL.Models;
+using DAL;
+using DAL.UnitOfWork;
 using System.Windows;
 using System.Windows.Controls;
 using static Utilities.Utilities.Utilities;
 
-namespace Bills
+namespace BillsDesktopApp.AuthWindows
 {
     /// <summary>
     /// Interaction logic for SignUp.xaml

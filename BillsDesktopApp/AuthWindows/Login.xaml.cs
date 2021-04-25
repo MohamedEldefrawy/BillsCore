@@ -4,7 +4,7 @@ using System.Linq;
 using System.Windows;
 using static Utilities.Utilities.Utilities;
 
-namespace Bills
+namespace BillsDesktopApp.AuthWindows
 {
     /// <summary>
     /// Interaction logic for MainMenu.xaml
