@@ -1,6 +1,8 @@
 ﻿using DAL;
+using DAL.Repositories.Origin;
 using DAL.UnitOfWork;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data;
 using System.Linq;
 using System.Windows;
@@ -15,14 +17,18 @@ namespace BillsDesktopApp.CustomersWindows
     {
         private static BillsContext _context;
         private readonly UnitOfWork unitOfWork;
-        public static DataGrid DataGrid;
+        public static ObservableCollection<BL.Models.Customers> CustomerObservalbleCollection = new ObservableCollection<BL.Models.Customers>();
+
         private string[] AllcolNames = typeof(BL.Models.Customers).GetProperties().Select(p => p.Name).ToArray();
+        private readonly IRepository<BL.Models.Customers> CustomersService;
         private List<string> selectedColNames = new List<string>();
+
 
         public Customers(BillsContext Context)
         {
             _context = Context;
             unitOfWork = new UnitOfWork(_context);
+            CustomersService = unitOfWork.Repository<BL.Models.Customers>();
             foreach (var col in AllcolNames)
             {
                 if (col != "Orders")
@@ -39,13 +45,13 @@ namespace BillsDesktopApp.CustomersWindows
         {
             cmbSearch.ItemsSource = selectedColNames;
             cmbSearch.SelectedIndex = 0;
-            dgCustomers.ItemsSource = unitOfWork.Repository<BL.Models.Customers>().GetAll().ToList();
-            DataGrid = dgCustomers;
+            var customers = CustomersService.GetAll().ToList();
+            foreach (var customer in customers)
+            {
+                CustomerObservalbleCollection.Add(customer);
+            }
 
-        }
-        private void dgCustomers_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
+            dgCustomers.ItemsSource = customers;
         }
 
         private void txtSearch_TextChanged(object sender, TextChangedEventArgs e)
@@ -53,7 +59,7 @@ namespace BillsDesktopApp.CustomersWindows
             var customers = GetSelectedFilter();
             if (string.IsNullOrEmpty(txtSearch.Text))
             {
-                dgCustomers.ItemsSource = unitOfWork.Repository<BL.Models.Customers>().GetAll().ToArray();
+                dgCustomers.ItemsSource = CustomersService.GetAll().ToArray();
 
             }
             dgCustomers.ItemsSource = customers;
@@ -76,6 +82,7 @@ namespace BillsDesktopApp.CustomersWindows
             updateCustomer.txtEmail.Text = selectedCustomer.Email;
             updateCustomer.txtPhone.Text = selectedCustomer.Phone;
             updateCustomer.txtId.Text = selectedCustomer.ID.ToString();
+            updateCustomer.SelectedCustomer = selectedCustomer;
             updateCustomer.Owner = Window.GetWindow(this);
             updateCustomer.ShowDialog();
         }
@@ -83,7 +90,7 @@ namespace BillsDesktopApp.CustomersWindows
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
             var selectedCustomer = (BL.Models.Customers)dgCustomers.SelectedItem;
-            unitOfWork.Repository<BL.Models.Customers>().Remove(selectedCustomer);
+            CustomersService.Remove(selectedCustomer);
             var result = unitOfWork.Complete();
             if (result < 1)
             {
@@ -93,36 +100,39 @@ namespace BillsDesktopApp.CustomersWindows
             else
             {
                 MessageBox.Show("تم مسح العميل بنجاح", "نجحت العملية", MessageBoxButton.OK, MessageBoxImage.Information);
-                dgCustomers.ItemsSource = unitOfWork.Repository<BL.Models.Customers>().GetAll().ToArray();
+                CustomerObservalbleCollection.Remove(selectedCustomer);
             }
+
+            dgCustomers.ItemsSource = CustomerObservalbleCollection;
         }
 
         private List<BL.Models.Customers> GetSelectedFilter()
         {
             List<BL.Models.Customers> customers;
+
             switch (cmbSearch.SelectedIndex)
             {
                 case 0:
                     {
-                        customers = unitOfWork.Repository<BL.Models.Customers>().Find(c => c.Name.StartsWith(txtSearch.Text)).ToList();
+                        customers = CustomersService.Find(c => c.Name.StartsWith(txtSearch.Text)).ToList();
                         break;
                     }
 
                 case 1:
                     {
-                        customers = unitOfWork.Repository<BL.Models.Customers>().Find(c => c.Phone.StartsWith(txtSearch.Text)).ToList();
+                        customers = CustomersService.Find(c => c.Phone.StartsWith(txtSearch.Text)).ToList();
                         break;
                     }
 
                 case 2:
                     {
-                        customers = unitOfWork.Repository<BL.Models.Customers>().Find(c => c.Address.StartsWith(txtSearch.Text)).ToList();
+                        customers = CustomersService.Find(c => c.Address.StartsWith(txtSearch.Text)).ToList();
                         break;
                     }
 
                 default:
                     {
-                        customers = unitOfWork.Repository<BL.Models.Customers>().Find(c => c.Email.StartsWith(txtSearch.Text)).ToList();
+                        customers = CustomersService.Find(c => c.Email.StartsWith(txtSearch.Text)).ToList();
                         break;
                     }
             }
@@ -130,9 +140,16 @@ namespace BillsDesktopApp.CustomersWindows
             return customers;
         }
 
-        private void btnRefresh_Click(object sender, RoutedEventArgs e)
+        private void Window_LostFocus(object sender, RoutedEventArgs e)
         {
-            dgCustomers.ItemsSource = unitOfWork.Repository<BL.Models.Customers>().GetAll().ToArray();
+            dgCustomers.ItemsSource = CustomerObservalbleCollection;
+        }
+
+        private void Window_GotFocus(object sender, RoutedEventArgs e)
+        {
+            dgCustomers.ItemsSource = CustomerObservalbleCollection;
+
         }
     }
 }
+
