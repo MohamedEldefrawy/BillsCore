@@ -101,7 +101,7 @@ namespace BillsDesktopApp.AuthWindows
 
             else
             {
-                Login frmLogin = new Login(_context);
+                Login frmLogin = new Login();
                 Application.Current.MainWindow = frmLogin;
                 Close();
                 frmLogin.Show();
@@ -111,7 +111,7 @@ namespace BillsDesktopApp.AuthWindows
 
         private void btnBack_Click(object sender, RoutedEventArgs e)
         {
-            Login frmLogin = new Login(_context);
+            Login frmLogin = new Login();
             frmLogin.Show();
             Application.Current.MainWindow = frmLogin;
             this.Close();

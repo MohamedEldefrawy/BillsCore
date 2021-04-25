@@ -12,14 +12,12 @@ namespace BillsDesktopApp.AuthWindows
     /// </summary>
     public partial class Login : Window
     {
-        private readonly BillsContext _context;
-
         private readonly UnitOfWork unitOfWork;
 
-        public Login(BillsContext Context)
+
+        public Login()
         {
-            _context = Context;
-            unitOfWork = new UnitOfWork(_context);
+            unitOfWork = new UnitOfWork(new ContextFactory().CreateDbContext(new string[1]));
             InitializeComponent();
         }
 
@@ -39,7 +37,7 @@ namespace BillsDesktopApp.AuthWindows
                 var isPwCorrect = UnHash(txtPassword.Password, user.Password);
                 if (isPwCorrect)
                 {
-                    Dashboard dashboard = new Dashboard(_context);
+                    Dashboard dashboard = new Dashboard(new ContextFactory().CreateDbContext(new string[1]));
                     dashboard.lblUserId.Content = user.ID;
                     dashboard.lblWelcome.Content = " مرحباً " + user.UserName;
                     Application.Current.MainWindow = dashboard;
@@ -59,7 +57,7 @@ namespace BillsDesktopApp.AuthWindows
 
         private void btnSignup_Click(object sender, RoutedEventArgs e)
         {
-            SignUp frmSignUp = new SignUp(_context);
+            SignUp frmSignUp = new SignUp(new ContextFactory().CreateDbContext(new string[1]));
             frmSignUp.Show();
             this.Close();
         }

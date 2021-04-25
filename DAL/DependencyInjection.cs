@@ -15,7 +15,6 @@ namespace DAL
         public static IServiceCollection AddDependency(this IServiceCollection services)
         {
             services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
-
             services.AddTransient<ICompaniesRepository, CompaniesRepository>();
             services.AddTransient<ICustomersRepository, CustomersRepository>();
             services.AddTransient<IOrderDetailsRepository, OrderDetailsRepository>();

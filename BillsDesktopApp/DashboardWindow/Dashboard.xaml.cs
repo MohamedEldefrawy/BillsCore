@@ -69,7 +69,7 @@ namespace BillsDesktopApp.DashboardWindow
             MessageBoxResult messageBoxResult = System.Windows.MessageBox.Show("هل انت متأكد ؟", "تأكيد تسجيل الخروج", System.Windows.MessageBoxButton.YesNo);
             if (messageBoxResult == MessageBoxResult.Yes)
             {
-                Login login = new Login(_context);
+                Login login = new Login();
                 login.Show();
                 this.Close();
             }
