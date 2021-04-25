@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
 
 namespace BillsDesktopApp.CompanyWindows
 {
@@ -53,6 +52,7 @@ namespace BillsDesktopApp.CompanyWindows
             updateCompany.lblUserName.Content = lblUserName.Content.ToString().Split(" ")[0];
             updateCompany.txtCompanyName.Text = selectedCompany.Name;
             updateCompany.txtId.Text = selectedCompany.ID.ToString();
+            updateCompany.selectedCompany = selectedCompany;
             updateCompany.Owner = GetWindow(this);
             updateCompany.ShowDialog();
         }
