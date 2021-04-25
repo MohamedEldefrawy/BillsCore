@@ -14,7 +14,7 @@
         FontFamily="{materialDesign:MaterialDesignFont}" 
         ScrollViewer.HorizontalScrollBarVisibility="Auto"
         WindowStartupLocation="CenterScreen" HorizontalContentAlignment="Stretch" 
-        VerticalContentAlignment="Stretch"
+        VerticalContentAlignment="Stretch" GotFocus="Window_GotFocus" LostFocus="Window_LostFocus"
         >
     <Grid>
         <Grid.ColumnDefinitions>
@@ -37,9 +37,6 @@
         <StackPanel Margin="10"
                    Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" Orientation="Horizontal">
             <Button x:Name="btnAdd" Content="إضافة" Click="btnAdd_Click" 
-                    HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0 5 5 0"/>
-
-            <Button x:Name="btnRefresh" Content="تحديث الجدول" Click="btnRefresh_Click" 
                     HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0 5 5 0"/>
         </StackPanel>
         <StackPanel Grid.Column="0" Grid.Row="0" Margin="10" Orientation="Horizontal">

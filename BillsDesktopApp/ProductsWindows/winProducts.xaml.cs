@@ -1,6 +1,8 @@
 ﻿using DAL;
+using DAL.Repositories.Origin;
 using DAL.UnitOfWork;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -16,13 +18,16 @@ namespace BillsDesktopApp.ProductsWindows
         private readonly BillsContext _context;
 
         private readonly UnitOfWork unitOfWork;
-        public static DataGrid DataGrid;
         private string[] AllcolNames = typeof(BL.Models.Products).GetProperties().Select(p => p.Name).ToArray();
+        public static ObservableCollection<BL.Models.Products> ProductsObservalbleCollection = new ObservableCollection<BL.Models.Products>();
+        private readonly IRepository<BL.Models.Products> ProductsService;
         private List<string> selectedColNames = new List<string>();
+
         public winProducts(BillsContext Context)
         {
             _context = Context;
             unitOfWork = new UnitOfWork(_context);
+            ProductsService = unitOfWork.Repository<BL.Models.Products>();
             foreach (var col in AllcolNames)
             {
                 if (col != "OrderDetails")
@@ -39,9 +44,14 @@ namespace BillsDesktopApp.ProductsWindows
         {
             cmbSearch.ItemsSource = selectedColNames;
             cmbSearch.SelectedIndex = 0;
-            dgProducts.ItemsSource = unitOfWork.Repository<BL.Models.Products>().GetAll().ToList();
-            DataGrid = dgProducts;
+            var products = ProductsService.GetAll().ToList();
+            ProductsObservalbleCollection.Clear();
+            foreach (var product in products)
+            {
+                ProductsObservalbleCollection.Add(product);
+            }
 
+            dgProducts.ItemsSource = ProductsObservalbleCollection;
         }
 
         private List<BL.Models.Products> GetSelectedFilter()
@@ -51,19 +61,19 @@ namespace BillsDesktopApp.ProductsWindows
             {
                 case 0:
                     {
-                        products = unitOfWork.Repository<BL.Models.Products>().Find(c => c.Name.StartsWith(txtSearch.Text)).ToList();
+                        products = ProductsService.Find(c => c.Name.StartsWith(txtSearch.Text)).ToList();
                         break;
                     }
 
                 case 1:
                     {
-                        products = unitOfWork.Repository<BL.Models.Products>().Find(c => c.Description.StartsWith(txtSearch.Text)).ToList();
+                        products = ProductsService.Find(c => c.Description.StartsWith(txtSearch.Text)).ToList();
                         break;
                     }
 
                 default:
                     {
-                        products = unitOfWork.Repository<BL.Models.Products>().Find(c => c.Price.ToString().StartsWith(txtSearch.Text)).ToList();
+                        products = ProductsService.Find(c => c.Price.ToString().StartsWith(txtSearch.Text)).ToList();
                         break;
                     }
             }
@@ -76,10 +86,18 @@ namespace BillsDesktopApp.ProductsWindows
             var products = GetSelectedFilter();
             if (string.IsNullOrEmpty(txtSearch.Text))
             {
-                dgProducts.ItemsSource = unitOfWork.Repository<BL.Models.Customers>().GetAll().ToArray();
+                dgProducts.ItemsSource = ProductsObservalbleCollection;
 
             }
-            dgProducts.ItemsSource = products;
+            else
+            {
+                ProductsObservalbleCollection.Clear();
+                foreach (var product in products)
+                {
+                    ProductsObservalbleCollection.Add(product);
+                }
+                dgProducts.ItemsSource = products;
+            }
         }
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)
@@ -87,12 +105,6 @@ namespace BillsDesktopApp.ProductsWindows
             AddProduct addProduct = new AddProduct(_context);
             addProduct.Owner = Window.GetWindow(this);
             addProduct.ShowDialog();
-        }
-
-        private void btnRefresh_Click(object sender, RoutedEventArgs e)
-        {
-            dgProducts.ItemsSource = unitOfWork.Repository<BL.Models.Products>().GetAll().ToArray();
-
         }
 
         private void btnUpdate_Click(object sender, RoutedEventArgs e)
@@ -103,6 +115,7 @@ namespace BillsDesktopApp.ProductsWindows
             updateProduct.txtName.Text = selectedProduct.Name;
             updateProduct.txtDesc.Text = selectedProduct.Description;
             updateProduct.txtPrice.Text = selectedProduct.Price.ToString();
+            updateProduct.SelectedProduct = selectedProduct;
             updateProduct.Owner = Window.GetWindow(this);
             updateProduct.ShowDialog();
         }
@@ -110,18 +123,30 @@ namespace BillsDesktopApp.ProductsWindows
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
             var selectedProduct = (BL.Models.Products)dgProducts.SelectedItem;
-            unitOfWork.Repository<BL.Models.Products>().Remove(selectedProduct);
+            ProductsService.Remove(selectedProduct);
             var result = unitOfWork.Complete();
             if (result < 1)
             {
-                MessageBox.Show("فشلت عملية مسح العميل", "فشلت العملية", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("فشلت العملية", "فشلت عملية مسح العميل", MessageBoxButton.OK, MessageBoxImage.Error);
 
             }
             else
             {
-                MessageBox.Show("تم مسح العميل بنجاح", "نجحت العملية", MessageBoxButton.OK, MessageBoxImage.Information);
-                dgProducts.ItemsSource = unitOfWork.Repository<BL.Models.Customers>().GetAll().ToArray();
+                ProductsObservalbleCollection.Remove(selectedProduct);
+                MessageBox.Show("نجحت العملية", "تم مسح العميل بنجاح", MessageBoxButton.OK, MessageBoxImage.Information);
+                dgProducts.ItemsSource = ProductsObservalbleCollection;
             }
+        }
+
+        private void Window_GotFocus(object sender, RoutedEventArgs e)
+        {
+            dgProducts.ItemsSource = ProductsObservalbleCollection;
+        }
+
+        private void Window_LostFocus(object sender, RoutedEventArgs e)
+        {
+            dgProducts.ItemsSource = ProductsObservalbleCollection;
+
         }
     }
 }
