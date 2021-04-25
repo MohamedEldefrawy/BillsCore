@@ -1,5 +1,6 @@
 ﻿using BillsDesktopApp.DashboardWindow;
 using DAL;
+using DAL.Repositories.Origin;
 using DAL.UnitOfWork;
 using System.Linq;
 using System.Windows;
@@ -13,22 +14,24 @@ namespace BillsDesktopApp.AuthWindows
     public partial class Login : Window
     {
         private readonly UnitOfWork unitOfWork;
+        private readonly IRepository<BL.Models.Users> UsersService;
 
 
         public Login()
         {
             unitOfWork = new UnitOfWork(new ContextFactory().CreateDbContext(new string[1]));
+            UsersService = unitOfWork.Repository<BL.Models.Users>();
             InitializeComponent();
         }
 
         private void btnLogin_Click(object sender, RoutedEventArgs e)
         {
-            var user = unitOfWork.Repository<BL.Models.Users>().Find(u => u.UserName.ToLower() == txtUserName.Text.ToLower())
+            var user = UsersService.Find(u => u.UserName.ToLower() == txtUserName.Text.ToLower())
                 .FirstOrDefault();
 
             if (user == null)
             {
-                MessageBox.Show("خطأ", "قمت بإدخال اسم مستخدم خطأ", MessageBoxButton.OK, MessageBoxImage.Error); ;
+                MessageBox.Show("قمت بإدخال اسم مستخدم خطأ", "خطأ", MessageBoxButton.OK, MessageBoxImage.Error); ;
 
             }
 
@@ -46,7 +49,7 @@ namespace BillsDesktopApp.AuthWindows
                 }
                 else
                 {
-                    MessageBox.Show("خطأ", "قمت بإدخال كلمة سر خطأ", MessageBoxButton.OK, MessageBoxImage.Error); ;
+                    MessageBox.Show("قمت بإدخال كلمة سر خطأ", "خطأ", MessageBoxButton.OK, MessageBoxImage.Error); ;
                 }
 
             }
