@@ -1,0 +1,62 @@
+﻿<Window x:Class="Bills.SignUp"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        mc:Ignorable="d"
+        Title="مستخدم جديد"  MinWidth="320" MinHeight="430" Width="160"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        Background="{DynamicResource MaterialDesignPaper}"
+        TextElement.FontWeight="Medium"
+        TextElement.FontSize="12"
+        FontFamily="{materialDesign:MaterialDesignFont}" Height="318"
+        >
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="0.4*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <DockPanel Grid.Row="0" Grid.Column="1" >
+            <Label x:Name="lblUserName" Content="إسم المستخم" HorizontalAlignment="Center"
+                        VerticalAlignment="Top" Width="Auto" Height="Auto" Margin="0,40,0,0"/>
+        </DockPanel>
+        <StackPanel Grid.Row="0" Grid.Column="0">
+            <TextBox x:Name="txtUserName" Margin="10,29,10,18" TextChanged="txtUserName_TextChanged"/>
+            <Label Name="lblUserNameErrorMessage" Content="Max Length 15" Foreground="red" 
+                   VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Hidden"/>
+        </StackPanel>
+        <DockPanel Grid.Row="1" Grid.Column="1">
+            <Label x:Name="lblPassword" Content="كلمة السر" HorizontalAlignment="Center"
+                        VerticalAlignment="Top" Width="Auto" Height="Auto" Margin="0,40,0,0"/>
+        </DockPanel>
+
+        <StackPanel Grid.Row="1" Grid.Column="0">
+            <PasswordBox x:Name="txtPassword" Margin="10,29,10,18" PasswordChanged="txtPassword_PasswordChanged"/>
+            <Label Name="lblPasswordErrorMessage" Content="Max Length 15" Foreground="red" 
+                   VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Hidden"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="2" Grid.Column="1">
+            <Label x:Name="lblPasswordConfirm" Content="تأكيد كلمة السر" HorizontalAlignment="Center"
+                        VerticalAlignment="Top" Width="Auto" Height="Auto" Margin="0,40,0,0"/>
+        </StackPanel>
+        <StackPanel Grid.Row="2" Grid.Column="0">
+            <PasswordBox x:Name="txtPasswordConfirm" Margin="10,29,10,18" PasswordChanged="txtPasswordConfirm_PasswordChanged"/>
+            <Label Name="lblConfirmPasswordErrorMessage" Content="Max Length 15" Foreground="red" 
+                   VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Hidden"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,16,0,0">
+            <Button x:Name="btnSignup" Content="إنشاء" Margin="5" Click="btnSignup_Click"/>
+            <Button x:Name="btnBack" Content="رجوع للقائمة السابقة" Margin="5" Click="btnBack_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>
