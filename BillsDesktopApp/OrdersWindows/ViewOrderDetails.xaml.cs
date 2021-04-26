@@ -1,5 +1,6 @@
 ﻿using BillsDesktopApp.Dtos.OrdersDtos;
 using DAL;
+using DAL.Repositories.Origin;
 using DAL.UnitOfWork;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -21,10 +22,13 @@ namespace BillsDesktopApp.OrdersWindows
         public List<BL.Models.OrderDetails> OrderDetails { get; set; }
         public static ObservableCollection<OrderDto> OrderDetailsObservalbleCollection = new ObservableCollection<OrderDto>();
 
+        private readonly IRepository<BL.Models.OrderDetails> OrderDetailsSerivce;
+
         public ViewOrderDetails(List<BL.Models.OrderDetails> OrderDetails, ShowOrderDTO ShowOrderDTO, BillsContext Context)
         {
             _context = Context;
             unitOfWork = new UnitOfWork(_context);
+            OrderDetailsSerivce = unitOfWork.Repository<BL.Models.OrderDetails>();
             this.OrderDetails = OrderDetails;
             this.ShowOrderDTO = ShowOrderDTO;
             InitializeComponent();
@@ -58,7 +62,7 @@ namespace BillsDesktopApp.OrdersWindows
         private void btnUpdate_Click(object sender, RoutedEventArgs e)
         {
             var selectedOrderDto = (OrderDto)dgOrderDetails.SelectedItem;
-            var selectedOrderDetail = unitOfWork.Repository<BL.Models.OrderDetails>()
+            var selectedOrderDetail = OrderDetailsSerivce
                 .Find(od => od.OrderId == ShowOrderDTO.OrderID)
                 .Where(od => od.ProductId == selectedOrderDto.ProductId)
                 .FirstOrDefault();
@@ -75,22 +79,22 @@ namespace BillsDesktopApp.OrdersWindows
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
             var selectedOrderDto = (OrderDto)dgOrderDetails.SelectedItem;
-            var selectedOrderDetail = unitOfWork.Repository<BL.Models.OrderDetails>()
+            var selectedOrderDetail = OrderDetailsSerivce
                 .Find(od => od.OrderId == ShowOrderDTO.OrderID)
                 .Where(od => od.ProductId == selectedOrderDto.ProductId)
                 .FirstOrDefault();
 
             OrderDetailsObservalbleCollection.Remove(selectedOrderDto);
-            unitOfWork.Repository<BL.Models.OrderDetails>().Remove(selectedOrderDetail);
+            OrderDetailsSerivce.Remove(selectedOrderDetail);
             var result = unitOfWork.Complete();
             if (result < 1)
             {
-                MessageBox.Show("فشلت عملية مسح سجل من الفاتورة", "فشلت العملية", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("فشلت العملية", "فشلت عملية مسح سجل من الفاتورة", MessageBoxButton.OK, MessageBoxImage.Error);
                 dgOrderDetails.ItemsSource = OrderDetailsObservalbleCollection;
             }
             else
             {
-                MessageBox.Show("تم مسح سجل من الفاتورة بنجاح", "نجحت العملية", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("نجحت العملية", "تم مسح سجل من الفاتورة بنجاح", MessageBoxButton.OK, MessageBoxImage.Information);
                 dgOrderDetails.ItemsSource = OrderDetailsObservalbleCollection;
             }
         }
@@ -115,9 +119,28 @@ namespace BillsDesktopApp.OrdersWindows
             this.Content = printInvoice;
         }
 
-        private void dgOrderDetails_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
+        private void Window_GotFocus(object sender, RoutedEventArgs e)
         {
             dgOrderDetails.ItemsSource = OrderDetailsObservalbleCollection;
+            decimal totalPrice = 0;
+            foreach (var orderDetail in OrderDetailsObservalbleCollection)
+            {
+                totalPrice += (orderDetail.Price * orderDetail.Quantity);
+            }
+
+            txtTotalPrice.Text = totalPrice.ToString();
+        }
+
+        private void Window_LostFocus(object sender, RoutedEventArgs e)
+        {
+            dgOrderDetails.ItemsSource = OrderDetailsObservalbleCollection;
+            decimal totalPrice = 0;
+            foreach (var orderDetail in OrderDetailsObservalbleCollection)
+            {
+                totalPrice += (orderDetail.Price * orderDetail.Quantity);
+            }
+
+            txtTotalPrice.Text = totalPrice.ToString();
         }
     }
 }

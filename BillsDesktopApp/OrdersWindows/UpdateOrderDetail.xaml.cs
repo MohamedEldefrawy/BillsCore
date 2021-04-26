@@ -1,5 +1,6 @@
 ﻿using BillsDesktopApp.Dtos.OrdersDtos;
 using DAL;
+using DAL.Repositories.Origin;
 using DAL.UnitOfWork;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,8 @@ namespace BillsDesktopApp.OrdersWindows
         private readonly BillsContext _context;
 
         private readonly UnitOfWork unitOfWork;
+        private readonly IRepository<BL.Models.OrderDetails> OrderDetailsService;
+        private readonly IRepository<BL.Models.Products> ProductsService;
         public int OrderId { get; set; }
         public int odID { get; set; }
 
@@ -23,6 +26,8 @@ namespace BillsDesktopApp.OrdersWindows
         {
             _context = Context;
             unitOfWork = new UnitOfWork(_context);
+            ProductsService = unitOfWork.Repository<BL.Models.Products>();
+            OrderDetailsService = unitOfWork.Repository<BL.Models.OrderDetails>();
             InitializeComponent();
             cmbProducts.SelectedValuePath = "Key";
             cmbProducts.DisplayMemberPath = "Value";
@@ -51,12 +56,13 @@ namespace BillsDesktopApp.OrdersWindows
                 ID = odID
             };
 
-            unitOfWork.Repository<BL.Models.OrderDetails>().Update(od);
+            OrderDetailsService.Update(od);
             var result = unitOfWork.Complete();
 
             if (result < 1)
             {
                 MessageBox.Show("فشلت عملية تحديث بيانات العميل", "فشلت العملية", MessageBoxButton.OK, MessageBoxImage.Error);
+
 
             }
 
@@ -64,8 +70,9 @@ namespace BillsDesktopApp.OrdersWindows
             {
                 MessageBox.Show("تم تحديث بيانات العميل بنجاح ", "تم", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                var orderDetails = unitOfWork.Repository<BL.Models.OrderDetails>()
+                var orderDetails = OrderDetailsService
                     .Find(od => od.OrderId == OrderId).ToList();
+
                 ViewOrderDetails.OrderDetailsObservalbleCollection.Clear();
 
                 foreach (var orderdetail in orderDetails)
@@ -73,8 +80,8 @@ namespace BillsDesktopApp.OrdersWindows
                     var odDto = new OrderDto
                     {
                         ProductId = orderdetail.ProductId,
-                        ProductName = unitOfWork.Repository<BL.Models.Products>().Find(p => p.ID == orderdetail.ProductId)
-                    .FirstOrDefault().Name,
+                        ProductName = ProductsService.Find(p => p.ID == orderdetail.ProductId)
+                        .FirstOrDefault().Name,
                         Quantity = orderdetail.Quantity,
                         Price = orderdetail.Price,
                     };
@@ -98,7 +105,7 @@ namespace BillsDesktopApp.OrdersWindows
         private Dictionary<int, string> GetChoices()
         {
             Dictionary<int, string> choices = new Dictionary<int, string>();
-            var Products = unitOfWork.Repository<BL.Models.Products>().GetAll().ToList();
+            var Products = ProductsService.GetAll().ToList();
             foreach (var product in Products)
             {
                 choices.Add(product.ID, product.Name);
@@ -112,7 +119,7 @@ namespace BillsDesktopApp.OrdersWindows
             var isParsed = int.TryParse(cmbProducts.SelectedValue.ToString(), out result);
             if (isParsed)
             {
-                txtPrice.Text = unitOfWork.Repository<BL.Models.Products>().Find(p => p.ID == result)
+                txtPrice.Text = ProductsService.Find(p => p.ID == result)
              .FirstOrDefault().Price.ToString();
             }
         }

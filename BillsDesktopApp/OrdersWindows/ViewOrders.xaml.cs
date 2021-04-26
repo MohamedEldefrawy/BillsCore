@@ -1,6 +1,7 @@
 ﻿using BillsDesktopApp.Dtos.OrdersDtos;
 using BL.Models;
 using DAL;
+using DAL.Repositories.Origin;
 using DAL.UnitOfWork;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,11 @@ namespace BillsDesktopApp.OrdersWindows
 
         private readonly UnitOfWork unitOfWork;
         List<BL.Models.Orders> Orders = new List<BL.Models.Orders>();
+        private readonly IRepository<BL.Models.Orders> OrdersServices;
+        private readonly IRepository<BL.Models.Companies> CompaniesService;
+        private readonly IRepository<BL.Models.Customers> CustomersService;
+        private readonly IRepository<BL.Models.Users> UsersService;
+        private readonly IRepository<BL.Models.OrderDetails> OrderDetailsService;
         List<ShowOrderDTO> orderDTOs = new List<ShowOrderDTO>();
         List<string> colNames = new List<string> { "رقم الفاتورة","اسم المستخدم"
         ,"اسم الشركة","اسم العميل","التاريخ","العنوان"};
@@ -25,6 +31,11 @@ namespace BillsDesktopApp.OrdersWindows
         {
             _context = Context;
             unitOfWork = new UnitOfWork(_context);
+            OrdersServices = unitOfWork.Repository<BL.Models.Orders>();
+            CompaniesService = unitOfWork.Repository<BL.Models.Companies>();
+            CustomersService = unitOfWork.Repository<BL.Models.Customers>();
+            UsersService = unitOfWork.Repository<BL.Models.Users>();
+            OrderDetailsService = unitOfWork.Repository<BL.Models.OrderDetails>();
             InitializeComponent();
             cmbSearch.ItemsSource = colNames;
             cmbSearch.SelectedIndex = 0;
@@ -34,6 +45,7 @@ namespace BillsDesktopApp.OrdersWindows
         {
             dgOrders.ItemsSource = orderDTOs;
         }
+
         private void btnUpdate_Click(object sender, RoutedEventArgs e)
         {
             var selectedOrderDTO = (ShowOrderDTO)dgOrders.SelectedItem;
@@ -51,7 +63,7 @@ namespace BillsDesktopApp.OrdersWindows
         private void btnView_Click(object sender, RoutedEventArgs e)
         {
             var selectedOrderDTO = (ShowOrderDTO)dgOrders.SelectedItem;
-            var orderDetails = unitOfWork.Repository<OrderDetails>()
+            var orderDetails = OrderDetailsService
                 .Find(od => od.OrderId == selectedOrderDTO.OrderID)
                 .ToList();
 
@@ -67,10 +79,10 @@ namespace BillsDesktopApp.OrdersWindows
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
             var selectedOrderDto = (ShowOrderDTO)dgOrders.SelectedItem;
-            var selectedOrder = unitOfWork.Repository<BL.Models.Orders>().Find(o => o.ID == selectedOrderDto.OrderID).FirstOrDefault();
+            var selectedOrder = OrdersServices.Find(o => o.ID == selectedOrderDto.OrderID).FirstOrDefault();
 
             orderDTOs.Remove(selectedOrderDto);
-            unitOfWork.Repository<BL.Models.Orders>().Remove(selectedOrder);
+            OrdersServices.Remove(selectedOrder);
             var result = unitOfWork.Complete();
             if (result < 1)
             {
@@ -97,18 +109,19 @@ namespace BillsDesktopApp.OrdersWindows
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            Orders = unitOfWork.Repository<BL.Models.Orders>().GetAll().ToList();
+            Orders = OrdersServices.GetAll().ToList();
+
             foreach (var order in Orders)
             {
-                var companyName = unitOfWork.Repository<Companies>().Find(
+                var companyName = CompaniesService.Find(
                     c => c.ID == order.CompanyId)
                     .FirstOrDefault().Name;
 
-                var customerName = unitOfWork.Repository<Companies>().Find(
+                var customerName = CustomersService.Find(
                     c => c.ID == order.CustomerId)
                     .FirstOrDefault().Name;
 
-                var userName = unitOfWork.Repository<Users>().Find(
+                var userName = UsersService.Find(
                     u => u.ID == order.UserId)
                     .FirstOrDefault().UserName;
 
@@ -123,6 +136,7 @@ namespace BillsDesktopApp.OrdersWindows
                     OrderDate = order.Date
                 });
             }
+
             Load();
         }
 

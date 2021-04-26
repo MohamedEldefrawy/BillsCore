@@ -1,5 +1,6 @@
 ﻿using BillsDesktopApp.Dtos.OrdersDtos;
 using DAL;
+using DAL.Repositories.Origin;
 using DAL.UnitOfWork;
 using System;
 using System.Collections.Generic;
@@ -16,11 +17,13 @@ namespace BillsDesktopApp.OrdersWindows
         private readonly BillsContext _context;
 
         private readonly UnitOfWork unitOfWork;
+        private readonly IRepository<BL.Models.Products> ProductsService;
 
         public AddOrderDetails(BillsContext Context)
         {
             _context = Context;
             unitOfWork = new UnitOfWork(_context);
+            ProductsService = unitOfWork.Repository<BL.Models.Products>();
             InitializeComponent();
             cmbProducts.SelectedValuePath = "Key";
             cmbProducts.DisplayMemberPath = "Value";
@@ -38,7 +41,7 @@ namespace BillsDesktopApp.OrdersWindows
         private Dictionary<int, string> GetChoices()
         {
             Dictionary<int, string> choices = new Dictionary<int, string>();
-            var Products = unitOfWork.Repository<BL.Models.Products>().GetAll().ToList();
+            var Products = ProductsService.GetAll().ToList();
             foreach (var product in Products)
             {
                 choices.Add(product.ID, product.Name);
@@ -69,10 +72,9 @@ namespace BillsDesktopApp.OrdersWindows
             var isParsed = int.TryParse(cmbProducts.SelectedValue.ToString(), out result);
             if (isParsed)
             {
-                txtPrice.Text = unitOfWork.Repository<BL.Models.Products>().Find(p => p.ID == result)
+                txtPrice.Text = ProductsService.Find(p => p.ID == result)
              .FirstOrDefault().Price.ToString();
             }
-
         }
     }
 }

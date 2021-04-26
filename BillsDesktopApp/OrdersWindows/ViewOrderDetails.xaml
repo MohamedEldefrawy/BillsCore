@@ -14,7 +14,7 @@
         FontFamily="{materialDesign:MaterialDesignFont}" 
         ScrollViewer.HorizontalScrollBarVisibility="Auto"
         WindowStartupLocation="CenterScreen" HorizontalContentAlignment="Stretch" 
-        VerticalContentAlignment="Stretch" Loaded="Window_Loaded"
+        VerticalContentAlignment="Stretch" Loaded="Window_Loaded" GotFocus="Window_GotFocus" LostFocus="Window_LostFocus"
         >
     <Grid>
         <Grid.ColumnDefinitions>
@@ -39,7 +39,7 @@
                       HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                       HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
                       Width="Auto" Height="Auto" MinWidth="780"
-                      x:FieldModifier="public" AutoGenerateColumns="False" IsReadOnly="True" SelectedCellsChanged="dgOrderDetails_SelectedCellsChanged">
+                      x:FieldModifier="public" AutoGenerateColumns="False" IsReadOnly="True">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="رقم المنتج" Binding="{Binding ProductId}"/>
                     <DataGridTextColumn Header="إسم المنتج" Binding="{Binding ProductName}"/>

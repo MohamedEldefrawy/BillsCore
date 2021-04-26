@@ -1,6 +1,8 @@
 ﻿using BL.Models;
 using DAL;
+using DAL.Repositories.Origin;
 using DAL.UnitOfWork;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 
@@ -14,6 +16,7 @@ namespace BillsDesktopApp.OrdersWindows
         private readonly BillsContext _context;
 
         private readonly UnitOfWork unitOfWork;
+
         public Orders(BillsContext Context)
         {
             _context = Context;

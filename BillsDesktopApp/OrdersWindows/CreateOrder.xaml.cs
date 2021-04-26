@@ -1,6 +1,7 @@
 ﻿using BillsDesktopApp.Dtos.OrdersDtos;
 using BL.Models;
 using DAL;
+using DAL.Repositories.Origin;
 using DAL.UnitOfWork;
 using System;
 using System.Collections.Generic;
@@ -20,12 +21,18 @@ namespace BillsDesktopApp.OrdersWindows
         private readonly BillsContext _context;
 
         private readonly UnitOfWork unitOfWork;
+
         public static ObservableCollection<OrderDto> OrderDetails = new ObservableCollection<OrderDto>();
+
+        private readonly IRepository<BL.Models.Orders> OrdersService;
+        private readonly IRepository<BL.Models.OrderDetails> OrderDetailsService;
 
         public CreateOrder(BillsContext Context)
         {
             _context = Context;
             unitOfWork = new UnitOfWork(_context);
+            OrdersService = unitOfWork.Repository<BL.Models.Orders>();
+            OrderDetailsService = unitOfWork.Repository<BL.Models.OrderDetails>();
             InitializeComponent();
             OrderDatepicker.SelectedDateFormat = DatePickerFormat.Short;
             OrderDatepicker.SelectedDate = DateTime.Today;
@@ -59,6 +66,7 @@ namespace BillsDesktopApp.OrdersWindows
             {
                 cmbCustomerName.Items.Add(choice);
             }
+
             dgProducts.ItemsSource = OrderDetails;
         }
 
@@ -151,7 +159,7 @@ namespace BillsDesktopApp.OrdersWindows
                 Address = txtAddress.Text,
             };
 
-            unitOfWork.Repository<BL.Models.Orders>().Add(order);
+            OrdersService.Add(order);
             var result = unitOfWork.Complete();
             if (result > 0)
             {
@@ -172,7 +180,7 @@ namespace BillsDesktopApp.OrdersWindows
 
                 foreach (var item in od)
                 {
-                    unitOfWork.Repository<OrderDetails>().Add(item);
+                    OrderDetailsService.Add(item);
                     unitOfWork.Complete();
                 }
 
