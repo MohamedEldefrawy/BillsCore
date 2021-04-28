@@ -17,15 +17,15 @@ namespace BillsDesktopApp.CompanyWindows
         private readonly BillsContext _context;
 
         private readonly UnitOfWork unitOfWork;
-        private readonly IRepository<BL.Models.Companies> CompaniesService;
-        private string[] AllcolNames = typeof(BL.Models.Companies).GetProperties().Select(p => p.Name).ToArray();
+        private readonly IRepository<Companies> CompaniesService;
+        private string[] AllcolNames = typeof(Companies).GetProperties().Select(p => p.Name).ToArray();
         private List<string> selectedColNames = new List<string>();
-        public static ObservableCollection<BL.Models.Companies> CompaniesObservalbleCollection = new ObservableCollection<BL.Models.Companies>();
+        public static ObservableCollection<Companies> CompaniesObservalbleCollection = new ObservableCollection<BL.Models.Companies>();
         public Company(BillsContext Context)
         {
             _context = Context;
             unitOfWork = new UnitOfWork(_context);
-            CompaniesService = unitOfWork.Repository<BL.Models.Companies>();
+            CompaniesService = unitOfWork.Repository<Companies>();
             InitializeComponent();
             foreach (var col in AllcolNames)
             {

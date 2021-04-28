@@ -44,8 +44,9 @@
                       Width="Auto" Height="Auto" MinWidth="73.6"
                       x:FieldModifier="public" AutoGenerateColumns="False" IsReadOnly="True">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="ID" Binding="{Binding ID}"/>
+                    <DataGridTextColumn Header="رقم التعريفي" Binding="{Binding ID}"/>
                     <DataGridTextColumn Header="الإسم" Binding="{Binding Name}"/>
+                    <DataGridTextColumn Header="الرقم الضريبي" Binding="{Binding TaxNumber}"/>
                     <DataGridTemplateColumn>
                         <DataGridTemplateColumn.HeaderTemplate>
                             <DataTemplate>
