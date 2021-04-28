@@ -8,5 +8,7 @@ namespace DAL.UnitOfWork
     {
         public IRepository<TEntity> Repository<TEntity>() where TEntity : class;
         public int Complete();
+
+        public Task<int> CompleteAsync();
     }
 }

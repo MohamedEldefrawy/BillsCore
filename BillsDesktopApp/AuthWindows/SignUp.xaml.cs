@@ -1,6 +1,7 @@
 ﻿using BillsDesktopApp.ErrorMessages;
 using BL.Models;
 using DAL;
+using DAL.Repositories.Origin;
 using DAL.UnitOfWork;
 using System.Windows;
 using System.Windows.Controls;
@@ -14,13 +15,14 @@ namespace BillsDesktopApp.AuthWindows
     public partial class SignUp : Window
     {
         private readonly BillsContext _context;
-
+        private readonly IRepository<Users> UsersService;
         private readonly UnitOfWork unitOfWork;
         private bool IsValid = false;
         public SignUp(BillsContext Context)
         {
             _context = Context;
             unitOfWork = new UnitOfWork(_context);
+            UsersService = unitOfWork.Repository<Users>();
             InitializeComponent();
             lblUserNameErrorMessage.Content = UserNameErrorMessages.UserNameMaxLength;
             lblConfirmPasswordErrorMessage.Content = PasswordErrorMessages.PasswordConfirm;
@@ -71,34 +73,39 @@ namespace BillsDesktopApp.AuthWindows
             }
         }
 
-        private void btnSignup_Click(object sender, RoutedEventArgs e)
+        private async void BtnSignup_Click(object sender, RoutedEventArgs e)
         {
+            LoadingSpinner.Visibility = Visibility.Visible;
 
             var hashedPw = Hash(txtPassword.Password);
 
 
             if (!IsValid)
             {
+                LoadingSpinner.Visibility = Visibility.Hidden;
                 MessageBox.Show("خطأ بالتسجيل", "برجاء إدخال بيانات صالحة", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
             else
             {
-                unitOfWork.Repository<BL.Models.Users>().Add(new Users
+                if (LoadingSpinner.Visibility == Visibility.Visible)
                 {
-                    UserName = txtUserName.Text,
-                    Password = hashedPw
-                });
+                    UsersService.AddAsync(new Users
+                    {
+                        UserName = txtUserName.Text,
+                        Password = hashedPw
+                    });
+                }
+
             }
 
-            int result = unitOfWork.Complete();
+            int result = await unitOfWork.CompleteAsync();
 
             if (result < 1)
             {
+                LoadingSpinner.Visibility = Visibility.Hidden;
                 MessageBox.Show("حدث خطأ بالتسجيل", "خطأ بالتسجيل", MessageBoxButton.OK, MessageBoxImage.Error);
-
             }
-
             else
             {
                 Login frmLogin = new Login();
@@ -106,7 +113,6 @@ namespace BillsDesktopApp.AuthWindows
                 Close();
                 frmLogin.Show();
             }
-
         }
 
         private void btnBack_Click(object sender, RoutedEventArgs e)
