@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace DAL.Repositories.Origin
 {
@@ -55,6 +56,16 @@ namespace DAL.Repositories.Origin
         public void RemoveRange(IEnumerable<TEntity> entities)
         {
             context.Set<TEntity>().RemoveRange(entities);
+        }
+
+        public async Task<TEntity> FindAsync(Expression<Func<TEntity, bool>> predicate)
+        {
+            return await context.Set<TEntity>().AsNoTracking().Where<TEntity>(predicate).FirstOrDefaultAsync();
+        }
+
+        public async void AddAsync(TEntity entity)
+        {
+            await context.Set<TEntity>().AddAsync(entity);
         }
     }
 }

@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
         mc:Ignorable="d"
         Title="تسجيل الدخول" MinWidth="400" MinHeight="500" Width="400" Height="500"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
@@ -59,6 +60,7 @@
         <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Margin="10">
             <Button x:Name="btnLogin" Content="تسجيل دخول" Margin="5" Click="btnLogin_Click"/>
             <Button x:Name="btnSignup" Content="مستخدم جديد" Margin="5" Click="btnSignup_Click"/>
+            <fa:ImageAwesome x:Name="LoadingSpinner" Icon="Spinner" Spin="True" SpinDuration="10" Width="70" Height="70" Visibility="Hidden" />
         </StackPanel>
     </Grid>
 </Window>

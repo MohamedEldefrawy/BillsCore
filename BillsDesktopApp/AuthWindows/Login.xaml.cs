@@ -2,7 +2,6 @@
 using DAL;
 using DAL.Repositories.Origin;
 using DAL.UnitOfWork;
-using System.Linq;
 using System.Windows;
 using static Utilities.Utilities.Utilities;
 
@@ -24,15 +23,22 @@ namespace BillsDesktopApp.AuthWindows
             InitializeComponent();
         }
 
-        private void btnLogin_Click(object sender, RoutedEventArgs e)
+        private async void btnLogin_Click(object sender, RoutedEventArgs e)
         {
-            var user = UsersService.Find(u => u.UserName.ToLower() == txtUserName.Text.ToLower())
-                .FirstOrDefault();
+            LoadingSpinner.Visibility = Visibility.Visible;
+
+            BL.Models.Users user = null;
+
+            if (LoadingSpinner.Visibility == Visibility.Visible)
+            {
+                user = await UsersService.FindAsync(u => u.UserName.ToLower() == txtUserName.Text.ToLower());
+            }
+
 
             if (user == null)
             {
-                MessageBox.Show("قمت بإدخال اسم مستخدم خطأ", "خطأ", MessageBoxButton.OK, MessageBoxImage.Error); ;
-
+                LoadingSpinner.Visibility = Visibility.Hidden;
+                MessageBox.Show("قمت بإدخال اسم مستخدم خطأ", "خطأ", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
             else
@@ -49,13 +55,10 @@ namespace BillsDesktopApp.AuthWindows
                 }
                 else
                 {
+                    LoadingSpinner.Visibility = Visibility.Hidden;
                     MessageBox.Show("قمت بإدخال كلمة سر خطأ", "خطأ", MessageBoxButton.OK, MessageBoxImage.Error); ;
                 }
-
             }
-
-
-
         }
 
         private void btnSignup_Click(object sender, RoutedEventArgs e)

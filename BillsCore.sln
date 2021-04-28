@@ -7,9 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DAL", "DAL\DAL.csproj", "{2
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BL", "BL\BL.csproj", "{2435E9F2-ADBE-4753-AB1D-B8B39FC05D3B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BillsDesktopApp", "BillsDesktopApp\BillsDesktopApp.csproj", "{8152E713-B964-4EBD-86E5-536ACCDC3204}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BillsDesktopApp", "BillsDesktopApp\BillsDesktopApp.csproj", "{8152E713-B964-4EBD-86E5-536ACCDC3204}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utilities", "Utilities\Utilities.csproj", "{EB8C1693-FAA3-4C9F-87FF-6DF9124252A5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Utilities", "Utilities\Utilities.csproj", "{EB8C1693-FAA3-4C9F-87FF-6DF9124252A5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

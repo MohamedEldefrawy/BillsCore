@@ -5,12 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="مستخدم جديد"  MinWidth="320" MinHeight="430" Width="160"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
+        Title="مستخدم جديد"  MinWidth="320" MinHeight="470" Width="200"  Height="470"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         Background="{DynamicResource MaterialDesignPaper}"
         TextElement.FontWeight="Medium"
         TextElement.FontSize="12"
-        FontFamily="{materialDesign:MaterialDesignFont}" Height="318"
+        FontFamily="{materialDesign:MaterialDesignFont}"
         >
     <Grid>
         <Grid.ColumnDefinitions>
@@ -57,6 +58,7 @@
         <StackPanel Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,16,0,0">
             <Button x:Name="btnSignup" Content="إنشاء" Margin="5" Click="btnSignup_Click"/>
             <Button x:Name="btnBack" Content="رجوع للقائمة السابقة" Margin="5" Click="btnBack_Click"/>
+            <fa:ImageAwesome x:Name="LoadingSpinner" Icon="Spinner" Spin="True" SpinDuration="10" Width="70" Height="70" Visibility="Hidden" />
         </StackPanel>
     </Grid>
 </Window>
