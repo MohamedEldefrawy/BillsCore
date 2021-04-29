@@ -20,7 +20,8 @@ namespace BillsDesktopApp.CompanyWindows
         private readonly IRepository<Companies> CompaniesService;
         private string[] AllcolNames = typeof(Companies).GetProperties().Select(p => p.Name).ToArray();
         private List<string> selectedColNames = new List<string>();
-        public static ObservableCollection<Companies> CompaniesObservalbleCollection = new ObservableCollection<BL.Models.Companies>();
+        public static ObservableCollection<Companies> CompaniesObservalbleCollection = new ObservableCollection<Companies>();
+
         public Company(BillsContext Context)
         {
             _context = Context;
@@ -45,6 +46,7 @@ namespace BillsDesktopApp.CompanyWindows
             registerCompany.Owner = GetWindow(this);
             registerCompany.ShowDialog();
         }
+
         private void btnUpdate_Click(object sender, RoutedEventArgs e)
         {
             var selectedCompany = (Companies)dgCompanies.SelectedItem;
@@ -53,6 +55,7 @@ namespace BillsDesktopApp.CompanyWindows
             updateCompany.txtCompanyName.Text = selectedCompany.Name;
             updateCompany.txtId.Text = selectedCompany.ID.ToString();
             updateCompany.selectedCompany = selectedCompany;
+            updateCompany.txtTaxNumber.Text = selectedCompany.TaxNumber;
             updateCompany.Owner = GetWindow(this);
             updateCompany.ShowDialog();
         }
@@ -75,6 +78,7 @@ namespace BillsDesktopApp.CompanyWindows
                 dgCompanies.ItemsSource = CompaniesObservalbleCollection;
             }
         }
+
         private void Load()
         {
             var companies = CompaniesService.GetAll().ToList();

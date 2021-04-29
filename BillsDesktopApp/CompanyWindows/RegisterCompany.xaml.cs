@@ -31,9 +31,11 @@ namespace BillsDesktopApp.CompanyWindows
 
             if (companies.Count == 0)
             {
-                var company = new BL.Models.Companies
+                var company = new Companies
                 {
-                    Name = txtCompanyName.Text
+                    Name = txtCompanyName.Text,
+                    TaxNumber = txtTaxNumber.Text
+
                 };
 
                 CompaniesService.Add(company);
@@ -47,7 +49,7 @@ namespace BillsDesktopApp.CompanyWindows
                 else
                 {
                     MessageBox.Show("تم تسجيل الشركة بالنجاح", "تم", MessageBoxButton.OK, MessageBoxImage.Information);
-                    BillsDesktopApp.CompanyWindows.Company.CompaniesObservalbleCollection.Add(company);
+                    Company.CompaniesObservalbleCollection.Add(company);
                     this.Close();
                 }
             }
