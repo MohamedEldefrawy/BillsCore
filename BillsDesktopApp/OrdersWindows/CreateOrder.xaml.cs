@@ -25,14 +25,14 @@ namespace BillsDesktopApp.OrdersWindows
         public static ObservableCollection<OrderDto> OrderDetails = new ObservableCollection<OrderDto>();
 
         private readonly IRepository<BL.Models.Orders> OrdersService;
-        private readonly IRepository<BL.Models.OrderDetails> OrderDetailsService;
+        private readonly IRepository<OrderDetails> OrderDetailsService;
 
         public CreateOrder(BillsContext Context)
         {
             _context = Context;
             unitOfWork = new UnitOfWork(_context);
             OrdersService = unitOfWork.Repository<BL.Models.Orders>();
-            OrderDetailsService = unitOfWork.Repository<BL.Models.OrderDetails>();
+            OrderDetailsService = unitOfWork.Repository<OrderDetails>();
             InitializeComponent();
             OrderDatepicker.SelectedDateFormat = DatePickerFormat.Short;
             OrderDatepicker.SelectedDate = DateTime.Today;
@@ -41,14 +41,14 @@ namespace BillsDesktopApp.OrdersWindows
             Load();
         }
 
-        private void btnAddProduct_Click(object sender, RoutedEventArgs e)
+        private void BtnAddProduct_Click(object sender, RoutedEventArgs e)
         {
-            AddOrderDetails addOrderDetails = new AddOrderDetails(_context);
-            addOrderDetails.Owner = Window.GetWindow(this);
+            AddOrderDetails addOrderDetails = new(_context);
+            addOrderDetails.Owner = GetWindow(this);
             addOrderDetails.ShowDialog();
         }
 
-        private void btnPrint_Click(object sender, RoutedEventArgs e)
+        private void BtnPrint_Click(object sender, RoutedEventArgs e)
         {
 
 
@@ -73,7 +73,7 @@ namespace BillsDesktopApp.OrdersWindows
         private Dictionary<int, string> GetChoices()
         {
             Dictionary<int, string> choices = new Dictionary<int, string>();
-            var Customers = unitOfWork.Repository<BL.Models.Customers>().GetAll().ToList();
+            var Customers = unitOfWork.Repository<Customers>().GetAll().ToList();
             foreach (var customer in Customers)
             {
                 choices.Add(customer.ID, customer.Name);
@@ -92,61 +92,61 @@ namespace BillsDesktopApp.OrdersWindows
 
             foreach (var item in OrderDetails)
             {
-                totalCost += (item.Price * item.Quantity);
+                totalCost += item.Price * item.Quantity;
             }
 
             txtTotalPrice.Text = totalCost.ToString();
         }
 
-        private void dgProducts_MouseLeave(object sender, MouseEventArgs e)
+        private void DgProducts_MouseLeave(object sender, MouseEventArgs e)
         {
             decimal totalCost = 0;
 
             foreach (var item in OrderDetails)
             {
-                totalCost += (item.Price * item.Quantity);
+                totalCost += item.Price * item.Quantity;
             }
 
             txtTotalPrice.Text = totalCost.ToString();
         }
 
-        private void dgProducts_CurrentCellChanged(object sender, EventArgs e)
+        private void DgProducts_CurrentCellChanged(object sender, EventArgs e)
         {
             decimal totalCost = 0;
 
             foreach (var item in OrderDetails)
             {
-                totalCost += (item.Price * item.Quantity);
+                totalCost += item.Price * item.Quantity;
             }
 
             txtTotalPrice.Text = totalCost.ToString();
         }
 
-        private void dgProducts_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+        private void DgProducts_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
             decimal totalCost = 0;
 
             foreach (var item in OrderDetails)
             {
-                totalCost += (item.Price * item.Quantity);
+                totalCost += item.Price * item.Quantity;
             }
 
             txtTotalPrice.Text = totalCost.ToString();
         }
 
-        private void dgProducts_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
+        private void DgProducts_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
         {
             decimal totalCost = 0;
 
             foreach (var item in OrderDetails)
             {
-                totalCost += (item.Price * item.Quantity);
+                totalCost += item.Price * item.Quantity;
             }
 
             txtTotalPrice.Text = totalCost.ToString();
         }
 
-        private void btnٍSave_Click(object sender, RoutedEventArgs e)
+        private void BtnٍSave_Click(object sender, RoutedEventArgs e)
         {
 
 
@@ -165,11 +165,11 @@ namespace BillsDesktopApp.OrdersWindows
             {
                 int orderID = order.ID;
 
-                var od = new List<BL.Models.OrderDetails>();
+                var od = new List<OrderDetails>();
 
                 foreach (var o in OrderDetails)
                 {
-                    od.Add(new BL.Models.OrderDetails
+                    od.Add(new OrderDetails
                     {
                         OrderId = orderID,
                         Price = o.Price,
@@ -199,7 +199,7 @@ namespace BillsDesktopApp.OrdersWindows
                 printInvoice.txtTotalPrice.Text = txtTotalPrice.Text;
                 printInvoice.txtCustomerName.Text = customerName;
                 PrintInvoice.OrderDetails = OrderDetails;
-                this.Content = printInvoice;
+                Content = printInvoice;
             }
 
             else
@@ -207,6 +207,15 @@ namespace BillsDesktopApp.OrdersWindows
                 MessageBox.Show("فشلت العملية", "حدث خطأ أثناء حفظ الطلب", MessageBoxButton.OK, MessageBoxImage.Error); ;
 
             }
+
+        }
+
+
+        private void CmbCustomerName_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var customerId = cmbCustomerName.SelectedValue;
+            var selctedCustomerAddress = _context.Customers.Find(customerId).Address;
+            txtAddress.Text = selctedCustomerAddress;
 
         }
     }

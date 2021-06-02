@@ -37,13 +37,13 @@
         <DockPanel Margin="10" Grid.Row="1" Grid.Column="0">
             <Button x:Name="btnCreateOrder" Content="إنشاء فاتورة" Margin="5" 
                     HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                    VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="btnCreateOrder_Click"/>
+                    VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="BtnCreateOrder_Click"/>
         </DockPanel>
 
         <DockPanel Margin="10" Grid.Row="2" Grid.Column="1">
             <Button x:Name="btnViewOrders" Content="عرض الفواتير" Margin="5" 
                     HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                    VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="btnViewOrders_Click"/>
+                    VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="BtnViewOrders_Click"/>
         </DockPanel>
     </Grid>
 </Window>

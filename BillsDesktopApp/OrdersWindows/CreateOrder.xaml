@@ -67,7 +67,7 @@
             <ComboBox x:Name="cmbCustomerName" Margin="5"
                       IsEditable="True" IsTextSearchEnabled="True"
                    VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
-                   HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                   HorizontalContentAlignment="Center" VerticalContentAlignment="Center" SelectionChanged="CmbCustomerName_SelectionChanged"/>
         </DockPanel>
 
         <DockPanel Grid.Column="1" Grid.Row="1" Margin="10">
@@ -79,7 +79,7 @@
         <DockPanel Grid.Column="0" Grid.Row="1" Margin="10">
             <TextBox x:Name="txtAddress" Margin="5" 
                    VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
-                   HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                   HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsEnabled="False"/>
         </DockPanel>
 
 
@@ -99,7 +99,7 @@
             <Button x:Name="btnAddProduct" Margin="5" 
                    VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
                    HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
-                    Content="إضافة منتجات" Click="btnAddProduct_Click"/>
+                    Content="إضافة منتجات" Click="BtnAddProduct_Click"/>
         </DockPanel>
 
         <DockPanel Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="3">
@@ -107,7 +107,7 @@
                       HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                       HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
                       Width="Auto" Height="Auto" MinWidth="780"
-                      x:FieldModifier="public" AutoGenerateColumns="False" IsReadOnly="True" MouseEnter="dgProducts_MouseEnter" MouseLeave="dgProducts_MouseLeave" CurrentCellChanged="dgProducts_CurrentCellChanged" CellEditEnding="dgProducts_CellEditEnding" SelectedCellsChanged="dgProducts_SelectedCellsChanged">
+                      x:FieldModifier="public" AutoGenerateColumns="False" IsReadOnly="True" MouseEnter="dgProducts_MouseEnter" MouseLeave="DgProducts_MouseLeave" CurrentCellChanged="DgProducts_CurrentCellChanged" CellEditEnding="DgProducts_CellEditEnding" SelectedCellsChanged="DgProducts_SelectedCellsChanged">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="رقم المنتج" Binding="{Binding ProductId}"/>
                     <DataGridTextColumn Header="المنتج" Binding="{Binding ProductName}"/>
@@ -148,7 +148,7 @@
         </DockPanel>
         <DockPanel Margin="10" Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="5" VerticalAlignment="Stretch" HorizontalAlignment="Center" >
             <Button x:Name="btnSave" Content="حفظ و طباعة"
-                   VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Width="223" Click="btnٍSave_Click"/>
+                   VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Width="223" Click="BtnٍSave_Click"/>
         </DockPanel>
     </Grid>
 </Window>

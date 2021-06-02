@@ -15,11 +15,10 @@ namespace BillsDesktopApp.CompanyWindows
     public partial class Company : Window
     {
         private readonly BillsContext _context;
-
         private readonly UnitOfWork unitOfWork;
         private readonly IRepository<Companies> CompaniesService;
-        private string[] AllcolNames = typeof(Companies).GetProperties().Select(p => p.Name).ToArray();
-        private List<string> selectedColNames = new List<string>();
+        private readonly string[] AllcolNames = typeof(Companies).GetProperties().Select(p => p.Name).ToArray();
+        private readonly List<string> selectedColNames = new List<string>();
         public static ObservableCollection<Companies> CompaniesObservalbleCollection = new ObservableCollection<Companies>();
 
         public Company(BillsContext Context)

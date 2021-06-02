@@ -36,21 +36,21 @@ namespace BillsDesktopApp.OrdersWindows
             }
         }
 
-        private void btnCreateOrder_Click(object sender, RoutedEventArgs e)
+        private void BtnCreateOrder_Click(object sender, RoutedEventArgs e)
         {
-            CreateOrder createOrder = new CreateOrder(_context);
+            CreateOrder createOrder = new(_context);
             createOrder.txtUsername.Text = lblUserName.Content.ToString().Split(" ")[1];
             createOrder.txtCompanyName.Text = lblCompanyName.Content.ToString();
             createOrder.Show();
-            this.Close();
+            //Close();
         }
 
-        private void btnViewOrders_Click(object sender, RoutedEventArgs e)
+        private void BtnViewOrders_Click(object sender, RoutedEventArgs e)
         {
-            ViewOrders viewOrders = new ViewOrders(_context);
+            ViewOrders viewOrders = new(_context);
             viewOrders.lblUserName.Content = lblUserName.Content.ToString().Split(" ")[1];
             viewOrders.Show();
-            this.Close();
+            //Close();
 
         }
     }
