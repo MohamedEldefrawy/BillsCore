@@ -12,6 +12,9 @@ namespace DAL.Repositories.Origin
 
         IEnumerable<TEntity> GetAll();
         TEntity Get(int id);
+
+        TEntity GetWithRelated(Expression<Func<TEntity, bool>> match, string EntityName,
+            string SecondEnitytyName, string ThirdEntityName);
         void Add(TEntity entity);
         void AddAsync(TEntity entity);
         void AddRange(IEnumerable<TEntity> entities);

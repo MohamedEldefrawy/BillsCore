@@ -26,6 +26,7 @@ namespace BillsDesktopApp.CustomersWindows
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
             Customers.CustomerObservalbleCollection.Remove(SelectedCustomer);
+
             SelectedCustomer.ID = int.Parse(txtId.Text);
             SelectedCustomer.Address = txtAddress.Text;
             SelectedCustomer.Email = txtEmail.Text;

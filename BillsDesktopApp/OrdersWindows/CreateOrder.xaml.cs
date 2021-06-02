@@ -74,10 +74,12 @@ namespace BillsDesktopApp.OrdersWindows
         {
             Dictionary<int, string> choices = new Dictionary<int, string>();
             var Customers = unitOfWork.Repository<Customers>().GetAll().ToList();
+
             foreach (var customer in Customers)
             {
                 choices.Add(customer.ID, customer.Name);
             }
+
             return choices;
         }
 
@@ -146,7 +148,7 @@ namespace BillsDesktopApp.OrdersWindows
             txtTotalPrice.Text = totalCost.ToString();
         }
 
-        private void BtnٍSave_Click(object sender, RoutedEventArgs e)
+        private void BtnSave_Click(object sender, RoutedEventArgs e)
         {
 
 
@@ -210,13 +212,11 @@ namespace BillsDesktopApp.OrdersWindows
 
         }
 
-
         private void CmbCustomerName_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var customerId = cmbCustomerName.SelectedValue;
             var selctedCustomerAddress = _context.Customers.Find(customerId).Address;
             txtAddress.Text = selctedCustomerAddress;
-
         }
     }
 }

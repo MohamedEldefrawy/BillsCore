@@ -148,7 +148,7 @@
         </DockPanel>
         <DockPanel Margin="10" Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="5" VerticalAlignment="Stretch" HorizontalAlignment="Center" >
             <Button x:Name="btnSave" Content="حفظ و طباعة"
-                   VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Width="223" Click="BtnٍSave_Click"/>
+                   VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Width="223" Click="BtnSave_Click"/>
         </DockPanel>
     </Grid>
 </Window>

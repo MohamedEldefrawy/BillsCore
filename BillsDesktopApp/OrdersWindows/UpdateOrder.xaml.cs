@@ -1,6 +1,13 @@
 ﻿using DAL;
 using DAL.UnitOfWork;
+using System.Collections.Generic;
 using System.Windows;
+using BL.Models;
+using System.Linq;
+using System.Windows.Controls;
+using DAL.Repositories.Origin;
+using System;
+using BillsDesktopApp.Dtos.OrdersDtos;
 
 namespace BillsDesktopApp.OrdersWindows
 {
@@ -10,18 +17,112 @@ namespace BillsDesktopApp.OrdersWindows
     public partial class UpdateOrder : Window
     {
         private readonly BillsContext _context;
-
         private readonly UnitOfWork unitOfWork;
+        private readonly IRepository<Customers> customersRepository;
+        private readonly IRepository<BL.Models.Orders> ordersRepository;
+        public Dictionary<int, string> SelectedCustomer { get; set; }
+
         public UpdateOrder(BillsContext Context)
         {
             _context = Context;
             unitOfWork = new UnitOfWork(_context);
+            customersRepository = unitOfWork.Repository<Customers>();
+            ordersRepository = unitOfWork.Repository<BL.Models.Orders>();
+            unitOfWork.Complete();
             InitializeComponent();
+            cmbCustomer.SelectedValuePath = "Key";
+            cmbCustomer.DisplayMemberPath = "Value";
         }
 
-        private void btnSave_Click(object sender, RoutedEventArgs e)
+        private void Load()
         {
+            var Choices = GetChoices();
+            foreach (var choice in Choices)
+            {
+                cmbCustomer.Items.Add(choice);
+            }
 
+            cmbCustomer.SelectedValue = SelectedCustomer.Keys.First();
+
+        }
+
+        private void BtnSave_Click(object sender, RoutedEventArgs e)
+        {
+            var OldSelectedOrderDto = ViewOrders.orderDTOs
+                .Where(o => o.OrderID == int.Parse(txtBillId.Text)).SingleOrDefault();
+
+
+            var NewSelectedOrderDto = new ShowOrderDTO();
+            var selectedOrder = ordersRepository
+                .GetWithRelated(o => o.ID == int.Parse(txtBillId.Text), "Customer", "Company", "User");
+
+            UpdateSelectedOrder(selectedOrder);
+
+            ordersRepository.Update(selectedOrder);
+
+            UpdateOrderDto(NewSelectedOrderDto, selectedOrder);
+
+            var result = unitOfWork.Complete();
+
+            if (result < 1)
+            {
+                MessageBox.Show("فشلت عملية تحديث بيانات الطلب", "فشلت العملية", MessageBoxButton.OK, MessageBoxImage.Error);
+
+            }
+            else
+            {
+                ViewOrders.orderDTOs.Remove(OldSelectedOrderDto);
+                ViewOrders.orderDTOs.Add(NewSelectedOrderDto);
+                MessageBox.Show("تم تحديث بيانات العميل بنجاح ", "تم", MessageBoxButton.OK, MessageBoxImage.Information);
+                Close();
+            }
+        }
+
+        private static void UpdateOrderDto(ShowOrderDTO NewSelectedOrderDto, BL.Models.Orders selectedOrder)
+        {
+            NewSelectedOrderDto.OrderID = selectedOrder.ID;
+            NewSelectedOrderDto.Address = selectedOrder.Address;
+            NewSelectedOrderDto.CustomerName = selectedOrder.Customer.Name;
+            NewSelectedOrderDto.CompanyName = selectedOrder.Company.Name;
+            NewSelectedOrderDto.OrderDate = selectedOrder.Date;
+            NewSelectedOrderDto.UserName = selectedOrder.User.UserName;
+        }
+
+        private void UpdateSelectedOrder(BL.Models.Orders selectedOrder)
+        {
+            selectedOrder.Address = txtAddress.Text;
+            selectedOrder.Customer.Address = txtAddress.Text;
+            selectedOrder.CustomerId = int.Parse(cmbCustomer.SelectedValue.ToString());
+            selectedOrder.Customer.ID = int.Parse(cmbCustomer.SelectedValue.ToString());
+            selectedOrder.Customer.Name = cmbCustomer.Text;
+            selectedOrder.Date = DateTime.Parse(orderDatepicker.Text);
+        }
+
+        private Dictionary<int, string> GetChoices()
+        {
+            Dictionary<int, string> choices = new Dictionary<int, string>();
+
+            var Customers = customersRepository.GetAll().ToList();
+
+            foreach (var customer in Customers)
+            {
+                choices.Add(customer.ID, customer.Name);
+            }
+
+            return choices;
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            Load();
+        }
+
+        private void cmbCustomer_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var customerId = cmbCustomer.SelectedValue.ToString();
+            var selectedCustomer = customersRepository.Get(int.Parse(customerId));
+            unitOfWork.Complete();
+            txtAddress.Text = selectedCustomer.Address;
         }
     }
 }

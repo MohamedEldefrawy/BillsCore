@@ -18,6 +18,12 @@ namespace DAL.Repositories.Origin
 
         public void Add(TEntity entity)
         {
+            if (context.Entry(entity).State != EntityState.Detached)
+            {
+                context.Entry(entity).State = EntityState.Detached;
+
+            }
+
             context.Set<TEntity>().Add(entity);
         }
 
@@ -33,7 +39,28 @@ namespace DAL.Repositories.Origin
 
         public TEntity Get(int id)
         {
-            return context.Set<TEntity>().Find(id);
+
+            var result = context.Set<TEntity>().Find(id);
+            if (result == null)
+            {
+                return null;
+            }
+            context.Entry(result).State = EntityState.Detached;
+            return result;
+        }
+
+        public TEntity GetWithRelated(Expression<Func<TEntity, bool>> match, string FirstEntityName,
+            string SecondEntityName, string ThirdEntityName)
+        {
+            var result = context.Set<TEntity>().Include(FirstEntityName).Include(SecondEntityName)
+                .Include(ThirdEntityName)
+                .AsNoTracking().FirstOrDefault(match);
+
+            if (result == null)
+            {
+                return null;
+            }
+            return result;
         }
 
         public IEnumerable<TEntity> GetAll()
@@ -43,12 +70,19 @@ namespace DAL.Repositories.Origin
 
         public void Remove(TEntity entity)
         {
+            if (context.Entry(entity).State != EntityState.Detached)
+            {
+                context.Entry(entity).State = EntityState.Detached;
+
+            }
+
             context.Set<TEntity>().Attach(entity);
             context.Entry(entity).State = EntityState.Deleted;
         }
 
         public void Update(TEntity entity)
         {
+            context.Entry(entity).State = EntityState.Detached;
             context.Set<TEntity>().Attach(entity);
             context.Entry(entity).State = EntityState.Modified;
         }

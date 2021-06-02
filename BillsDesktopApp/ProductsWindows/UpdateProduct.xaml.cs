@@ -11,12 +11,8 @@ namespace BillsDesktopApp.ProductsWindows
     /// </summary>
     public partial class UpdateProduct : Window
     {
-
         private readonly BillsContext _context;
-
         private readonly UnitOfWork unitOfWork;
-
-        private IRepository<Products> ProductsServuce;
         public Products SelectedProduct { get; set; }
         public UpdateProduct(BillsContext Context)
         {
@@ -32,7 +28,7 @@ namespace BillsDesktopApp.ProductsWindows
             SelectedProduct.Description = txtDesc.Text;
             SelectedProduct.Name = txtName.Text;
             SelectedProduct.Price = decimal.Parse(txtPrice.Text);
-            unitOfWork.Repository<BL.Models.Products>().Update(SelectedProduct);
+            unitOfWork.Repository<Products>().Update(SelectedProduct);
 
             var result = unitOfWork.Complete();
 
