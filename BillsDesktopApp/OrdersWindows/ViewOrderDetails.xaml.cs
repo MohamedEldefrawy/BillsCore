@@ -19,6 +19,7 @@ namespace BillsDesktopApp.OrdersWindows
         private readonly UnitOfWork unitOfWork;
         public ShowOrderDTO ShowOrderDTO { get; set; }
         public List<BL.Models.OrderDetails> OrderDetails { get; set; }
+
         public static ObservableCollection<OrderDto> OrderDetailsObservalbleCollection = new ObservableCollection<OrderDto>();
 
         private readonly IRepository<BL.Models.OrderDetails> OrderDetailsSerivce;
@@ -50,12 +51,22 @@ namespace BillsDesktopApp.OrdersWindows
 
                 OrderDetailsObservalbleCollection.Add(orderDto);
 
+
                 totalPrice += orderDetail.Price * orderDetail.Quantity;
 
             }
 
-            txtTotalPrice.Text = totalPrice.ToString();
-            dgOrderDetails.ItemsSource = OrderDetailsObservalbleCollection;
+            decimal totalCost = 0;
+
+            foreach (var item in OrderDetails)
+            {
+                totalCost += item.Price * item.Quantity;
+            }
+
+            var vat = ((decimal)0.14) * totalCost;
+            txtVat.Text = decimal.ToDouble(vat).ToString();
+            totalCost += vat;
+            txtTotalPrice.Text = decimal.ToDouble(totalCost).ToString(); dgOrderDetails.ItemsSource = OrderDetailsObservalbleCollection;
         }
 
         private void btnUpdate_Click(object sender, RoutedEventArgs e)
@@ -71,7 +82,7 @@ namespace BillsDesktopApp.OrdersWindows
             updateOrderDetail.cmbProducts.Text = selectedOrderDto.ProductName.ToString();
             updateOrderDetail.OrderId = ShowOrderDTO.OrderID;
             updateOrderDetail.odID = selectedOrderDetail.ID;
-            updateOrderDetail.Owner = Window.GetWindow(this);
+            updateOrderDetail.Owner = GetWindow(this);
             updateOrderDetail.ShowDialog();
         }
 
@@ -119,26 +130,39 @@ namespace BillsDesktopApp.OrdersWindows
 
         private void Window_GotFocus(object sender, RoutedEventArgs e)
         {
-            dgOrderDetails.ItemsSource = OrderDetailsObservalbleCollection;
-            decimal totalPrice = 0;
-            foreach (var orderDetail in OrderDetailsObservalbleCollection)
-            {
-                totalPrice += orderDetail.Price * orderDetail.Quantity;
-            }
-
-            txtTotalPrice.Text = totalPrice.ToString();
+            RefreshTotalCost();
         }
+
 
         private void Window_LostFocus(object sender, RoutedEventArgs e)
         {
-            dgOrderDetails.ItemsSource = OrderDetailsObservalbleCollection;
-            decimal totalPrice = 0;
-            foreach (var orderDetail in OrderDetailsObservalbleCollection)
+            RefreshTotalCost();
+        }
+
+        private void Window_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            RefreshTotalCost();
+        }
+
+        private void Window_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            RefreshTotalCost();
+        }
+
+        private void RefreshTotalCost()
+        {
+            decimal totalCost = 0;
+
+            foreach (var item in OrderDetailsObservalbleCollection)
             {
-                totalPrice += orderDetail.Price * orderDetail.Quantity;
+                totalCost += item.Price * item.Quantity;
             }
 
-            txtTotalPrice.Text = totalPrice.ToString();
+            var vat = ((decimal)0.14) * totalCost;
+            txtVat.Text = decimal.ToDouble(vat).ToString();
+            totalCost += vat;
+            txtTotalPrice.Text = decimal.ToDouble(totalCost).ToString();
         }
+
     }
 }

@@ -14,7 +14,7 @@
         FontFamily="{materialDesign:MaterialDesignFont}" 
         ScrollViewer.HorizontalScrollBarVisibility="Auto"
         WindowStartupLocation="CenterScreen" HorizontalContentAlignment="Stretch" 
-        VerticalContentAlignment="Stretch" Loaded="Window_Loaded" GotFocus="Window_GotFocus" LostFocus="Window_LostFocus"
+        VerticalContentAlignment="Stretch" Loaded="Window_Loaded" GotFocus="Window_GotFocus" LostFocus="Window_LostFocus" MouseEnter="Window_MouseEnter" MouseLeave="Window_MouseLeave"
         >
     <Grid>
         <Grid.ColumnDefinitions>
@@ -24,8 +24,9 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="0.2*"/>
             <RowDefinition Height="0.6*"/>
-            <RowDefinition Height="0.1*"/>
-            <RowDefinition Height="0.1*"/>
+            <RowDefinition Height="0.2*"/>
+            <RowDefinition Height="0.2*"/>
+            <RowDefinition Height="0.2*"/>
         </Grid.RowDefinitions>
 
         <DockPanel Grid.Column="1" Grid.Row="0" Margin="10">
@@ -65,13 +66,29 @@
         </DockPanel>
         <DockPanel Margin="10"
                    Grid.Column="1"  Grid.Row="2">
-            <Label Content="إجمالي السعر" Margin="5"
+            <Label Content="القيمة المضافة" Margin="5"
                    VerticalAlignment="Center" HorizontalAlignment="Stretch"
-                   HorizontalContentAlignment="Center" VerticalContentAlignment="Center" MinHeight="26"/>
+                   HorizontalContentAlignment="Center" VerticalContentAlignment="Stretch" MinHeight="26"/>
         </DockPanel>
 
         <DockPanel Margin="10"
                    Grid.Column="0"  Grid.Row="2">
+            <TextBox x:Name="txtVat" Margin="5"
+                     IsEnabled="False"
+                     MinHeight="23.4" Width="200"
+                     VerticalAlignment="Center" HorizontalAlignment="Right"
+                     HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="22"/>
+        </DockPanel>
+
+        <DockPanel Margin="10"
+                   Grid.Column="1"  Grid.Row="3">
+            <Label Content="إجمالي السعر" Margin="5"
+                   VerticalAlignment="Center" HorizontalAlignment="Stretch"
+                   HorizontalContentAlignment="Center" VerticalContentAlignment="Stretch" MinHeight="26"/>
+        </DockPanel>
+
+        <DockPanel Margin="10"
+                   Grid.Column="0"  Grid.Row="3">
             <TextBox x:Name="txtTotalPrice" Margin="5"
                      IsEnabled="False"
                      MinHeight="23.4" Width="200"
@@ -79,7 +96,7 @@
                      HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="22"/>
         </DockPanel>
 
-        <DockPanel Margin="10" Grid.Column="0" Grid.Row="3">
+        <DockPanel Margin="10" Grid.Column="0" Grid.Row="4">
             <Button x:Name="btnPrint" Content="طباعة"
                     MinHeight="23.4"
                    VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Width="223" Click="btnPrint_Click" VerticalAlignment="Center" HorizontalAlignment="Center"/>
