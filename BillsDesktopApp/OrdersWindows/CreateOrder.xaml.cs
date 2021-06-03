@@ -97,7 +97,10 @@ namespace BillsDesktopApp.OrdersWindows
                 totalCost += item.Price * item.Quantity;
             }
 
-            txtTotalPrice.Text = totalCost.ToString();
+            var vat = ((decimal)0.14) * totalCost;
+            txtVat.Text = decimal.ToDouble(vat).ToString();
+            totalCost += vat;
+            txtTotalPrice.Text = decimal.ToDouble(totalCost).ToString();
         }
 
         private void DgProducts_MouseLeave(object sender, MouseEventArgs e)
@@ -108,8 +111,10 @@ namespace BillsDesktopApp.OrdersWindows
             {
                 totalCost += item.Price * item.Quantity;
             }
-
-            txtTotalPrice.Text = totalCost.ToString();
+            var vat = ((decimal)0.14) * totalCost;
+            txtVat.Text = decimal.ToDouble(vat).ToString();
+            totalCost += vat;
+            txtTotalPrice.Text = decimal.ToDouble(totalCost).ToString();
         }
 
         private void DgProducts_CurrentCellChanged(object sender, EventArgs e)
@@ -121,7 +126,7 @@ namespace BillsDesktopApp.OrdersWindows
                 totalCost += item.Price * item.Quantity;
             }
 
-            txtTotalPrice.Text = totalCost.ToString();
+            txtTotalPrice.Text = decimal.ToDouble(totalCost).ToString();
         }
 
         private void DgProducts_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
@@ -132,8 +137,10 @@ namespace BillsDesktopApp.OrdersWindows
             {
                 totalCost += item.Price * item.Quantity;
             }
-
-            txtTotalPrice.Text = totalCost.ToString();
+            var vat = ((decimal)0.14) * totalCost;
+            txtVat.Text = decimal.ToDouble(vat).ToString();
+            totalCost += vat;
+            txtTotalPrice.Text = decimal.ToDouble(totalCost).ToString();
         }
 
         private void DgProducts_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
@@ -145,13 +152,14 @@ namespace BillsDesktopApp.OrdersWindows
                 totalCost += item.Price * item.Quantity;
             }
 
-            txtTotalPrice.Text = totalCost.ToString();
+            var vat = ((decimal)0.14) * totalCost;
+            txtVat.Text = decimal.ToDouble(vat).ToString();
+            totalCost += vat;
+            txtTotalPrice.Text = decimal.ToDouble(totalCost).ToString();
         }
 
         private void BtnSave_Click(object sender, RoutedEventArgs e)
         {
-
-
             var order = new BL.Models.Orders
             {
                 CompanyId = unitOfWork.Repository<Companies>().Find(c => c.Name == txtCompanyName.Text).FirstOrDefault().ID,
@@ -192,7 +200,7 @@ namespace BillsDesktopApp.OrdersWindows
                 var customerName = cmbCustomerName.SelectedItem.ToString().Substring(startIndex + 1);
                 customerName = customerName.Remove(customerName.Length - 1);
 
-                PrintInvoice printInvoice = new PrintInvoice(_context);
+                PrintInvoice printInvoice = new PrintInvoice();
                 printInvoice.OrderDatepicker.Text = OrderDatepicker.Text;
                 printInvoice.txtAddress.Text = txtAddress.Text;
                 printInvoice.txtCompanyName.Text = txtCompanyName.Text;
@@ -217,6 +225,48 @@ namespace BillsDesktopApp.OrdersWindows
             var customerId = cmbCustomerName.SelectedValue;
             var selctedCustomerAddress = _context.Customers.Find(customerId).Address;
             txtAddress.Text = selctedCustomerAddress;
+        }
+
+        private void Window_LostFocus(object sender, RoutedEventArgs e)
+        {
+            decimal totalCost = 0;
+
+            foreach (var item in OrderDetails)
+            {
+                totalCost += item.Price * item.Quantity;
+            }
+            var vat = ((decimal)0.14) * totalCost;
+            txtVat.Text = decimal.ToDouble(vat).ToString();
+            totalCost += vat;
+            txtTotalPrice.Text = decimal.ToDouble(totalCost).ToString();
+        }
+
+        private void Window_MouseEnter(object sender, MouseEventArgs e)
+        {
+            decimal totalCost = 0;
+
+            foreach (var item in OrderDetails)
+            {
+                totalCost += item.Price * item.Quantity;
+            }
+            var vat = ((decimal)0.14) * totalCost;
+            txtVat.Text = decimal.ToDouble(vat).ToString();
+            totalCost += vat;
+            txtTotalPrice.Text = decimal.ToDouble(totalCost).ToString();
+        }
+
+        private void Window_MouseLeave(object sender, MouseEventArgs e)
+        {
+            decimal totalCost = 0;
+
+            foreach (var item in OrderDetails)
+            {
+                totalCost += item.Price * item.Quantity;
+            }
+            var vat = ((decimal)0.14) * totalCost;
+            txtVat.Text = decimal.ToDouble(vat).ToString();
+            totalCost += vat;
+            txtTotalPrice.Text = decimal.ToDouble(totalCost).ToString();
         }
     }
 }

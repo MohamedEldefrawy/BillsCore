@@ -82,7 +82,7 @@
         <DockPanel Margin="10" Grid.Column="0" Grid.Row="3">
             <Button x:Name="btnPrint" Content="طباعة"
                     MinHeight="23.4"
-                   VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Width="223" Click="btnPrint_Click" Height="12"/>
+                   VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Width="223" Click="btnPrint_Click" VerticalAlignment="Center" HorizontalAlignment="Center"/>
         </DockPanel>
     </Grid>
 </Window>

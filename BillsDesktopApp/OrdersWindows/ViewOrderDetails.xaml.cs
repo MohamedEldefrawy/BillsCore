@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
 
 namespace BillsDesktopApp.OrdersWindows
 {
@@ -106,8 +105,7 @@ namespace BillsDesktopApp.OrdersWindows
 
         private void btnPrint_Click(object sender, RoutedEventArgs e)
         {
-
-            PrintInvoice printInvoice = new PrintInvoice(_context);
+            PrintInvoice printInvoice = new PrintInvoice();
             printInvoice.OrderDatepicker.Text = ShowOrderDTO.OrderDate.ToString();
             printInvoice.txtAddress.Text = ShowOrderDTO.Address;
             printInvoice.txtCompanyName.Text = ShowOrderDTO.CompanyName;
@@ -125,7 +123,7 @@ namespace BillsDesktopApp.OrdersWindows
             decimal totalPrice = 0;
             foreach (var orderDetail in OrderDetailsObservalbleCollection)
             {
-                totalPrice += (orderDetail.Price * orderDetail.Quantity);
+                totalPrice += orderDetail.Price * orderDetail.Quantity;
             }
 
             txtTotalPrice.Text = totalPrice.ToString();
@@ -137,7 +135,7 @@ namespace BillsDesktopApp.OrdersWindows
             decimal totalPrice = 0;
             foreach (var orderDetail in OrderDetailsObservalbleCollection)
             {
-                totalPrice += (orderDetail.Price * orderDetail.Quantity);
+                totalPrice += orderDetail.Price * orderDetail.Quantity;
             }
 
             txtTotalPrice.Text = totalPrice.ToString();

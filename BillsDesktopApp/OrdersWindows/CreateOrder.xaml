@@ -13,7 +13,7 @@
         ScrollViewer.HorizontalScrollBarVisibility="Auto"
         WindowStartupLocation="CenterScreen" HorizontalContentAlignment="Stretch" 
         VerticalContentAlignment="Stretch"
-        Title="الفواتير" Height="600" Width="800" GotFocus="Window_GotFocus">
+        Title="الفواتير" Height="600" Width="800" GotFocus="Window_GotFocus" LostFocus="Window_LostFocus" MouseEnter="Window_MouseEnter" MouseLeave="Window_MouseLeave">
 
     <Grid x:Name="print">
         <Grid.ColumnDefinitions>
@@ -27,6 +27,7 @@
             <RowDefinition Height="0.1*"/>
             <RowDefinition Height="0.1*"/>
             <RowDefinition Height="0.5*"/>
+            <RowDefinition Height="0.1*"/>
             <RowDefinition Height="0.1*"/>
             <RowDefinition Height="0.1*"/>
         </Grid.RowDefinitions>
@@ -132,21 +133,36 @@
             </DataGrid>
         </DockPanel>
 
+
         <DockPanel Margin="10"
                    Grid.Column="3"  Grid.Row="4">
+            <Label Content="القيمة المضافة" Margin="5"
+                   VerticalAlignment="Center" HorizontalAlignment="Stretch"
+                   HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        </DockPanel>
+        <DockPanel Margin="10"
+                   Grid.Column="2"  Grid.Row="4">
+            <TextBox x:Name="txtVat" Margin="5"
+                     IsEnabled="False"
+                     VerticalAlignment="Center" HorizontalAlignment="Stretch"
+                     HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        </DockPanel>
+
+        <DockPanel Margin="10"
+                   Grid.Column="3"  Grid.Row="5">
             <Label Content="إجمالي السعر" Margin="5"
                    VerticalAlignment="Center" HorizontalAlignment="Stretch"
                    HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
         </DockPanel>
 
         <DockPanel Margin="10"
-                   Grid.Column="2"  Grid.Row="4">
+                   Grid.Column="2"  Grid.Row="5">
             <TextBox x:Name="txtTotalPrice" Margin="5"
                      IsEnabled="False"
                      VerticalAlignment="Center" HorizontalAlignment="Stretch"
                      HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
         </DockPanel>
-        <DockPanel Margin="10" Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="5" VerticalAlignment="Stretch" HorizontalAlignment="Center" >
+        <DockPanel Margin="10" Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="6" VerticalAlignment="Stretch" HorizontalAlignment="Center" >
             <Button x:Name="btnSave" Content="حفظ و طباعة"
                    VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Width="223" Click="BtnSave_Click"/>
         </DockPanel>

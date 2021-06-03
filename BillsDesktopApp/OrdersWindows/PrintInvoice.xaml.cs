@@ -13,14 +13,9 @@ namespace BillsDesktopApp.OrdersWindows
     public partial class PrintInvoice : Page
     {
         public static ObservableCollection<OrderDto> OrderDetails = new ObservableCollection<OrderDto>();
-        private readonly BillsContext _context;
 
-        private readonly UnitOfWork unitOfWork;
-
-        public PrintInvoice(BillsContext Context)
+        public PrintInvoice()
         {
-            _context = Context;
-            unitOfWork = new UnitOfWork(_context);
             InitializeComponent();
             dgProducts.ItemsSource = OrderDetails;
         }
