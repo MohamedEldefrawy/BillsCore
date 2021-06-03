@@ -20,6 +20,9 @@ namespace BillsDesktopApp.OrdersWindows
         private readonly UnitOfWork unitOfWork;
         private readonly IRepository<Customers> customersRepository;
         private readonly IRepository<BL.Models.Orders> ordersRepository;
+        private readonly IRepository<Users> usersRepository;
+
+
         public Dictionary<int, string> SelectedCustomer { get; set; }
 
         public UpdateOrder(BillsContext Context)
@@ -28,6 +31,7 @@ namespace BillsDesktopApp.OrdersWindows
             unitOfWork = new UnitOfWork(_context);
             customersRepository = unitOfWork.Repository<Customers>();
             ordersRepository = unitOfWork.Repository<BL.Models.Orders>();
+            usersRepository = unitOfWork.Repository<Users>();
             unitOfWork.Complete();
             InitializeComponent();
             cmbCustomer.SelectedValuePath = "Key";
@@ -54,7 +58,7 @@ namespace BillsDesktopApp.OrdersWindows
 
             var NewSelectedOrderDto = new ShowOrderDTO();
             var selectedOrder = ordersRepository
-                .GetWithRelated(o => o.ID == int.Parse(txtBillId.Text), "Customer", "Company", "User");
+                .Get(int.Parse(txtBillId.Text));
 
             UpdateSelectedOrder(selectedOrder);
 
@@ -78,24 +82,21 @@ namespace BillsDesktopApp.OrdersWindows
             }
         }
 
-        private static void UpdateOrderDto(ShowOrderDTO NewSelectedOrderDto, BL.Models.Orders selectedOrder)
+        private void UpdateOrderDto(ShowOrderDTO NewSelectedOrderDto, BL.Models.Orders selectedOrder)
         {
             NewSelectedOrderDto.OrderID = selectedOrder.ID;
             NewSelectedOrderDto.Address = selectedOrder.Address;
-            NewSelectedOrderDto.CustomerName = selectedOrder.Customer.Name;
-            NewSelectedOrderDto.CompanyName = selectedOrder.Company.Name;
+            NewSelectedOrderDto.CustomerName = cmbCustomer.Text;
+            NewSelectedOrderDto.CompanyName = txtCompnayName.Text;
             NewSelectedOrderDto.OrderDate = selectedOrder.Date;
-            NewSelectedOrderDto.UserName = selectedOrder.User.UserName;
+            NewSelectedOrderDto.UserName = txtUserName.Text;
         }
 
         private void UpdateSelectedOrder(BL.Models.Orders selectedOrder)
         {
             selectedOrder.Address = txtAddress.Text;
-            selectedOrder.Customer.Address = txtAddress.Text;
-            selectedOrder.CustomerId = int.Parse(cmbCustomer.SelectedValue.ToString());
-            selectedOrder.Customer.ID = int.Parse(cmbCustomer.SelectedValue.ToString());
-            selectedOrder.Customer.Name = cmbCustomer.Text;
             selectedOrder.Date = DateTime.Parse(orderDatepicker.Text);
+            selectedOrder.CustomerId = int.Parse(cmbCustomer.SelectedValue.ToString());
         }
 
         private Dictionary<int, string> GetChoices()
