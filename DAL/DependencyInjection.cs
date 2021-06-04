@@ -22,7 +22,6 @@ namespace DAL
             services.AddTransient<IProductsRepository, ProductsRepository>();
             services.AddTransient<IUsersRepository, UsersRepository>();
             services.AddTransient<IUnitOfWork, DAL.UnitOfWork.UnitOfWork>();
-
             return services;
         }
     }

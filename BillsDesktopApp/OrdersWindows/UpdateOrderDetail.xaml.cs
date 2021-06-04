@@ -17,17 +17,17 @@ namespace BillsDesktopApp.OrdersWindows
         private readonly BillsContext _context;
 
         private readonly UnitOfWork unitOfWork;
-        private readonly IRepository<BL.Models.OrderDetails> OrderDetailsService;
+        //private readonly IRepository<BL.Models.OrderDetails> OrderDetailsService;
         private readonly IRepository<BL.Models.Products> ProductsService;
         public int OrderId { get; set; }
-        public int odID { get; set; }
+        public int OdID { get; set; }
 
         public UpdateOrderDetail(BillsContext Context)
         {
             _context = Context;
             unitOfWork = new UnitOfWork(_context);
             ProductsService = unitOfWork.Repository<BL.Models.Products>();
-            OrderDetailsService = unitOfWork.Repository<BL.Models.OrderDetails>();
+            //OrderDetailsService = unitOfWork.Repository<BL.Models.OrderDetails>();
             InitializeComponent();
             cmbProducts.SelectedValuePath = "Key";
             cmbProducts.DisplayMemberPath = "Value";
@@ -36,28 +36,25 @@ namespace BillsDesktopApp.OrdersWindows
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
+            IRepository<BL.Models.OrderDetails> OrderDetailsService =
+                unitOfWork.Repository<BL.Models.OrderDetails>();
+
             var startIndex = cmbProducts.SelectedItem.ToString().IndexOf(',');
             var productName = cmbProducts.SelectedItem.ToString().Substring(startIndex + 1);
             productName = productName.Remove(productName.Length - 1);
-            var orderDto = new OrderDto
-            {
-                ProductId = int.Parse(cmbProducts.SelectedValue.ToString()),
-                ProductName = productName,
-                Quantity = int.Parse(txtQuantity.Text),
-                Price = decimal.Parse(txtPrice.Text),
-            };
 
             BL.Models.OrderDetails od = new BL.Models.OrderDetails
             {
-                ProductId = orderDto.ProductId,
-                Price = orderDto.Price,
-                Quantity = orderDto.Quantity,
+                ID = OdID,
+                ProductId = int.Parse(cmbProducts.SelectedValue.ToString()),
+                Price = decimal.Parse(txtPrice.Text),
+                Quantity = int.Parse(txtQuantity.Text),
                 OrderId = OrderId,
-                ID = odID
             };
 
-            OrderDetailsService.Update(od);
-            var result = unitOfWork.Complete();
+
+            var result = OrderDetailsService.Update(od);
+
 
             if (result < 1)
             {
@@ -88,7 +85,6 @@ namespace BillsDesktopApp.OrdersWindows
 
                     ViewOrderDetails.OrderDetailsObservalbleCollection.Add(odDto);
                 }
-
             }
 
             this.Close();

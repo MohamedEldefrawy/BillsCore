@@ -15,11 +15,11 @@ namespace DAL.Repositories.Origin
 
         TEntity GetWithRelated(Expression<Func<TEntity, bool>> match, string EntityName,
             string SecondEnitytyName, string ThirdEntityName);
-        void Add(TEntity entity);
+        int Add(TEntity entity);
         void AddAsync(TEntity entity);
-        void AddRange(IEnumerable<TEntity> entities);
-        void Remove(TEntity entity);
-        void RemoveRange(IEnumerable<TEntity> entities);
-        void Update(TEntity entity);
+        int AddRange(IEnumerable<TEntity> entities);
+        int Remove(TEntity entity);
+        int RemoveRange(IEnumerable<TEntity> entities);
+        int Update(TEntity entity);
     }
 }

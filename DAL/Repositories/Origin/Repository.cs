@@ -16,20 +16,16 @@ namespace DAL.Repositories.Origin
             this.context = context;
         }
 
-        public void Add(TEntity entity)
+        public int Add(TEntity entity)
         {
-            if (context.Entry(entity).State != EntityState.Detached)
-            {
-                context.Entry(entity).State = EntityState.Detached;
-
-            }
-
             context.Set<TEntity>().Add(entity);
+            return context.SaveChanges();
         }
 
-        public void AddRange(IEnumerable<TEntity> entities)
+        public int AddRange(IEnumerable<TEntity> entities)
         {
             context.Set<TEntity>().AddRange(entities);
+            return context.SaveChanges();
         }
 
         public IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> predicate)
@@ -68,28 +64,27 @@ namespace DAL.Repositories.Origin
             return context.Set<TEntity>().AsNoTracking().ToList();
         }
 
-        public void Remove(TEntity entity)
+        public int Remove(TEntity entity)
         {
-            if (context.Entry(entity).State != EntityState.Detached)
-            {
-                context.Entry(entity).State = EntityState.Detached;
-
-            }
-
             context.Set<TEntity>().Attach(entity);
             context.Entry(entity).State = EntityState.Deleted;
+            return context.SaveChanges();
         }
 
-        public void Update(TEntity entity)
+        public int Update(TEntity entity)
         {
-            context.Entry(entity).State = EntityState.Detached;
-            context.Set<TEntity>().Attach(entity);
-            context.Entry(entity).State = EntityState.Modified;
+
+            context.Set<TEntity>().Update(entity);
+            var result = context.SaveChanges();
+            context.ChangeTracker.Clear();
+            return result;
         }
 
-        public void RemoveRange(IEnumerable<TEntity> entities)
+        public int RemoveRange(IEnumerable<TEntity> entities)
         {
             context.Set<TEntity>().RemoveRange(entities);
+            return context.SaveChanges();
+
         }
 
         public async Task<TEntity> FindAsync(Expression<Func<TEntity, bool>> predicate)

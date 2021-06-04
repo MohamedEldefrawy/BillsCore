@@ -81,7 +81,7 @@ namespace BillsDesktopApp.OrdersWindows
             updateOrderDetail.txtQuantity.Text = selectedOrderDto.Quantity.ToString();
             updateOrderDetail.cmbProducts.Text = selectedOrderDto.ProductName.ToString();
             updateOrderDetail.OrderId = ShowOrderDTO.OrderID;
-            updateOrderDetail.odID = selectedOrderDetail.ID;
+            updateOrderDetail.OdID = selectedOrderDetail.ID;
             updateOrderDetail.Owner = GetWindow(this);
             updateOrderDetail.ShowDialog();
         }
