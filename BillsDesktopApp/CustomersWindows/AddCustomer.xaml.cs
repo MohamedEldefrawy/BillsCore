@@ -1,4 +1,5 @@
 ﻿using DAL;
+using DAL.Repositories.Origin;
 using DAL.UnitOfWork;
 using System.Windows;
 
@@ -12,10 +13,12 @@ namespace BillsDesktopApp.CustomersWindows
         private readonly BillsContext _context;
 
         private readonly UnitOfWork unitOfWork;
+        private readonly IRepository<BL.Models.Customers> CustomersRepository;
         public AddCustomer(BillsContext Context)
         {
             _context = Context;
             unitOfWork = new UnitOfWork(_context);
+            CustomersRepository = unitOfWork.Repository<BL.Models.Customers>();
             InitializeComponent();
         }
 
@@ -29,19 +32,17 @@ namespace BillsDesktopApp.CustomersWindows
                 Email = txtEmail.Text
             };
 
-            unitOfWork.Repository<BL.Models.Customers>().Add(customer);
-
-            var result = unitOfWork.Complete();
+            var result = CustomersRepository.Add(customer);
 
             if (result < 1)
             {
-                MessageBox.Show("خطأ بالتسجيل", "حدث خطأ اثناء إضافة عميل جديد", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("حدث خطأ اثناء إضافة عميل جديد", "خطأ بالتسجيل", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             else
             {
                 Customers.CustomerObservalbleCollection.Add(customer);
-                MessageBox.Show("تم", "تم إضافة عميل جديد بنجاح", MessageBoxButton.OK, MessageBoxImage.Information);
-                this.Close();
+                MessageBox.Show("تم إضافة عميل جديد بنجاح", "تم", MessageBoxButton.OK, MessageBoxImage.Information);
+                Close();
 
             }
         }

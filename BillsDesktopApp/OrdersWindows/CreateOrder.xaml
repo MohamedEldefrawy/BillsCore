@@ -13,7 +13,7 @@
         ScrollViewer.HorizontalScrollBarVisibility="Auto"
         WindowStartupLocation="CenterScreen" HorizontalContentAlignment="Stretch" 
         VerticalContentAlignment="Stretch"
-        Title="الفواتير" Height="600" Width="800" GotFocus="Window_GotFocus" LostFocus="Window_LostFocus" MouseEnter="Window_MouseEnter" MouseLeave="Window_MouseLeave">
+        Title="الفواتير" Height="667" Width="800" GotFocus="Window_GotFocus" LostFocus="Window_LostFocus" MouseEnter="Window_MouseEnter" MouseLeave="Window_MouseLeave">
 
     <Grid x:Name="print">
         <Grid.ColumnDefinitions>
@@ -23,9 +23,9 @@
             <ColumnDefinition Width="0.15*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="0.1*"/>
-            <RowDefinition Height="0.1*"/>
-            <RowDefinition Height="0.1*"/>
+            <RowDefinition Height="0.15*"/>
+            <RowDefinition Height="0.15*"/>
+            <RowDefinition Height="0.15*"/>
             <RowDefinition Height="0.5*"/>
             <RowDefinition Height="0.1*"/>
             <RowDefinition Height="0.1*"/>

@@ -27,16 +27,14 @@ namespace BillsDesktopApp.ProductsWindows
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
-            var product = new BL.Models.Products
+            var product = new Products
             {
                 Name = txtName.Text,
                 Description = txtDesc.Text,
                 Price = decimal.Parse(txtPrice.Text),
             };
 
-            ProductsService.Add(product);
-
-            var result = unitOfWork.Complete();
+            var result = ProductsService.Add(product);
 
             if (result < 1)
             {
@@ -46,8 +44,7 @@ namespace BillsDesktopApp.ProductsWindows
             {
                 MessageBox.Show("تم", "تم إضافة عميل جديد بنجاح", MessageBoxButton.OK, MessageBoxImage.Information);
                 winProducts.ProductsObservalbleCollection.Add(product);
-                this.Close();
-
+                Close();
             }
         }
     }
