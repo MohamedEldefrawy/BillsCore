@@ -15,6 +15,11 @@ namespace BL.Config
 
             builder.Property(u => u.Password)
                 .IsRequired();
+
+
+            builder.HasOne(u => u.Company)
+                .WithMany(c => c.Users)
+                .HasForeignKey(u => u.CompanyId);
         }
     }
 }

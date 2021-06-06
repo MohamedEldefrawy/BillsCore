@@ -126,10 +126,6 @@ namespace BillsDesktopApp.OrdersWindows
 
             foreach (var order in Orders)
             {
-                var companyName = CompaniesService.Find(
-                    c => c.ID == order.CompanyId)
-                    .FirstOrDefault().Name;
-
                 var customerName = CustomersService.Find(
                     c => c.ID == order.CustomerId)
                     .FirstOrDefault().Name;
@@ -147,7 +143,6 @@ namespace BillsDesktopApp.OrdersWindows
                 orderDTOs.Add(new ShowOrderDTO
                 {
                     Address = order.Customer.Address,
-                    CompanyName = companyName,
                     CustomerName = customerName,
                     UserName = userName,
                     OrderID = order.ID,

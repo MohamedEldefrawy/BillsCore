@@ -8,11 +8,6 @@ namespace BL.Config
     {
         public void Configure(EntityTypeBuilder<Orders> builder)
         {
-
-            builder.HasOne(o => o.Company)
-                .WithMany(c => c.Orders)
-                .HasForeignKey(o => o.CompanyId);
-
             builder.HasOne(o => o.Customer)
                 .WithMany(c => c.Orders)
                 .HasForeignKey(o => o.CustomerId);

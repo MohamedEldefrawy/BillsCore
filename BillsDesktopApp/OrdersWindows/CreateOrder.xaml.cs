@@ -162,7 +162,6 @@ namespace BillsDesktopApp.OrdersWindows
         {
             var order = new BL.Models.Orders
             {
-                CompanyId = unitOfWork.Repository<Companies>().Find(c => c.Name == txtCompanyName.Text).FirstOrDefault().ID,
                 CustomerId = int.Parse(cmbCustomerName.SelectedValue.ToString()),
                 UserId = unitOfWork.Repository<Users>().Find(u => u.UserName == txtUsername.Text).FirstOrDefault().ID,
                 Date = DateTime.Now,

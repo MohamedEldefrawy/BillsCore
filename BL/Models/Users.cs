@@ -10,7 +10,8 @@ namespace BL.Models
         [Required(AllowEmptyStrings = false)]
         public string UserName { get; set; }
         public string Password { get; set; }
-
+        public int CompanyId { get; set; }
         public ICollection<Orders> Orders { get; set; }
+        public Companies Company { get; set; }
     }
 }

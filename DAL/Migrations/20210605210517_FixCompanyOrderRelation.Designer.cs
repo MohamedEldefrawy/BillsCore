@@ -10,15 +10,15 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAL.Migrations
 {
     [DbContext(typeof(BillsContext))]
-    [Migration("20210428232529_AddTaxNumberToCompaniesTable")]
-    partial class AddTaxNumberToCompaniesTable
+    [Migration("20210605210517_FixCompanyOrderRelation")]
+    partial class FixCompanyOrderRelation
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.5")
+                .HasAnnotation("ProductVersion", "5.0.6")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("BL.Models.Companies", b =>
@@ -101,9 +101,6 @@ namespace DAL.Migrations
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("CompanyId")
-                        .HasColumnType("int");
-
                     b.Property<int>("CustomerId")
                         .HasColumnType("int");
 
@@ -114,8 +111,6 @@ namespace DAL.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("ID");
-
-                    b.HasIndex("CompanyId");
 
                     b.HasIndex("CustomerId");
 
@@ -152,6 +147,9 @@ namespace DAL.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("CompanyId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -162,6 +160,8 @@ namespace DAL.Migrations
                         .HasColumnType("nvarchar(15)");
 
                     b.HasKey("ID");
+
+                    b.HasIndex("CompanyId");
 
                     b.ToTable("Users");
                 });
@@ -187,12 +187,6 @@ namespace DAL.Migrations
 
             modelBuilder.Entity("BL.Models.Orders", b =>
                 {
-                    b.HasOne("BL.Models.Companies", "Company")
-                        .WithMany("Orders")
-                        .HasForeignKey("CompanyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("BL.Models.Customers", "Customer")
                         .WithMany("Orders")
                         .HasForeignKey("CustomerId")
@@ -205,16 +199,25 @@ namespace DAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Company");
-
                     b.Navigation("Customer");
 
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("BL.Models.Users", b =>
+                {
+                    b.HasOne("BL.Models.Companies", "Company")
+                        .WithMany("Users")
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Company");
+                });
+
             modelBuilder.Entity("BL.Models.Companies", b =>
                 {
-                    b.Navigation("Orders");
+                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("BL.Models.Customers", b =>

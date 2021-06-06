@@ -7,6 +7,6 @@ namespace BL.Models
         public int ID { get; set; }
         public string Name { get; set; }
         public string TaxNumber { get; set; }
-        public ICollection<Orders> Orders { get; set; }
+        public ICollection<Users> Users { get; set; }
     }
 }
