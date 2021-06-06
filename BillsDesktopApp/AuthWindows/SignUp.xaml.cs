@@ -3,6 +3,7 @@ using BL.Models;
 using DAL;
 using DAL.Repositories.Origin;
 using DAL.UnitOfWork;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using static Utilities.Utilities.Utilities;
@@ -17,21 +18,23 @@ namespace BillsDesktopApp.AuthWindows
         private readonly BillsContext _context;
         private readonly IRepository<Users> UsersService;
         private readonly UnitOfWork unitOfWork;
+        private readonly IRepository<Companies> CompaniesService;
         private bool IsValid = false;
         public SignUp(BillsContext Context)
         {
             _context = Context;
             unitOfWork = new UnitOfWork(_context);
             UsersService = unitOfWork.Repository<Users>();
+            CompaniesService = unitOfWork.Repository<Companies>();
             InitializeComponent();
             lblUserNameErrorMessage.Content = UserNameErrorMessages.UserNameMaxLength;
             lblConfirmPasswordErrorMessage.Content = PasswordErrorMessages.PasswordConfirm;
             lblPasswordErrorMessage.Content = PasswordErrorMessages.Password;
         }
 
-        private void txtUserName_TextChanged(object sender, TextChangedEventArgs e)
+        private void TxtUserName_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (txtUserName.Text.Length > 15 || txtUserName.Text.Length < 4)
+            if (txtUserName.Text.Length is > 15 or < 4)
             {
                 lblUserNameErrorMessage.Visibility = Visibility.Visible;
                 IsValid = false;
@@ -44,7 +47,7 @@ namespace BillsDesktopApp.AuthWindows
             }
         }
 
-        private void txtPasswordConfirm_PasswordChanged(object sender, RoutedEventArgs e)
+        private void TxtPasswordConfirm_PasswordChanged(object sender, RoutedEventArgs e)
         {
             if (txtPasswordConfirm.Password.ToString() != txtPassword.Password.ToString())
             {
@@ -59,7 +62,7 @@ namespace BillsDesktopApp.AuthWindows
             }
         }
 
-        private void txtPassword_PasswordChanged(object sender, RoutedEventArgs e)
+        private void TxtPassword_PasswordChanged(object sender, RoutedEventArgs e)
         {
             if (txtPassword.Password.ToString().Length < 3)
             {
@@ -78,7 +81,30 @@ namespace BillsDesktopApp.AuthWindows
             LoadingSpinner.Visibility = Visibility.Visible;
 
             var hashedPw = Hash(txtPassword.Password);
+            var users = UsersService.GetAll();
 
+            foreach (var user in users)
+
+            {
+                if (user.UserName.ToLower() == txtUserName.Text.ToLower())
+                {
+                    LoadingSpinner.Visibility = Visibility.Hidden;
+                    MessageBox.Show("خطأ بالتسجيل", "إٍسم مستخدم موجود من قبل", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                }
+            }
+
+            var newuser = new Users
+            {
+                UserName = txtUserName.Text,
+                Password = hashedPw
+            };
+
+            var company = new Companies
+            {
+                Name = txtCompanyName.Text,
+                TaxNumber = txtTaxNumber.Text
+            };
 
             if (!IsValid)
             {
@@ -90,16 +116,24 @@ namespace BillsDesktopApp.AuthWindows
             {
                 if (LoadingSpinner.Visibility == Visibility.Visible)
                 {
-                    UsersService.AddAsync(new Users
+                    var addedCompany = CompaniesService.Add(company);
+
+                    if (addedCompany > 0)
                     {
-                        UserName = txtUserName.Text,
-                        Password = hashedPw
-                    });
+                        var selectedCompany = CompaniesService.Find(c => c.Name.ToLower() == txtCompanyName.Text &&
+                        c.TaxNumber.ToLower() == txtTaxNumber.Text.ToLower()).SingleOrDefault();
+
+                        newuser.CompanyId = selectedCompany.ID;
+                    }
+
+
+                    UsersService.AddAsync(newuser);
                 }
 
             }
 
             int result = await unitOfWork.CompleteAsync();
+
 
             if (result < 1)
             {
@@ -115,12 +149,22 @@ namespace BillsDesktopApp.AuthWindows
             }
         }
 
-        private void btnBack_Click(object sender, RoutedEventArgs e)
+        private void BtnBack_Click(object sender, RoutedEventArgs e)
         {
             Login frmLogin = new Login();
             frmLogin.Show();
             Application.Current.MainWindow = frmLogin;
-            this.Close();
+            Close();
+        }
+
+        private void TxtCompanyName_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
+        private void TxtTaxNumber_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
         }
     }
 }

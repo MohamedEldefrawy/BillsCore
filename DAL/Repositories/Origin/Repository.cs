@@ -22,15 +22,25 @@ namespace DAL.Repositories.Origin
             return context.SaveChanges();
         }
 
+        public async Task<TEntity> FindAsync(Expression<Func<TEntity, bool>> predicate)
+        {
+            return await context.Set<TEntity>().AsNoTracking().Where<TEntity>(predicate).FirstOrDefaultAsync();
+        }
+
+        public async void AddAsync(TEntity entity)
+        {
+            await context.Set<TEntity>().AddAsync(entity);
+        }
+
         public int AddRange(IEnumerable<TEntity> entities)
         {
             context.Set<TEntity>().AddRange(entities);
             return context.SaveChanges();
         }
 
-        public IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> predicate)
+        public List<TEntity> Find(Expression<Func<TEntity, bool>> predicate)
         {
-            return context.Set<TEntity>().AsNoTracking().Where<TEntity>(predicate);
+            return context.Set<TEntity>().AsNoTracking().Where<TEntity>(predicate).ToList();
         }
 
         public TEntity Get(int id)
@@ -85,16 +95,6 @@ namespace DAL.Repositories.Origin
             context.Set<TEntity>().RemoveRange(entities);
             return context.SaveChanges();
 
-        }
-
-        public async Task<TEntity> FindAsync(Expression<Func<TEntity, bool>> predicate)
-        {
-            return await context.Set<TEntity>().AsNoTracking().Where<TEntity>(predicate).FirstOrDefaultAsync();
-        }
-
-        public async void AddAsync(TEntity entity)
-        {
-            await context.Set<TEntity>().AddAsync(entity);
         }
     }
 }

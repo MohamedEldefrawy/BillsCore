@@ -6,19 +6,21 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         mc:Ignorable="d"
-        Title="مستخدم جديد"  MinWidth="320" MinHeight="500" Width="200"  Height="500"
+        Title="مستخدم جديد"  MinWidth="320" MinHeight="500" Width="200"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         Background="{DynamicResource MaterialDesignPaper}"
         TextElement.FontWeight="Medium"
         TextElement.FontSize="12"
-        FontFamily="{materialDesign:MaterialDesignFont}"
+        FontFamily="{materialDesign:MaterialDesignFont}" Height="585" VerticalContentAlignment="Top" HorizontalContentAlignment="Left" FlowDirection="LeftToRight" UseLayoutRounding="False"
         >
-    <Grid>
+    <Grid Margin="0,0,0,18" HorizontalAlignment="Stretch" VerticalAlignment="Center">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="0.4*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -30,7 +32,7 @@
                         VerticalAlignment="Top" Width="Auto" Height="Auto" Margin="0,40,0,0"/>
         </DockPanel>
         <StackPanel Grid.Row="0" Grid.Column="0">
-            <TextBox x:Name="txtUserName" Margin="10,29,10,18" TextChanged="txtUserName_TextChanged"/>
+            <TextBox x:Name="txtUserName" Margin="10,29,10,18" TextChanged="TxtUserName_TextChanged"/>
             <Label Name="lblUserNameErrorMessage" Content="Max Length 15" Foreground="red" 
                    VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Hidden"/>
         </StackPanel>
@@ -40,7 +42,7 @@
         </DockPanel>
 
         <StackPanel Grid.Row="1" Grid.Column="0">
-            <PasswordBox x:Name="txtPassword" Margin="10,29,10,18" PasswordChanged="txtPassword_PasswordChanged"/>
+            <PasswordBox x:Name="txtPassword" Margin="10,29,10,18" PasswordChanged="TxtPassword_PasswordChanged"/>
             <Label Name="lblPasswordErrorMessage" Content="Max Length 15" Foreground="red" 
                    VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Hidden"/>
         </StackPanel>
@@ -50,14 +52,32 @@
                         VerticalAlignment="Top" Width="Auto" Height="Auto" Margin="0,40,0,0"/>
         </StackPanel>
         <StackPanel Grid.Row="2" Grid.Column="0">
-            <PasswordBox x:Name="txtPasswordConfirm" Margin="10,29,10,18" PasswordChanged="txtPasswordConfirm_PasswordChanged"/>
+            <PasswordBox x:Name="txtPasswordConfirm" Margin="10,29,10,18" PasswordChanged="TxtPasswordConfirm_PasswordChanged"/>
             <Label Name="lblConfirmPasswordErrorMessage" Content="Max Length 15" Foreground="red" 
                    VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Hidden"/>
         </StackPanel>
-
-        <StackPanel Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,16,0,0">
-            <Button x:Name="btnSignup" Content="إنشاء" Margin="5" Click="BtnSignup_Click"/>
-            <Button x:Name="btnBack" Content="رجوع للقائمة السابقة" Margin="5" Click="btnBack_Click"/>
+        <StackPanel Grid.Row="3" Grid.Column="0">
+            <TextBox x:Name="txtCompanyName" Margin="10,29,10,18" TextChanged="TxtCompanyName_TextChanged"/>
+            <Label Name="lblCompanyNameErrorMessage" Content="Max Length 15" Foreground="red" 
+                   VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Hidden"/>
+        </StackPanel>
+        <DockPanel Grid.Row="3" Grid.Column="1">
+            <Label x:Name="lblCompanyName" Content="إسم الشركة" HorizontalAlignment="Center"
+                        VerticalAlignment="Top" Width="Auto" Height="Auto" Margin="0,40,0,0"/>
+        </DockPanel>
+        <StackPanel Grid.Row="4" Grid.Column="0">
+            <TextBox x:Name="txtTaxNumber" Margin="10,29,10,18" TextChanged="TxtTaxNumber_TextChanged"/>
+            <Label Name="lblTaxNumberErrorMessage" Content="Max Length 15" Foreground="red" 
+                   VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Hidden"/>
+        </StackPanel>
+        <DockPanel Grid.Row="4" Grid.Column="1">
+            <Label x:Name="lblTaxNumber" Content="الرقم الضريبي" HorizontalAlignment="Center"
+                        VerticalAlignment="Top" Width="Auto" Height="Auto" Margin="0,40,0,0"/>
+        </DockPanel>
+        <StackPanel Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Width="Auto"
+                    VerticalAlignment="Center" Orientation="Vertical" FlowDirection="RightToLeft" ScrollViewer.VerticalScrollBarVisibility="Disabled" Grid.IsSharedSizeScope="True" Height="87" Margin="10,10,10,10">
+            <Button x:Name="btnSignup" Content="إنشاء" Margin="0,5,0,5" Click="BtnSignup_Click" VerticalAlignment="Stretch" VerticalContentAlignment="Center"/>
+            <Button x:Name="btnBack" Content="رجوع للقائمة السابقة" Margin="0,5,0,5" Click="BtnBack_Click"/>
             <fa:ImageAwesome x:Name="LoadingSpinner" Icon="Spinner" Spin="True" SpinDuration="10" Width="70" Height="70" Visibility="Hidden" />
         </StackPanel>
     </Grid>
