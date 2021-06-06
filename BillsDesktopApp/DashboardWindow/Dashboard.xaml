@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="لوحة القيادة" MinWidth="350" MinHeight="350" Width="400" Height="450" 
+        Title="لوحة القيادة" MinWidth="350" MinHeight="350" Width="400" Height="500" 
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         Background="{DynamicResource MaterialDesignPaper}"
         TextElement.FontWeight="Medium"
@@ -18,70 +18,65 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
-            <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="0.1*"/>
-            <RowDefinition Height="0.3*"/>
-            <RowDefinition Height="0.3*"/>
-            <RowDefinition Height="0.2*"/>
-            <RowDefinition Height="0.1*"/>
+            <RowDefinition Height="0.15*"/>
+            <RowDefinition Height="0.25*"/>
+            <RowDefinition Height="0.25*"/>
+            <RowDefinition Height="0.25*"/>
+            <RowDefinition Height="0.25*"/>
+
         </Grid.RowDefinitions>
 
-        <DockPanel  Grid.Row="0" Grid.Column="1" FlowDirection="RightToLeft" HorizontalAlignment="Center" VerticalAlignment="Stretch">
+        <DockPanel  Grid.Row="0" Grid.Column="0" FlowDirection="RightToLeft" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <Label x:Name="lblWelcome" Content="asdasdasd" 
                    HorizontalAlignment="Center" VerticalAlignment="Stretch" 
                    HorizontalContentAlignment="Stretch" VerticalContentAlignment="Center"
-                   Height="Auto" Width="Auto" MinHeight="43.5" FlowDirection="RightToLeft"/>
+                   Height="43.5" Width="Auto" MinHeight="43.5" FlowDirection="RightToLeft"/>
             <Label Name="lblUserId" Visibility="Hidden"/>
         </DockPanel>
 
-        <DockPanel Grid.Row="0" Grid.Column="0">
+
+        <DockPanel Grid.Row="0" Grid.ColumnSpan="1" VerticalAlignment="Stretch">
+            <Button x:Name="btnLogout" Content="تسجيل خروج"
+                    VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
+                    VerticalAlignment="Stretch" HorizontalAlignment="Left"
+                Grid.Row="3" Grid.ColumnSpan="2" Width="Auto" Height="43.5" MinHeight="43.5" Click="btnLogout_Click"/>
+        </DockPanel>
+
+        <DockPanel Grid.Row="1" Grid.ColumnSpan="1">
             <Button                 
                 x:Name="btnEdit" Content="تعديل الصفحة الشخصية"
                 VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
-                VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
-                Height="Auto" Width="Auto" MinHeight="43.5" Click="btnEdit_Click"/>
+                VerticalAlignment="Stretch" HorizontalAlignment="Center"
+                Height="43.5" Width="Auto" MinHeight="43.5" MinWidth="171" Click="btnEdit_Click"/>
         </DockPanel>
 
 
-        <DockPanel Grid.Row="1" Grid.Column="0">
+        <DockPanel Grid.Row="2" Grid.ColumnSpan="1">
             <Button 
                 x:Name="btnProducts" Content="منتجات" 
-                HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                HorizontalAlignment="Center" VerticalAlignment="Stretch"
                 VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
-                Width="Auto" Height="Auto" MinHeight="130.2" Click="btnProducts_Click" 
+                Width="Auto" Height="43.5" MinHeight="43.5" MinWidth="171" Click="btnProducts_Click" 
                 />
         </DockPanel>
 
-        <DockPanel Grid.Row="1" Grid.Column="1">
+        <DockPanel Grid.Row="3" Grid.ColumnSpan="1">
             <Button 
                 x:Name="btnCustomers" Content="عملاء"
                 VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
-                MinHeight="130.2" Width="Auto" Height="Auto" Click="btnCustomers_Click"/>
+                VerticalAlignment="Stretch" HorizontalAlignment="Center"
+                MinHeight="43.5" Width="Auto" Height="43.5" MinWidth="171"
+                Click="btnCustomers_Click" />
         </DockPanel>
 
-        <DockPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2">
+        <DockPanel Grid.Row="4" Grid.ColumnSpan="1">
             <Button 
                 x:Name="btnBills" Content="فواتير" 
-                HorizontalAlignment="Stretch"
+                HorizontalAlignment="Center" VerticalAlignment="Stretch"
                 VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
-                Height="Auto" Width="Auto" MinHeight="130.2" Click="btnBills_Click"/>
-        </DockPanel>
-
-        <DockPanel Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2">
-            <Button 
-                x:Name="btnCompany" Content="الشركة" 
-                HorizontalAlignment="Stretch"
-                VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
-                Height="Auto" Width="Auto" MinHeight="86.8" Click="btnCompany_Click"/>
-        </DockPanel>
-
-        <DockPanel Grid.Row="4" Grid.ColumnSpan="2">
-            <Button x:Name="btnLogout" Content="تسجيل خروج"
-                    VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
-                    VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
-                Grid.Row="3" Grid.ColumnSpan="2" Width="Auto" Height="Auto" MinHeight="43.5" Click="btnLogout_Click"/>
+                Height="43.5" Width="Auto" MinHeight="43.5" MinWidth="171" Click="btnBills_Click"/>
         </DockPanel>
     </Grid>
 </Window>

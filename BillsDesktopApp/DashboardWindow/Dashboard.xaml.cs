@@ -5,7 +5,6 @@ using BillsDesktopApp.OrdersWindows;
 using DAL;
 using DAL.UnitOfWork;
 using System.Windows;
-using BillsDesktopApp.CompanyWindows;
 
 namespace BillsDesktopApp.DashboardWindow
 {
@@ -54,14 +53,6 @@ namespace BillsDesktopApp.DashboardWindow
             orders.lblUserName.Content = "مرحباً " + lblWelcome.Content.ToString().Split(" ")[2];
             orders.Owner = Window.GetWindow(this);
             orders.ShowDialog();
-        }
-
-        private void btnCompany_Click(object sender, RoutedEventArgs e)
-        {
-            Company company = new Company(_context);
-            company.lblUserName.Content = lblWelcome.Content.ToString().Split(" ")[2];
-            company.Owner = Window.GetWindow(this);
-            company.ShowDialog();
         }
 
         private void btnLogout_Click(object sender, RoutedEventArgs e)
