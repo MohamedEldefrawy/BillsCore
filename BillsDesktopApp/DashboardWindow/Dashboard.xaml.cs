@@ -1,9 +1,11 @@
 ﻿using BillsDesktopApp.AuthWindows;
-using BillsDesktopApp.CustomersWindows;
 using BillsDesktopApp.ProductsWindows;
-using BillsDesktopApp.OrdersWindows;
 using DAL;
 using System.Windows;
+using DAL.Repositories.Origin;
+using BL.Models;
+using DAL.UnitOfWork;
+using System.Linq;
 
 namespace BillsDesktopApp.DashboardWindow
 {
@@ -13,24 +15,35 @@ namespace BillsDesktopApp.DashboardWindow
     public partial class Dashboard : Window
     {
         private readonly BillsContext _context;
+        private readonly IRepository<Users> UsersRepository;
+        private readonly IRepository<Companies> CompaniesRepository;
+        private readonly IUnitOfWork unitOfWork;
 
         public Dashboard(BillsContext Context)
         {
             _context = Context;
+            unitOfWork = new UnitOfWork(_context);
+            UsersRepository = unitOfWork.Repository<Users>();
+            CompaniesRepository = unitOfWork.Repository<Companies>();
             InitializeComponent();
         }
 
         private void btnEdit_Click(object sender, RoutedEventArgs e)
         {
+            var selectedUser = UsersRepository.Get(int.Parse(lblUserId.Content.ToString()));
+            var selectedCompany = CompaniesRepository.Find(c => c.ID == selectedUser.CompanyId).SingleOrDefault();
+
             ChangeProfile changeProfile = new ChangeProfile(_context);
             changeProfile.txtUserName.Text = lblWelcome.Content.ToString().Split(" ")[2];
+            changeProfile.txtCompanyName.Text = selectedCompany.Name.ToString();
+            changeProfile.txtTaxNumber.Text = selectedCompany.TaxNumber.ToString();
             changeProfile.Owner = GetWindow(this);
             changeProfile.ShowDialog();
         }
 
         private void btnCustomers_Click(object sender, RoutedEventArgs e)
         {
-            Customers customers = new Customers(_context);
+            CustomersWindows.Customers customers = new CustomersWindows.Customers(_context);
             customers.lblUserName.Content = "مرحباً " + lblWelcome.Content.ToString().Split(" ")[2];
             customers.Owner = GetWindow(this);
             customers.ShowDialog();
@@ -46,7 +59,7 @@ namespace BillsDesktopApp.DashboardWindow
 
         private void btnBills_Click(object sender, RoutedEventArgs e)
         {
-            Orders orders = new Orders(_context);
+            OrdersWindows.Orders orders = new OrdersWindows.Orders(_context);
             orders.lblUserName.Content = "مرحباً " + lblWelcome.Content.ToString().Split(" ")[2];
             orders.Owner = GetWindow(this);
             orders.ShowDialog();
@@ -54,7 +67,7 @@ namespace BillsDesktopApp.DashboardWindow
 
         private void btnLogout_Click(object sender, RoutedEventArgs e)
         {
-            MessageBoxResult messageBoxResult = System.Windows.MessageBox.Show("هل انت متأكد ؟", "تأكيد تسجيل الخروج", System.Windows.MessageBoxButton.YesNo);
+            MessageBoxResult messageBoxResult = MessageBox.Show("هل انت متأكد ؟", "تأكيد تسجيل الخروج", System.Windows.MessageBoxButton.YesNo);
             if (messageBoxResult == MessageBoxResult.Yes)
             {
                 Login login = new Login();
