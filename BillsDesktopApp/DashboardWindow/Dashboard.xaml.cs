@@ -21,6 +21,7 @@ namespace BillsDesktopApp.DashboardWindow
         private readonly IUnitOfWork unitOfWork;
         private Users selectedUser;
         private Companies selectedCompany;
+
         public Dashboard(BillsContext Context)
         {
             _context = Context;
@@ -35,7 +36,7 @@ namespace BillsDesktopApp.DashboardWindow
             selectedUser = UsersRepository.Get(int.Parse(lblUserId.Content.ToString()));
             selectedCompany = CompaniesRepository.Find(c => c.ID == selectedUser.CompanyId).SingleOrDefault();
 
-            ChangeProfile changeProfile = new ChangeProfile(_context);
+            ChangeProfile changeProfile = new(_context);
             changeProfile.txtUserName.Text = lblWelcome.Content.ToString().Split(" ")[2];
             changeProfile.txtCompanyName.Text = selectedCompany.Name.ToString();
             changeProfile.txtTaxNumber.Text = selectedCompany.TaxNumber.ToString();
@@ -45,7 +46,7 @@ namespace BillsDesktopApp.DashboardWindow
 
         private void BtnCustomers_Click(object sender, RoutedEventArgs e)
         {
-            CustomersWindows.Customers customers = new CustomersWindows.Customers(_context);
+            CustomersWindows.Customers customers = new(_context);
             customers.lblUserName.Content = "مرحباً " + lblWelcome.Content.ToString().Split(" ")[2];
             customers.Owner = GetWindow(this);
             customers.ShowDialog();
@@ -53,7 +54,7 @@ namespace BillsDesktopApp.DashboardWindow
 
         private void BtnProducts_Click(object sender, RoutedEventArgs e)
         {
-            winProducts products = new winProducts(_context);
+            winProducts products = new(_context);
             products.lblUserName.Content = "مرحباً " + lblWelcome.Content.ToString().Split(" ")[2];
             products.Owner = GetWindow(this);
             products.ShowDialog();
@@ -61,7 +62,7 @@ namespace BillsDesktopApp.DashboardWindow
 
         private void BtnBills_Click(object sender, RoutedEventArgs e)
         {
-            OrdersWindows.Orders orders = new OrdersWindows.Orders(_context);
+            OrdersWindows.Orders orders = new(_context);
             orders.lblUserName.Content = "مرحباً " + lblWelcome.Content.ToString().Split(" ")[2];
             orders.Owner = GetWindow(this);
             orders.ShowDialog();
@@ -72,7 +73,7 @@ namespace BillsDesktopApp.DashboardWindow
             MessageBoxResult messageBoxResult = MessageBox.Show("هل انت متأكد ؟", "تأكيد تسجيل الخروج", System.Windows.MessageBoxButton.YesNo);
             if (messageBoxResult == MessageBoxResult.Yes)
             {
-                Login login = new Login();
+                Login login = new();
                 login.Show();
                 Close();
             }
@@ -83,7 +84,7 @@ namespace BillsDesktopApp.DashboardWindow
             selectedUser = UsersRepository.Get(int.Parse(lblUserId.Content.ToString()));
             selectedCompany = CompaniesRepository.Find(c => c.ID == selectedUser.CompanyId).SingleOrDefault();
 
-            Company winCompany = new Company(_context);
+            Company winCompany = new(_context);
             winCompany.txtUserName.Text = selectedUser.UserName;
             winCompany.txtTaxNumber.Text = selectedCompany.TaxNumber;
             winCompany.txtCompanyName.Text = selectedCompany.Name;
