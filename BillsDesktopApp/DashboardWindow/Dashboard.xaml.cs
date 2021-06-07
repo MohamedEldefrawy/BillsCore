@@ -6,6 +6,7 @@ using DAL.Repositories.Origin;
 using BL.Models;
 using DAL.UnitOfWork;
 using System.Linq;
+using BillsDesktopApp.CompanyWindows;
 
 namespace BillsDesktopApp.DashboardWindow
 {
@@ -18,7 +19,8 @@ namespace BillsDesktopApp.DashboardWindow
         private readonly IRepository<Users> UsersRepository;
         private readonly IRepository<Companies> CompaniesRepository;
         private readonly IUnitOfWork unitOfWork;
-
+        private Users selectedUser;
+        private Companies selectedCompany;
         public Dashboard(BillsContext Context)
         {
             _context = Context;
@@ -28,10 +30,10 @@ namespace BillsDesktopApp.DashboardWindow
             InitializeComponent();
         }
 
-        private void btnEdit_Click(object sender, RoutedEventArgs e)
+        private void BtnEdit_Click(object sender, RoutedEventArgs e)
         {
-            var selectedUser = UsersRepository.Get(int.Parse(lblUserId.Content.ToString()));
-            var selectedCompany = CompaniesRepository.Find(c => c.ID == selectedUser.CompanyId).SingleOrDefault();
+            selectedUser = UsersRepository.Get(int.Parse(lblUserId.Content.ToString()));
+            selectedCompany = CompaniesRepository.Find(c => c.ID == selectedUser.CompanyId).SingleOrDefault();
 
             ChangeProfile changeProfile = new ChangeProfile(_context);
             changeProfile.txtUserName.Text = lblWelcome.Content.ToString().Split(" ")[2];
@@ -41,7 +43,7 @@ namespace BillsDesktopApp.DashboardWindow
             changeProfile.ShowDialog();
         }
 
-        private void btnCustomers_Click(object sender, RoutedEventArgs e)
+        private void BtnCustomers_Click(object sender, RoutedEventArgs e)
         {
             CustomersWindows.Customers customers = new CustomersWindows.Customers(_context);
             customers.lblUserName.Content = "مرحباً " + lblWelcome.Content.ToString().Split(" ")[2];
@@ -49,7 +51,7 @@ namespace BillsDesktopApp.DashboardWindow
             customers.ShowDialog();
         }
 
-        private void btnProducts_Click(object sender, RoutedEventArgs e)
+        private void BtnProducts_Click(object sender, RoutedEventArgs e)
         {
             winProducts products = new winProducts(_context);
             products.lblUserName.Content = "مرحباً " + lblWelcome.Content.ToString().Split(" ")[2];
@@ -57,7 +59,7 @@ namespace BillsDesktopApp.DashboardWindow
             products.ShowDialog();
         }
 
-        private void btnBills_Click(object sender, RoutedEventArgs e)
+        private void BtnBills_Click(object sender, RoutedEventArgs e)
         {
             OrdersWindows.Orders orders = new OrdersWindows.Orders(_context);
             orders.lblUserName.Content = "مرحباً " + lblWelcome.Content.ToString().Split(" ")[2];
@@ -65,7 +67,7 @@ namespace BillsDesktopApp.DashboardWindow
             orders.ShowDialog();
         }
 
-        private void btnLogout_Click(object sender, RoutedEventArgs e)
+        private void BtnLogout_Click(object sender, RoutedEventArgs e)
         {
             MessageBoxResult messageBoxResult = MessageBox.Show("هل انت متأكد ؟", "تأكيد تسجيل الخروج", System.Windows.MessageBoxButton.YesNo);
             if (messageBoxResult == MessageBoxResult.Yes)
@@ -74,6 +76,18 @@ namespace BillsDesktopApp.DashboardWindow
                 login.Show();
                 Close();
             }
+        }
+
+        private void BtnCompany_Click(object sender, RoutedEventArgs e)
+        {
+            selectedUser = UsersRepository.Get(int.Parse(lblUserId.Content.ToString()));
+            selectedCompany = CompaniesRepository.Find(c => c.ID == selectedUser.CompanyId).SingleOrDefault();
+
+            Company winCompany = new Company(_context);
+            winCompany.txtUserName.Text = selectedUser.UserName;
+            winCompany.txtTaxNumber.Text = selectedCompany.TaxNumber;
+            winCompany.txtCompanyName.Text = selectedCompany.Name;
+            winCompany.Show();
         }
     }
 }
