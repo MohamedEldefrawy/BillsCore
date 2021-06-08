@@ -22,8 +22,6 @@ namespace BillsDesktopApp.CompanyWindows
         private readonly BillsContext _context;
         private readonly UnitOfWork unitOfWork;
         private readonly IRepository<Companies> CompaniesService;
-        private readonly string[] AllcolNames = typeof(Companies).GetProperties().Select(p => p.Name).ToArray();
-        private readonly List<string> selectedColNames = new List<string>();
         private Companies selectedCompany;
         public static ObservableCollection<Companies> CompaniesObservalbleCollection = new ObservableCollection<Companies>();
 
