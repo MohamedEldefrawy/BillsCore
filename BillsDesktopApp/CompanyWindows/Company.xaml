@@ -14,7 +14,7 @@
         FontFamily="{materialDesign:MaterialDesignFont}" 
         ScrollViewer.HorizontalScrollBarVisibility="Auto"
         WindowStartupLocation="CenterScreen" HorizontalContentAlignment="Stretch" 
-        VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch">
+        VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch" Loaded="Window_Loaded">
 
     <Grid Margin="25">
         <Grid.ColumnDefinitions>
@@ -84,9 +84,17 @@
             <Button Name="BtnLogoBrowse"
                     VerticalAlignment="Center" HorizontalAlignment="Center"
                     VerticalContentAlignment="Center" HorizontalContentAlignment="Center" 
-                    Content="إختيار"/>
-            <Image Name="imgLogo"
-                   VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    Content="إختيار" Click="BtnLogoBrowse_Click"/>
+            <StackPanel ScrollViewer.VerticalScrollBarVisibility="Disabled" 
+                        CanVerticallyScroll="True" CanHorizontallyScroll="True" 
+                        FlowDirection="RightToLeft" Orientation="Vertical" 
+                        HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Image Name="imgLogo"
+                   VerticalAlignment="Center" HorizontalAlignment="Center" Height="100" Width="120"/>
+                <Label Name="lblLogoFilePath" Content="File Path" 
+                       VerticalAlignment="Center" HorizontalAlignment="Center"
+                       VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+            </StackPanel>
         </StackPanel>
 
         <DockPanel  Grid.Row="4" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -97,18 +105,30 @@
             </Label>
         </DockPanel>
 
-        <StackPanel Grid.Row="4" Grid.Column="1" ScrollViewer.VerticalScrollBarVisibility="Disabled" CanVerticallyScroll="True" CanHorizontallyScroll="True" FlowDirection="RightToLeft" Orientation="Horizontal" >
+        <StackPanel Grid.Row="4" Grid.Column="1" ScrollViewer.VerticalScrollBarVisibility="Disabled" 
+                    CanVerticallyScroll="True" CanHorizontallyScroll="True" 
+                    FlowDirection="RightToLeft" Orientation="Horizontal" 
+                    VerticalAlignment="Stretch" >
             <Button Name="BtnSignutreBrowse"
                     VerticalAlignment="Center" HorizontalAlignment="Center"
                     VerticalContentAlignment="Center" HorizontalContentAlignment="Center" 
-                    Content="إختيار"/>
-            <Image Name="imgSignutre"
-                   VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    Content="إختيار" Click="BtnSignutreBrowse_Click"/>
+            <StackPanel ScrollViewer.VerticalScrollBarVisibility="Disabled" 
+                        CanVerticallyScroll="True" CanHorizontallyScroll="True" 
+                        FlowDirection="RightToLeft" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Image Name="imgSignutre"
+                   VerticalAlignment="Center" HorizontalAlignment="Center"
+                       Height="100" Width="120"/>
+                <Label Name="lblSignutreFilePath" Content="File Path" 
+                       VerticalAlignment="Center" HorizontalAlignment="Center"
+                       VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+            </StackPanel>
+
         </StackPanel>
 
 
         <DockPanel  Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <Button Name="BtnSave" Content="حفظ" HorizontalAlignment="Center" VerticalAlignment="Stretch"/>
+            <Button Name="BtnSave" Content="حفظ" HorizontalAlignment="Center" VerticalAlignment="Stretch" Click="BtnSave_Click"/>
         </DockPanel>
     </Grid>
 </Window>

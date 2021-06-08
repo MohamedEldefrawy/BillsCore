@@ -24,6 +24,17 @@
     <None Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Static\Logos\logo-placeholder.jpeg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Static\Signutres\SignutrePlaceHolder.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Static\Logos\" />
+    <Folder Include="Static\Signutres\" />
   </ItemGroup>
 
 </Project>
