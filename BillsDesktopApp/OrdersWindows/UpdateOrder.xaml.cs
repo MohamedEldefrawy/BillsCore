@@ -62,11 +62,10 @@ namespace BillsDesktopApp.OrdersWindows
 
             UpdateSelectedOrder(selectedOrder);
 
-            ordersRepository.Update(selectedOrder);
+            var result = ordersRepository.Update(selectedOrder);
 
             UpdateOrderDto(NewSelectedOrderDto, selectedOrder);
 
-            var result = unitOfWork.Complete();
 
             if (result < 1)
             {
