@@ -108,7 +108,7 @@
                       HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                       HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
                       Width="Auto" Height="Auto" MinWidth="780"
-                      x:FieldModifier="public" AutoGenerateColumns="False" IsReadOnly="True" MouseEnter="dgProducts_MouseEnter" MouseLeave="DgProducts_MouseLeave" CurrentCellChanged="DgProducts_CurrentCellChanged" CellEditEnding="DgProducts_CellEditEnding" SelectedCellsChanged="DgProducts_SelectedCellsChanged">
+                      x:FieldModifier="public" AutoGenerateColumns="False" IsReadOnly="True" MouseEnter="DgProducts_MouseEnter" MouseLeave="DgProducts_MouseLeave" CurrentCellChanged="DgProducts_CurrentCellChanged" CellEditEnding="DgProducts_CellEditEnding" SelectedCellsChanged="DgProducts_SelectedCellsChanged">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="رقم المنتج" Binding="{Binding ProductId}"/>
                     <DataGridTextColumn Header="المنتج" Binding="{Binding ProductName}"/>
@@ -124,7 +124,7 @@
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                    <Button x:Name="btnDelete" Content="مسح" Click="btnDelete_Click"/>
+                                    <Button x:Name="btnDelete" Content="مسح" Click="BtnDelete_Click"/>
                                 </StackPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>

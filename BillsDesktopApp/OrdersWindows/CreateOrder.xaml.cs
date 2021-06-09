@@ -54,7 +54,7 @@ namespace BillsDesktopApp.OrdersWindows
 
         }
 
-        private void btnDelete_Click(object sender, RoutedEventArgs e)
+        private void BtnDelete_Click(object sender, RoutedEventArgs e)
         {
             OrderDetails.RemoveAt(dgProducts.SelectedIndex);
         }
@@ -88,7 +88,7 @@ namespace BillsDesktopApp.OrdersWindows
             dgProducts.ItemsSource = OrderDetails;
         }
 
-        private void dgProducts_MouseEnter(object sender, MouseEventArgs e)
+        private void DgProducts_MouseEnter(object sender, MouseEventArgs e)
         {
             decimal totalCost = 0;
 
@@ -224,6 +224,7 @@ namespace BillsDesktopApp.OrdersWindows
             {
                 totalCost += item.Price * item.Quantity;
             }
+
             var vat = ((decimal)0.14) * totalCost;
             txtVat.Text = decimal.ToDouble(vat).ToString();
             totalCost += vat;

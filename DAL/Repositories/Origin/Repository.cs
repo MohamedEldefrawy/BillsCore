@@ -34,13 +34,15 @@ namespace DAL.Repositories.Origin
 
         public int AddRange(IEnumerable<TEntity> entities)
         {
+            var result = context.SaveChanges();
+            context.ChangeTracker.Clear();
             context.Set<TEntity>().AddRange(entities);
-            return context.SaveChanges();
+            return result;
         }
 
         public List<TEntity> Find(Expression<Func<TEntity, bool>> predicate)
         {
-            return context.Set<TEntity>().AsNoTracking().Where<TEntity>(predicate).ToList();
+            return context.Set<TEntity>().AsNoTracking().Where(predicate).ToList();
         }
 
         public TEntity Get(int id)
@@ -51,7 +53,7 @@ namespace DAL.Repositories.Origin
             {
                 return null;
             }
-            context.Entry(result).State = EntityState.Detached;
+            context.ChangeTracker.Clear();
             return result;
         }
 
@@ -78,12 +80,13 @@ namespace DAL.Repositories.Origin
         {
             context.Set<TEntity>().Attach(entity);
             context.Entry(entity).State = EntityState.Deleted;
-            return context.SaveChanges();
+            var result = context.SaveChanges();
+            context.ChangeTracker.Clear();
+            return result;
         }
 
         public int Update(TEntity entity)
         {
-
             context.Set<TEntity>().Update(entity);
             var result = context.SaveChanges();
             context.ChangeTracker.Clear();

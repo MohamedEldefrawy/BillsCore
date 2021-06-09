@@ -98,8 +98,8 @@ namespace BillsDesktopApp.OrdersWindows
             var selectedOrder = OrdersServices.Find(o => o.ID == selectedOrderDto.OrderID).FirstOrDefault();
 
             orderDTOs.Remove(selectedOrderDto);
-            OrdersServices.Remove(selectedOrder);
-            var result = unitOfWork.Complete();
+            var result = OrdersServices.Remove(selectedOrder);
+
             if (result < 1)
             {
                 MessageBox.Show("فشلت عملية مسح الفاتورة", "فشلت العملية", MessageBoxButton.OK, MessageBoxImage.Error);
