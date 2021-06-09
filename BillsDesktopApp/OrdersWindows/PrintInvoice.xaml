@@ -11,9 +11,9 @@
         TextElement.FontSize="12"
         FontFamily="{materialDesign:MaterialDesignFont}"      
         ScrollViewer.HorizontalScrollBarVisibility="Auto"    
-        Title="الفواتير"  Loaded="Page_Loaded" ScrollViewer.VerticalScrollBarVisibility="Auto" Height="700">
+        Title="الفواتير"  Loaded="Page_Loaded" ScrollViewer.VerticalScrollBarVisibility="Auto" Height="1024">
 
-    <Grid x:Name="print" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" FlowDirection="LeftToRight" MinHeight="1">
+    <Grid x:Name="print" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" FlowDirection="LeftToRight" MinHeight="1" VerticalAlignment="Stretch" HorizontalAlignment="Center" Margin="10,10,10,10">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0.30*"/>
             <ColumnDefinition Width="0.15*"/>
@@ -21,33 +21,41 @@
             <ColumnDefinition Width="0.15*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height="0.25*"/>
             <RowDefinition Height="0.1*"/>
             <RowDefinition Height="0.1*"/>
             <RowDefinition Height="0.1*"/>
             <RowDefinition Height="0.5*"/>
             <RowDefinition Height="0.1*"/>
             <RowDefinition Height="0.1*"/>
+            <RowDefinition Height="0.25*"/>
         </Grid.RowDefinitions>
 
-        <DockPanel Grid.Column="3" Grid.Row="0" Margin="10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" FlowDirection="RightToLeft">
-            <Label x:Name="lblCompanyName" Content="إسم الشركة" Margin="5" 
-                   VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
-                   HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        <DockPanel Grid.Column="1" Grid.Row="0" Margin="10" Grid.ColumnSpan="2" 
+                   HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Image Name="imgLogo" Height="50" Width="40"/>
         </DockPanel>
 
-        <DockPanel Grid.Column="2" Grid.Row="0" Margin="10">
+        <DockPanel Grid.Column="3" Grid.Row="1" Margin="10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                   FlowDirection="RightToLeft">
+            <Label x:Name="lblCompanyName" Content="إسم الشركة" Margin="5" 
+                       VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                       HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        </DockPanel>
+
+        <DockPanel Grid.Column="2" Grid.Row="1" Margin="10">
             <TextBox x:Name="txtCompanyName" Margin="5" 
                    VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
                    HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsEnabled="False"/>
         </DockPanel>
 
-        <DockPanel Grid.Column="1" Grid.Row="0" Margin="10">
+        <DockPanel Grid.Column="1" Grid.Row="1" Margin="10">
             <Label x:Name="lblDate" Margin="5"  Content="التاريخ"
                    VerticalAlignment="Center" HorizontalAlignment="Stretch"
                    HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
         </DockPanel>
 
-        <DockPanel Grid.Column="0" Grid.Row="0" Margin="10">
+        <DockPanel Grid.Column="0" Grid.Row="1" Margin="10">
             <DatePicker x:Name="OrderDatepicker" Margin="5" 
                  SelectedDateFormat="Short"
                         IsEnabled="False"
@@ -55,57 +63,56 @@
                    HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/>
         </DockPanel>
 
-        <DockPanel Grid.Column="3" Grid.Row="1" Margin="10">
+        <DockPanel Grid.Column="3" Grid.Row="2" Margin="10">
             <Label x:Name="lblCustomer" Margin="5"  Content="إسم العميل"
                    VerticalAlignment="Center" HorizontalAlignment="Stretch"
                    HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
         </DockPanel>
 
-        <DockPanel Grid.Column="2" Grid.Row="1" Margin="10">
+        <DockPanel Grid.Column="2" Grid.Row="2" Margin="10">
             <TextBox x:Name="txtCustomerName" Margin="5"
                        IsEnabled="False"
                    VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
                    HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
         </DockPanel>
 
-        <DockPanel Grid.Column="1" Grid.Row="1" Margin="10">
+        <DockPanel Grid.Column="1" Grid.Row="2" Margin="10">
             <Label x:Name="lblAddress" Margin="5"  Content="العنوان"
                    VerticalAlignment="Center" HorizontalAlignment="Stretch"
                    HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
         </DockPanel>
 
-        <DockPanel Grid.Column="0" Grid.Row="1" Margin="10">
+        <DockPanel Grid.Column="0" Grid.Row="2" Margin="10">
             <TextBox x:Name="txtAddress" Margin="5" IsEnabled="False"
                    VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
                    HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
         </DockPanel>
 
-
-        <DockPanel Grid.Column="4" Grid.Row="2" Margin="10" HorizontalAlignment="Center" VerticalAlignment="Stretch">
+        <DockPanel Grid.Column="4" Grid.Row="3" Margin="10" HorizontalAlignment="Center" VerticalAlignment="Stretch">
             <Label x:Name="lblUsername" Margin="5"  Content="أسم المستخدم"
                    VerticalAlignment="Center" HorizontalAlignment="Stretch"
                    HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
         </DockPanel>
 
-        <DockPanel Grid.Column="2" Grid.Row="2" Margin="10">
+        <DockPanel Grid.Column="2" Grid.Row="3" Margin="10">
             <TextBox x:Name="txtUsername" Margin="5" IsEnabled="False"
                    VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
                    HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
         </DockPanel>
 
-        <DockPanel Grid.Column="1" Grid.Row="2" Margin="10" HorizontalAlignment="Center" VerticalAlignment="Stretch">
+        <DockPanel Grid.Column="1" Grid.Row="3" Margin="10" HorizontalAlignment="Center" VerticalAlignment="Stretch">
             <Label x:Name="lblInvoiceNumber" Margin="5"  Content="رقم الفاتورة"
                    VerticalAlignment="Center" HorizontalAlignment="Stretch"
                    HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
         </DockPanel>
 
-        <DockPanel Grid.Column="0" Grid.Row="2" Margin="10">
+        <DockPanel Grid.Column="0" Grid.Row="3" Margin="10">
             <TextBox x:Name="txtInvoiceNumber" Margin="5" IsEnabled="False"
                    VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
                    HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
         </DockPanel>
 
-        <DockPanel Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="3">
+        <DockPanel Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="4">
             <DataGrid x:Name="dgProducts" Margin="5"
                       HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                       HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
@@ -122,27 +129,43 @@
         </DockPanel>
 
         <DockPanel Margin="10"
-                   Grid.Column="3"  Grid.Row="4">
+                   Grid.Column="3"  Grid.Row="6">
             <Label Content="إجمالي السعر" Margin="5"
                    VerticalAlignment="Center" HorizontalAlignment="Stretch"
                    HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
         </DockPanel>
 
         <DockPanel Margin="10"
-                   Grid.Column="2"  Grid.Row="4">
+                   Grid.Column="2"  Grid.Row="6">
             <TextBox x:Name="txtTotalPrice" Margin="5"
                      IsEnabled="False"
                      VerticalAlignment="Center" HorizontalAlignment="Stretch"
                      HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
         </DockPanel>
 
-        <DockPanel Margin="10" Grid.Column="0" Width="Auto" Grid.Row="5" VerticalAlignment="Stretch" HorizontalAlignment="Center" >
+        <DockPanel Margin="10"
+                   Grid.Column="3"  Grid.Row="5">
+            <Label Content="القيمة المضافة" Margin="5"
+                   VerticalAlignment="Center" HorizontalAlignment="Stretch"
+                   HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        </DockPanel>
+
+        <DockPanel Margin="10"
+                   Grid.Column="2"  Grid.Row="5">
+            <TextBox x:Name="txtVat" Margin="5"
+                     IsEnabled="False"
+                     VerticalAlignment="Center" HorizontalAlignment="Stretch"
+                     HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        </DockPanel>
+
+        <DockPanel Margin="10" Grid.Column="0" Width="Auto" Grid.Row="7" VerticalAlignment="Stretch" HorizontalAlignment="Center" >
             <Button x:Name="btnPrint" Content="طباعة"
                    VerticalContentAlignment="Center" HorizontalContentAlignment="Center"  Click="btnPrint_Click"/>
         </DockPanel>
 
-
-
-
+        <DockPanel Margin="10" Grid.Column="0" Width="Auto" Grid.Row="7" VerticalAlignment="Stretch" HorizontalAlignment="Center" >
+            <Image Name="imgSignutre" Width="40" Height="50" 
+                   VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+        </DockPanel>
     </Grid>
 </Page>

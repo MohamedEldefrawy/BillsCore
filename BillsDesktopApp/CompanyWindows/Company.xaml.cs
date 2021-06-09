@@ -4,7 +4,6 @@ using DAL.Repositories.Origin;
 using DAL.UnitOfWork;
 using Microsoft.Win32;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
