@@ -4,6 +4,7 @@ using DAL;
 using DAL.Repositories.Origin;
 using DAL.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -48,11 +49,6 @@ namespace BillsDesktopApp.OrdersWindows
             InitializeComponent();
             cmbSearch.ItemsSource = colNames;
             cmbSearch.SelectedIndex = 0;
-        }
-
-        private void Load()
-        {
-            dgOrders.ItemsSource = orderDTOs;
         }
 
         private void BtnUpdate_Click(object sender, RoutedEventArgs e)
@@ -130,10 +126,12 @@ namespace BillsDesktopApp.OrdersWindows
                     c => c.ID == order.CustomerId)
                     .FirstOrDefault().Name;
 
-                var userName = UsersService.Find(
+                var selectedUser = UsersService.Find(
                     u => u.ID == order.UserId)
-                    .FirstOrDefault().UserName;
+                    .FirstOrDefault();
 
+                var userName = selectedUser.UserName;
+                var companyName = CompaniesService.Get(selectedUser.CompanyId).Name;
 
                 if (orderDTOs.Count == Orders.Count)
                 {
@@ -146,11 +144,13 @@ namespace BillsDesktopApp.OrdersWindows
                     CustomerName = customerName,
                     UserName = userName,
                     OrderID = order.ID,
-                    OrderDate = order.Date
+                    OrderDate = order.Date,
+                    CompanyName = companyName
+
                 });
             }
 
-            Load();
+            dgOrders.ItemsSource = orderDTOs;
         }
 
         private List<ShowOrderDTO> GetSelectedFilter()
@@ -160,35 +160,35 @@ namespace BillsDesktopApp.OrdersWindows
             {
                 case 0:
                     {
-                        orders = orderDTOs.Where(o => o.OrderID.ToString().StartsWith(txtSearch.Text)).ToList();
+                        orders = orderDTOs.Where(o => o.OrderID.ToString().StartsWith(txtSearch.Text, StringComparison.CurrentCultureIgnoreCase)).ToList();
                         break;
                     }
 
                 case 1:
                     {
-                        orders = orderDTOs.Where(o => o.UserName.ToString().StartsWith(txtSearch.Text)).ToList();
+                        orders = orderDTOs.Where(o => o.UserName.ToString().StartsWith(txtSearch.Text, StringComparison.CurrentCultureIgnoreCase)).ToList();
                         break;
                     }
 
                 case 2:
                     {
-                        orders = orderDTOs.Where(o => o.CompanyName.ToString().StartsWith(txtSearch.Text)).ToList();
+                        orders = orderDTOs.Where(o => o.CompanyName.ToString().StartsWith(txtSearch.Text, StringComparison.CurrentCultureIgnoreCase)).ToList();
                         break;
                     }
 
                 case 3:
                     {
-                        orders = orderDTOs.Where(o => o.CustomerName.ToString().StartsWith(txtSearch.Text)).ToList();
+                        orders = orderDTOs.Where(o => o.CustomerName.ToString().StartsWith(txtSearch.Text, StringComparison.CurrentCultureIgnoreCase)).ToList();
                         break;
                     }
                 case 4:
                     {
-                        orders = orderDTOs.Where(o => o.OrderDate.ToString().StartsWith(txtSearch.Text)).ToList();
+                        orders = orderDTOs.Where(o => o.OrderDate.ToString().StartsWith(txtSearch.Text, StringComparison.CurrentCultureIgnoreCase)).ToList();
                         break;
                     }
                 default:
                     {
-                        orders = orderDTOs.Where(o => o.Address.ToString().StartsWith(txtSearch.Text)).ToList();
+                        orders = orderDTOs.Where(o => o.Address.ToString().StartsWith(txtSearch.Text, StringComparison.CurrentCultureIgnoreCase)).ToList();
                         break;
                     }
             }
