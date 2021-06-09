@@ -160,41 +160,33 @@ namespace BillsDesktopApp.OrdersWindows
 
         private void BtnSave_Click(object sender, RoutedEventArgs e)
         {
+            var orderDetails = new List<OrderDetails>();
+
+            foreach (var o in OrderDetails)
+            {
+                orderDetails.Add(new OrderDetails
+                {
+                    Price = o.Price,
+                    ProductId = o.ProductId,
+                    Quantity = o.Quantity,
+                });
+            }
+
             var order = new BL.Models.Orders
             {
                 CustomerId = int.Parse(cmbCustomerName.SelectedValue.ToString()),
                 UserId = unitOfWork.Repository<Users>().Find(u => u.UserName == txtUsername.Text).FirstOrDefault().ID,
                 Date = DateTime.Now,
                 Address = txtAddress.Text,
+                OrderDetails = orderDetails
             };
 
-            OrdersService.Add(order);
-            var result = unitOfWork.Complete();
+            var result = OrdersService.Add(order);
+
             if (result > 0)
             {
-                int orderID = order.ID;
-
-                var od = new List<OrderDetails>();
-
-                foreach (var o in OrderDetails)
-                {
-                    od.Add(new OrderDetails
-                    {
-                        OrderId = orderID,
-                        Price = o.Price,
-                        ProductId = o.ProductId,
-                        Quantity = o.Quantity,
-                    });
-                }
-
-                foreach (var item in od)
-                {
-                    OrderDetailsService.Add(item);
-                    unitOfWork.Complete();
-                }
-
+                var orderId = order.ID;
                 MessageBox.Show("تم", "تم حفظ الطلب", MessageBoxButton.OK, MessageBoxImage.Information); ;
-
                 var startIndex = cmbCustomerName.SelectedItem.ToString().IndexOf(',');
                 var customerName = cmbCustomerName.SelectedItem.ToString().Substring(startIndex + 1);
                 customerName = customerName.Remove(customerName.Length - 1);
@@ -203,21 +195,19 @@ namespace BillsDesktopApp.OrdersWindows
                 printInvoice.OrderDatepicker.Text = OrderDatepicker.Text;
                 printInvoice.txtAddress.Text = txtAddress.Text;
                 printInvoice.txtCompanyName.Text = txtCompanyName.Text;
-                printInvoice.txtInvoiceNumber.Text = orderID.ToString();
+                printInvoice.txtInvoiceNumber.Text = orderId.ToString();
                 printInvoice.txtUsername.Text = txtUsername.Text;
                 printInvoice.txtTotalPrice.Text = txtTotalPrice.Text;
                 printInvoice.txtCustomerName.Text = customerName;
                 PrintInvoice.OrderDetails = OrderDetails;
                 Content = printInvoice;
             }
-
             else
             {
-                MessageBox.Show("فشلت العملية", "حدث خطأ أثناء حفظ الطلب", MessageBoxButton.OK, MessageBoxImage.Error); ;
-
+                MessageBox.Show("فشلت العملية", "حدث خطأ أثناء حفظ الطلب", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-
         }
+
 
         private void CmbCustomerName_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {

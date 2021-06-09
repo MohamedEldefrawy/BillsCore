@@ -1,4 +1,5 @@
 ﻿using BillsDesktopApp.Dtos.OrdersDtos;
+using BL.Models;
 using DAL;
 using DAL.Repositories.Origin;
 using DAL.UnitOfWork;
@@ -18,17 +19,19 @@ namespace BillsDesktopApp.OrdersWindows
 
         private readonly UnitOfWork unitOfWork;
         public ShowOrderDTO ShowOrderDTO { get; set; }
-        public List<BL.Models.OrderDetails> OrderDetails { get; set; }
+        public List<OrderDetails> OrderDetails { get; set; }
 
         public static ObservableCollection<OrderDto> OrderDetailsObservalbleCollection = new ObservableCollection<OrderDto>();
 
-        private readonly IRepository<BL.Models.OrderDetails> OrderDetailsSerivce;
+        private readonly IRepository<OrderDetails> OrderDetailsSerivce;
+        private readonly IRepository<Products> ProductsServices;
 
-        public ViewOrderDetails(List<BL.Models.OrderDetails> OrderDetails, ShowOrderDTO ShowOrderDTO, BillsContext Context)
+        public ViewOrderDetails(List<OrderDetails> OrderDetails, ShowOrderDTO ShowOrderDTO, BillsContext Context)
         {
             _context = Context;
             unitOfWork = new UnitOfWork(_context);
-            OrderDetailsSerivce = unitOfWork.Repository<BL.Models.OrderDetails>();
+            OrderDetailsSerivce = unitOfWork.Repository<OrderDetails>();
+            ProductsServices = unitOfWork.Repository<Products>();
             this.OrderDetails = OrderDetails;
             this.ShowOrderDTO = ShowOrderDTO;
             InitializeComponent();
@@ -38,13 +41,15 @@ namespace BillsDesktopApp.OrdersWindows
         {
             decimal totalPrice = 0;
             OrderDetailsObservalbleCollection.Clear();
+
             foreach (var orderDetail in OrderDetails)
             {
+                var productName = ProductsServices.Get(orderDetail.ProductId).Name;
+
                 var orderDto = new OrderDto
                 {
                     ProductId = orderDetail.ProductId,
-                    ProductName = unitOfWork.Repository<BL.Models.Products>().Find(p => p.ID == orderDetail.ProductId)
-                    .FirstOrDefault().Name,
+                    ProductName = productName,
                     Quantity = orderDetail.Quantity,
                     Price = orderDetail.Price,
                 };
@@ -53,7 +58,6 @@ namespace BillsDesktopApp.OrdersWindows
 
 
                 totalPrice += orderDetail.Price * orderDetail.Quantity;
-
             }
 
             decimal totalCost = 0;
@@ -69,7 +73,7 @@ namespace BillsDesktopApp.OrdersWindows
             txtTotalPrice.Text = decimal.ToDouble(totalCost).ToString(); dgOrderDetails.ItemsSource = OrderDetailsObservalbleCollection;
         }
 
-        private void btnUpdate_Click(object sender, RoutedEventArgs e)
+        private void BtnUpdate_Click(object sender, RoutedEventArgs e)
         {
             var selectedOrderDto = (OrderDto)dgOrderDetails.SelectedItem;
             var selectedOrderDetail = OrderDetailsSerivce
@@ -86,7 +90,7 @@ namespace BillsDesktopApp.OrdersWindows
             updateOrderDetail.ShowDialog();
         }
 
-        private void btnDelete_Click(object sender, RoutedEventArgs e)
+        private void BtnDelete_Click(object sender, RoutedEventArgs e)
         {
             var selectedOrderDto = (OrderDto)dgOrderDetails.SelectedItem;
             var selectedOrderDetail = OrderDetailsSerivce
@@ -114,7 +118,7 @@ namespace BillsDesktopApp.OrdersWindows
             Load();
         }
 
-        private void btnPrint_Click(object sender, RoutedEventArgs e)
+        private void BtnPrint_Click(object sender, RoutedEventArgs e)
         {
             PrintInvoice printInvoice = new PrintInvoice();
             printInvoice.OrderDatepicker.Text = ShowOrderDTO.OrderDate.ToString();

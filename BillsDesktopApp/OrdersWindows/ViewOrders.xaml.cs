@@ -78,11 +78,18 @@ namespace BillsDesktopApp.OrdersWindows
                 .Find(od => od.OrderId == selectedOrderDTO.OrderID)
                 .ToList();
 
-            ViewOrderDetails viewOrderDetails = new ViewOrderDetails(orderDetails, selectedOrderDTO, _context);
-            viewOrderDetails.lblUserName.Content = lblUserName.Content;
+            if (orderDetails.Count < 1)
+            {
+                MessageBox.Show("حدث خطأ أثناء عرض تفاصيل الفاتورة", "خطأ", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            else
+            {
+                ViewOrderDetails viewOrderDetails = new ViewOrderDetails(orderDetails, selectedOrderDTO, _context);
+                viewOrderDetails.lblUserName.Content = lblUserName.Content;
 
-            viewOrderDetails.Owner = GetWindow(this);
-            viewOrderDetails.ShowDialog();
+                viewOrderDetails.Owner = GetWindow(this);
+                viewOrderDetails.ShowDialog();
+            }
         }
 
         private void BtnDelete_Click(object sender, RoutedEventArgs e)

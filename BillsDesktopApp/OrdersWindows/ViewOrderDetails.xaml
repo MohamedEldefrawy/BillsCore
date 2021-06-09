@@ -55,8 +55,8 @@
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                    <Button x:Name="btnUpdate" Content="تحديث" Click="btnUpdate_Click"/>
-                                    <Button x:Name="btnDelete" Content="مسح" Click="btnDelete_Click"/>
+                                    <Button x:Name="btnUpdate" Content="تحديث" Click="BtnUpdate_Click"/>
+                                    <Button x:Name="btnDelete" Content="مسح" Click="BtnDelete_Click"/>
                                 </StackPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
@@ -99,7 +99,7 @@
         <DockPanel Margin="10" Grid.Column="0" Grid.Row="4">
             <Button x:Name="btnPrint" Content="طباعة"
                     MinHeight="23.4"
-                   VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Width="223" Click="btnPrint_Click" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                   VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Width="223" Click="BtnPrint_Click" VerticalAlignment="Center" HorizontalAlignment="Center"/>
         </DockPanel>
     </Grid>
 </Window>
