@@ -120,7 +120,7 @@ namespace BillsDesktopApp.OrdersWindows
 
         private void BtnPrint_Click(object sender, RoutedEventArgs e)
         {
-            PrintInvoice printInvoice = new PrintInvoice();
+            PrintInvoice printInvoice = new PrintInvoice(_context);
             printInvoice.OrderDatepicker.Text = ShowOrderDTO.OrderDate.ToString();
             printInvoice.txtAddress.Text = ShowOrderDTO.Address;
             printInvoice.txtCompanyName.Text = ShowOrderDTO.CompanyName;
@@ -129,7 +129,7 @@ namespace BillsDesktopApp.OrdersWindows
             printInvoice.txtTotalPrice.Text = txtTotalPrice.Text;
             printInvoice.txtCustomerName.Text = ShowOrderDTO.CustomerName;
             PrintInvoice.OrderDetails = OrderDetailsObservalbleCollection;
-            this.Content = printInvoice;
+            Content = printInvoice;
         }
 
         private void Window_GotFocus(object sender, RoutedEventArgs e)

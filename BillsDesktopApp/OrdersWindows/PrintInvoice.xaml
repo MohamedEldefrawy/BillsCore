@@ -11,7 +11,7 @@
         TextElement.FontSize="12"
         FontFamily="{materialDesign:MaterialDesignFont}"      
         ScrollViewer.HorizontalScrollBarVisibility="Auto"    
-        Title="الفواتير"  Loaded="Page_Loaded" ScrollViewer.VerticalScrollBarVisibility="Auto" Height="1024">
+        Title="الفواتير"  Loaded="Page_Loaded" ScrollViewer.VerticalScrollBarVisibility="Auto" VerticalAlignment="Center" HorizontalAlignment="Stretch">
 
     <Grid x:Name="print" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" FlowDirection="LeftToRight" MinHeight="1" VerticalAlignment="Stretch" HorizontalAlignment="Center" Margin="10,10,10,10">
         <Grid.ColumnDefinitions>
@@ -33,7 +33,7 @@
 
         <DockPanel Grid.Column="1" Grid.Row="0" Margin="10" Grid.ColumnSpan="2" 
                    HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-            <Image Name="imgLogo" Height="50" Width="40"/>
+            <Image Name="imgLogo" Height="50" Width="40" HorizontalAlignment="Center" VerticalAlignment="Stretch"/>
         </DockPanel>
 
         <DockPanel Grid.Column="3" Grid.Row="1" Margin="10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
@@ -163,7 +163,7 @@
                    VerticalContentAlignment="Center" HorizontalContentAlignment="Center"  Click="btnPrint_Click"/>
         </DockPanel>
 
-        <DockPanel Margin="10" Grid.Column="0" Width="Auto" Grid.Row="7" VerticalAlignment="Stretch" HorizontalAlignment="Center" >
+        <DockPanel Margin="10" Grid.Column="3" Width="Auto" Grid.Row="7" VerticalAlignment="Stretch" HorizontalAlignment="Center" >
             <Image Name="imgSignutre" Width="40" Height="50" 
                    VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
         </DockPanel>

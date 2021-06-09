@@ -191,7 +191,7 @@ namespace BillsDesktopApp.OrdersWindows
                 var customerName = cmbCustomerName.SelectedItem.ToString().Substring(startIndex + 1);
                 customerName = customerName.Remove(customerName.Length - 1);
 
-                PrintInvoice printInvoice = new PrintInvoice();
+                PrintInvoice printInvoice = new PrintInvoice(_context);
                 printInvoice.OrderDatepicker.Text = OrderDatepicker.Text;
                 printInvoice.txtAddress.Text = txtAddress.Text;
                 printInvoice.txtCompanyName.Text = txtCompanyName.Text;
