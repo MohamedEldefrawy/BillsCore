@@ -19,7 +19,7 @@ namespace BillsDesktopApp.OrdersWindows
     /// </summary>
     public partial class PrintInvoice : Page
     {
-        public static ObservableCollection<OrderDto> OrderDetails = new ObservableCollection<OrderDto>();
+        public static ObservableCollection<OrderDto> OrderDetails = new();
         private readonly IRepository<Companies> companiesRepository;
         private readonly IRepository<Users> usersRepository;
         private readonly UnitOfWork _unitOfWork;
@@ -39,14 +39,16 @@ namespace BillsDesktopApp.OrdersWindows
             {
                 IsEnabled = false;
                 PrintDialog printDialog = new PrintDialog();
+
                 if (printDialog.ShowDialog() == true)
                 {
                     printDialog.PrintVisual(this, "Invoice");
                 }
             }
+
             finally
             {
-                IsEnabled = true;
+                Visibility = Visibility.Hidden;
             }
         }
         private static string GetDestinationPath(string filename, string foldername)
@@ -60,28 +62,26 @@ namespace BillsDesktopApp.OrdersWindows
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
+            (Parent as Window).WindowState = WindowState.Maximized;
+
             var selectedUser = usersRepository.Find(u => u.UserName == txtUsername.Text).SingleOrDefault();
             var selectedCompany = companiesRepository.Find(c => c.ID == selectedUser.CompanyId).SingleOrDefault();
 
             string destenationPathLogo = GetDestinationPath(selectedCompany.LogoImagePath, @"Static\Logos");
-            BitmapImage bitmapLogo = new BitmapImage();
+            BitmapImage bitmapLogo = new();
             bitmapLogo.BeginInit();
             bitmapLogo.UriSource = new Uri(destenationPathLogo);
             bitmapLogo.EndInit();
             imgLogo.Source = bitmapLogo;
 
             string destenationPathSignutre = GetDestinationPath(selectedCompany.SignutreImagePath, @"Static\Signutres");
-            BitmapImage bitmapSignutre = new BitmapImage();
+            BitmapImage bitmapSignutre = new();
             bitmapSignutre.BeginInit();
             bitmapSignutre.UriSource = new Uri(destenationPathSignutre);
             bitmapSignutre.EndInit();
             imgSignutre.Source = bitmapSignutre;
 
-
-
-
             dgProducts.ItemsSource = OrderDetails;
-
         }
     }
 }

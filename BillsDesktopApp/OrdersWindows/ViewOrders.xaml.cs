@@ -74,6 +74,7 @@ namespace BillsDesktopApp.OrdersWindows
         private void BtnView_Click(object sender, RoutedEventArgs e)
         {
             var selectedOrderDTO = (ShowOrderDTO)dgOrders.SelectedItem;
+
             var orderDetails = OrderDetailsService
                 .Find(od => od.OrderId == selectedOrderDTO.OrderID)
                 .ToList();

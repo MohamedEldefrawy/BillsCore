@@ -26,6 +26,7 @@ namespace BillsDesktopApp.OrdersWindows
         private readonly IRepository<OrderDetails> OrderDetailsSerivce;
         private readonly IRepository<Products> ProductsServices;
 
+
         public ViewOrderDetails(List<OrderDetails> OrderDetails, ShowOrderDTO ShowOrderDTO, BillsContext Context)
         {
             _context = Context;
@@ -120,16 +121,18 @@ namespace BillsDesktopApp.OrdersWindows
 
         private void BtnPrint_Click(object sender, RoutedEventArgs e)
         {
-            PrintInvoice printInvoice = new PrintInvoice(_context);
+            PrintInvoice printInvoice = new(_context);
             printInvoice.OrderDatepicker.Text = ShowOrderDTO.OrderDate.ToString();
             printInvoice.txtAddress.Text = ShowOrderDTO.Address;
             printInvoice.txtCompanyName.Text = ShowOrderDTO.CompanyName;
+            printInvoice.txtVat.Text = txtVat.Text;
             printInvoice.txtInvoiceNumber.Text = ShowOrderDTO.OrderID.ToString();
             printInvoice.txtUsername.Text = ShowOrderDTO.UserName;
             printInvoice.txtTotalPrice.Text = txtTotalPrice.Text;
             printInvoice.txtCustomerName.Text = ShowOrderDTO.CustomerName;
             PrintInvoice.OrderDetails = OrderDetailsObservalbleCollection;
             Content = printInvoice;
+
         }
 
         private void Window_GotFocus(object sender, RoutedEventArgs e)
