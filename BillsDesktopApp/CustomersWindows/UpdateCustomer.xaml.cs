@@ -11,10 +11,10 @@ namespace BillsDesktopApp.CustomersWindows
     public partial class UpdateCustomer : Window
     {
         private readonly BillsContext _context;
-
         private readonly UnitOfWork unitOfWork;
         private readonly IRepository<BL.Models.Customers> CustomersService;
         public BL.Models.Customers SelectedCustomer { get; set; }
+
         public UpdateCustomer(BillsContext Context)
         {
             _context = Context;
@@ -33,9 +33,7 @@ namespace BillsDesktopApp.CustomersWindows
             SelectedCustomer.Name = txtName.Text;
             SelectedCustomer.Phone = txtPhone.Text;
 
-            CustomersService.Update(SelectedCustomer);
-
-            var result = unitOfWork.Complete();
+            var result = CustomersService.Update(SelectedCustomer);
 
             if (result < 1)
             {
@@ -47,7 +45,7 @@ namespace BillsDesktopApp.CustomersWindows
             {
                 Customers.CustomerObservalbleCollection.Add(SelectedCustomer);
                 MessageBox.Show("تم تحديث بيانات العميل بنجاح ", "تم", MessageBoxButton.OK, MessageBoxImage.Information);
-                this.Close();
+                Close();
 
             }
         }

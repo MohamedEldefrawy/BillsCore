@@ -13,8 +13,8 @@
         WindowStartupLocation="CenterScreen" HorizontalContentAlignment="Stretch" 
         VerticalContentAlignment="Stretch"
         mc:Ignorable="d"
-        Title="تحديث عميل" Height="400" Width="250">
-    <Grid>
+        Title="تحديث عميل" Height="400" Width="300">
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Center">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0.7*"/>
             <ColumnDefinition Width="0.3*"/>
@@ -27,7 +27,7 @@
             <RowDefinition Height="0.2*"/>
         </Grid.RowDefinitions>
 
-        <DockPanel Margin="10" Grid.Column="1" Grid.Row="0">
+        <DockPanel Margin="10" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center">
             <Label x:Name="lblCustomerName" Content="الإسم" HorizontalAlignment="Stretch" VerticalAlignment="Center"
                    HorizontalContentAlignment="Center" VerticalContentAlignment="Center" 
                    Margin="5"/>
