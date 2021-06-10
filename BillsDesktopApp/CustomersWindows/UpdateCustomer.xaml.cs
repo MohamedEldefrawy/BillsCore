@@ -38,7 +38,6 @@ namespace BillsDesktopApp.CustomersWindows
             if (result < 1)
             {
                 MessageBox.Show("فشلت عملية تحديث بيانات العميل", "فشلت العملية", MessageBoxButton.OK, MessageBoxImage.Error);
-
             }
 
             else

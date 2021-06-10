@@ -19,16 +19,16 @@ namespace BillsDesktopApp.CustomersWindows
         private readonly UnitOfWork unitOfWork;
         public static ObservableCollection<BL.Models.Customers> CustomerObservalbleCollection = new ObservableCollection<BL.Models.Customers>();
 
-        private string[] AllcolNames = typeof(BL.Models.Customers).GetProperties().Select(p => p.Name).ToArray();
+        private readonly string[] AllcolNames = typeof(BL.Models.Customers).GetProperties().Select(p => p.Name).ToArray();
         private readonly IRepository<BL.Models.Customers> CustomersService;
         private List<string> selectedColNames = new List<string>();
-
 
         public Customers(BillsContext Context)
         {
             _context = Context;
             unitOfWork = new UnitOfWork(_context);
             CustomersService = unitOfWork.Repository<BL.Models.Customers>();
+
             foreach (var col in AllcolNames)
             {
                 if (col != "Orders")
@@ -37,6 +37,7 @@ namespace BillsDesktopApp.CustomersWindows
 
                 }
             }
+
             InitializeComponent();
             Load();
         }
@@ -46,6 +47,7 @@ namespace BillsDesktopApp.CustomersWindows
             cmbSearch.ItemsSource = selectedColNames;
             cmbSearch.SelectedIndex = 0;
             var customers = CustomersService.GetAll().ToList();
+
             foreach (var customer in customers)
             {
                 CustomerObservalbleCollection.Add(customer);
@@ -54,26 +56,26 @@ namespace BillsDesktopApp.CustomersWindows
             dgCustomers.ItemsSource = customers;
         }
 
-        private void txtSearch_TextChanged(object sender, TextChangedEventArgs e)
+        private void TxtSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
             var customers = GetSelectedFilter();
+
             if (string.IsNullOrEmpty(txtSearch.Text))
             {
                 dgCustomers.ItemsSource = CustomersService.GetAll().ToArray();
-
             }
+
             dgCustomers.ItemsSource = customers;
         }
 
-        private void btnAdd_Click(object sender, RoutedEventArgs e)
+        private void BtnAdd_Click(object sender, RoutedEventArgs e)
         {
-            AddCustomer addCustomer = new AddCustomer(_context);
-            addCustomer.Owner = Window.GetWindow(this);
+            AddCustomer addCustomer = new(_context);
+            addCustomer.Owner = GetWindow(this);
             addCustomer.ShowDialog();
-
         }
 
-        private void btnUpdate_Click(object sender, RoutedEventArgs e)
+        private void BtnUpdate_Click(object sender, RoutedEventArgs e)
         {
             var selectedCustomer = (BL.Models.Customers)dgCustomers.SelectedItem;
             UpdateCustomer updateCustomer = new UpdateCustomer(_context);
@@ -83,25 +85,26 @@ namespace BillsDesktopApp.CustomersWindows
             updateCustomer.txtPhone.Text = selectedCustomer.Phone;
             updateCustomer.txtId.Text = selectedCustomer.ID.ToString();
             updateCustomer.SelectedCustomer = selectedCustomer;
-            updateCustomer.Owner = Window.GetWindow(this);
+            updateCustomer.Owner = GetWindow(this);
             updateCustomer.ShowDialog();
         }
 
-        private void btnDelete_Click(object sender, RoutedEventArgs e)
+        private void BtnDelete_Click(object sender, RoutedEventArgs e)
         {
             var selectedCustomer = (BL.Models.Customers)dgCustomers.SelectedItem;
-            CustomersService.Remove(selectedCustomer);
-            var result = unitOfWork.Complete();
+
+            var result = CustomersService.Remove(selectedCustomer);
+
             if (result < 1)
             {
                 MessageBox.Show("فشلت عملية مسح العميل", "فشلت العملية", MessageBoxButton.OK, MessageBoxImage.Error);
-
             }
             else
             {
                 MessageBox.Show("تم مسح العميل بنجاح", "نجحت العملية", MessageBoxButton.OK, MessageBoxImage.Information);
                 CustomerObservalbleCollection.Remove(selectedCustomer);
             }
+
 
             dgCustomers.ItemsSource = CustomerObservalbleCollection;
         }
@@ -148,7 +151,6 @@ namespace BillsDesktopApp.CustomersWindows
         private void Window_GotFocus(object sender, RoutedEventArgs e)
         {
             dgCustomers.ItemsSource = CustomerObservalbleCollection;
-
         }
     }
 }
