@@ -19,15 +19,16 @@ namespace BillsDesktopApp.ProductsWindows
 
         private readonly UnitOfWork unitOfWork;
         private string[] AllcolNames = typeof(BL.Models.Products).GetProperties().Select(p => p.Name).ToArray();
-        public static ObservableCollection<BL.Models.Products> ProductsObservalbleCollection = new ObservableCollection<BL.Models.Products>();
+        public static ObservableCollection<BL.Models.Products> ProductsObservalbleCollection = new();
         private readonly IRepository<BL.Models.Products> ProductsService;
-        private List<string> selectedColNames = new List<string>();
+        private readonly List<string> selectedColNames = new();
 
         public winProducts(BillsContext Context)
         {
             _context = Context;
             unitOfWork = new UnitOfWork(_context);
             ProductsService = unitOfWork.Repository<BL.Models.Products>();
+
             foreach (var col in AllcolNames)
             {
                 if (col != "OrderDetails")
@@ -36,6 +37,7 @@ namespace BillsDesktopApp.ProductsWindows
 
                 }
             }
+
             InitializeComponent();
             Load();
         }
@@ -44,8 +46,10 @@ namespace BillsDesktopApp.ProductsWindows
         {
             cmbSearch.ItemsSource = selectedColNames;
             cmbSearch.SelectedIndex = 0;
+
             var products = ProductsService.GetAll().ToList();
             ProductsObservalbleCollection.Clear();
+
             foreach (var product in products)
             {
                 ProductsObservalbleCollection.Add(product);
@@ -84,6 +88,7 @@ namespace BillsDesktopApp.ProductsWindows
         private void txtSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
             var products = GetSelectedFilter();
+
             if (string.IsNullOrEmpty(txtSearch.Text))
             {
                 dgProducts.ItemsSource = ProductsObservalbleCollection;
@@ -92,39 +97,46 @@ namespace BillsDesktopApp.ProductsWindows
             else
             {
                 ProductsObservalbleCollection.Clear();
+
                 foreach (var product in products)
                 {
                     ProductsObservalbleCollection.Add(product);
                 }
+
                 dgProducts.ItemsSource = products;
             }
         }
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
-            AddProduct addProduct = new AddProduct(_context);
-            addProduct.Owner = Window.GetWindow(this);
+            AddProduct addProduct = new AddProduct(_context)
+            {
+                Owner = GetWindow(this)
+            };
+
             addProduct.ShowDialog();
         }
 
         private void btnUpdate_Click(object sender, RoutedEventArgs e)
         {
             var selectedProduct = (BL.Models.Products)dgProducts.SelectedItem;
-            UpdateProduct updateProduct = new UpdateProduct(_context);
+
+            UpdateProduct updateProduct = new(_context);
             updateProduct.txtId.Text = selectedProduct.ID.ToString();
             updateProduct.txtName.Text = selectedProduct.Name;
             updateProduct.txtDesc.Text = selectedProduct.Description;
             updateProduct.txtPrice.Text = selectedProduct.Price.ToString();
             updateProduct.SelectedProduct = selectedProduct;
-            updateProduct.Owner = Window.GetWindow(this);
+            updateProduct.Owner = GetWindow(this);
             updateProduct.ShowDialog();
         }
 
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
             var selectedProduct = (BL.Models.Products)dgProducts.SelectedItem;
-            ProductsService.Remove(selectedProduct);
-            var result = unitOfWork.Complete();
+
+            var result = ProductsService.Remove(selectedProduct);
+
             if (result < 1)
             {
                 MessageBox.Show("فشلت العملية", "فشلت عملية مسح العميل", MessageBoxButton.OK, MessageBoxImage.Error);
