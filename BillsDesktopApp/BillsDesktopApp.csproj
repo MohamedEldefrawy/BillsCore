@@ -27,6 +27,9 @@
     <None Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Static\BillsCore.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Static\Logos\logo-placeholder.jpeg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
