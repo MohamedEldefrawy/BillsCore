@@ -109,17 +109,6 @@ namespace BillsDesktopApp.CompanyWindows
                 lblLogoFilePath.Content = selectedCompany.LogoImagePath;
             }
 
-            //else
-            //{
-            //    string destenationPath = GetDestinationPath("logo-placeholder.jpeg", @"Static\Logos");
-            //    BitmapImage bitmap = new();
-            //    bitmap.BeginInit();
-            //    bitmap.UriSource = new Uri(destenationPath);
-            //    bitmap.EndInit();
-            //    imgLogo.Source = bitmap;
-            //    lblLogoFilePath.Content = "logo-placeholder.jpeg";
-            //}
-
             if (selectedCompany.SignutreImagePath != null)
             {
                 string destenationPath = GetDestinationPath(selectedCompany.SignutreImagePath, @"Static\Signutres");
@@ -130,18 +119,6 @@ namespace BillsDesktopApp.CompanyWindows
                 imgSignutre.Source = bitmap;
                 lblSignutreFilePath.Content = selectedCompany.SignutreImagePath;
             }
-
-            //else
-            //{
-            //    string destenationPath = GetDestinationPath("SignutrePlaceHolder.png", @"Static\Signutres");
-            //    BitmapImage bitmap = new();
-            //    bitmap.BeginInit();
-            //    bitmap.UriSource = new Uri(destenationPath);
-            //    bitmap.EndInit();
-            //    imgSignutre.Source = bitmap;
-            //    lblSignutreFilePath.Content = "SignutrePlaceHolder.png";
-            //}
-
         }
 
         private void BtnSave_Click(object sender, RoutedEventArgs e)
