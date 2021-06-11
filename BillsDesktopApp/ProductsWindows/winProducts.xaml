@@ -36,7 +36,7 @@
         </DockPanel>
         <StackPanel Margin="10"
                    Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" Orientation="Horizontal">
-            <Button x:Name="btnAdd" Content="إضافة" Click="btnAdd_Click" 
+            <Button x:Name="btnAdd" Content="إضافة" Click="BtnAdd_Click" 
                     HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0 5 5 0"/>
         </StackPanel>
         <StackPanel Grid.Column="0" Grid.Row="0" Margin="10" Orientation="Horizontal">
@@ -48,7 +48,7 @@
             <TextBox x:Name="txtSearch" Margin="5"
                      VerticalAlignment="Center" HorizontalAlignment="Stretch"
                      VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
-                     Width="Auto" Height="Auto" MinHeight="23.4" MinWidth="300" TextChanged="txtSearch_TextChanged"/>
+                     Width="Auto" Height="Auto" MinHeight="23.4" MinWidth="300" TextChanged="TxtSearch_TextChanged"/>
         </StackPanel>
         <DockPanel Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" Margin="10">
             <DataGrid x:Name="dgProducts" Margin="5"
@@ -70,8 +70,8 @@
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                    <Button x:Name="btnUpdate" Content="تحديث" Click="btnUpdate_Click"/>
-                                    <Button x:Name="btnDelete" Content="مسح" Click="btnDelete_Click"/>
+                                    <Button x:Name="btnUpdate" Content="تحديث" Click="BtnUpdate_Click"/>
+                                    <Button x:Name="btnDelete" Content="مسح" Click="BtnDelete_Click"/>
                                 </StackPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>

@@ -85,7 +85,7 @@ namespace BillsDesktopApp.ProductsWindows
             return products;
         }
 
-        private void txtSearch_TextChanged(object sender, TextChangedEventArgs e)
+        private void TxtSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
             var products = GetSelectedFilter();
 
@@ -107,7 +107,7 @@ namespace BillsDesktopApp.ProductsWindows
             }
         }
 
-        private void btnAdd_Click(object sender, RoutedEventArgs e)
+        private void BtnAdd_Click(object sender, RoutedEventArgs e)
         {
             AddProduct addProduct = new AddProduct(_context)
             {
@@ -117,7 +117,7 @@ namespace BillsDesktopApp.ProductsWindows
             addProduct.ShowDialog();
         }
 
-        private void btnUpdate_Click(object sender, RoutedEventArgs e)
+        private void BtnUpdate_Click(object sender, RoutedEventArgs e)
         {
             var selectedProduct = (BL.Models.Products)dgProducts.SelectedItem;
 
@@ -131,7 +131,7 @@ namespace BillsDesktopApp.ProductsWindows
             updateProduct.ShowDialog();
         }
 
-        private void btnDelete_Click(object sender, RoutedEventArgs e)
+        private void BtnDelete_Click(object sender, RoutedEventArgs e)
         {
             var selectedProduct = (BL.Models.Products)dgProducts.SelectedItem;
 
