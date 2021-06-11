@@ -101,7 +101,7 @@ namespace BillsDesktopApp.CompanyWindows
             if (selectedCompany.LogoImagePath != null)
             {
                 string destenationPath = GetDestinationPath(selectedCompany.LogoImagePath, @"Static\Logos");
-                BitmapImage bitmap = new BitmapImage();
+                BitmapImage bitmap = new();
                 bitmap.BeginInit();
                 bitmap.UriSource = new Uri(destenationPath);
                 bitmap.EndInit();
@@ -111,7 +111,7 @@ namespace BillsDesktopApp.CompanyWindows
             else
             {
                 string destenationPath = GetDestinationPath("logo-placeholder.jpeg", @"Static\Logos");
-                BitmapImage bitmap = new BitmapImage();
+                BitmapImage bitmap = new();
                 bitmap.BeginInit();
                 bitmap.UriSource = new Uri(destenationPath);
                 bitmap.EndInit();
@@ -122,7 +122,7 @@ namespace BillsDesktopApp.CompanyWindows
             if (selectedCompany.SignutreImagePath != null)
             {
                 string destenationPath = GetDestinationPath(selectedCompany.SignutreImagePath, @"Static\Signutres");
-                BitmapImage bitmap = new BitmapImage();
+                BitmapImage bitmap = new();
                 bitmap.BeginInit();
                 bitmap.UriSource = new Uri(destenationPath);
                 bitmap.EndInit();
@@ -132,11 +132,11 @@ namespace BillsDesktopApp.CompanyWindows
             else
             {
                 string destenationPath = GetDestinationPath("SignutrePlaceHolder.png", @"Static\Signutres");
-                BitmapImage bitmap = new BitmapImage();
+                BitmapImage bitmap = new();
                 bitmap.BeginInit();
                 bitmap.UriSource = new Uri(destenationPath);
                 bitmap.EndInit();
-                imgLogo.Source = bitmap;
+                imgSignutre.Source = bitmap;
                 lblSignutreFilePath.Content = "SignutrePlaceHolder.png";
             }
 

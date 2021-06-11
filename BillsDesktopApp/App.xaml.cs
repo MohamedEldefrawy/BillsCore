@@ -15,21 +15,7 @@ namespace BillsDesktopApp
 
         public App()
         {
-            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
-            {
-                string filePath = GetDestinationPath("BillsCore.sql", @"Static");
-
-                var inst = new SqlCmd(sqlConnection);
-                inst.ExecuteFile(filePath);
-            }
-        }
-
-        private static string GetDestinationPath(string filename, string foldername)
-        {
-            string appStartPath = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
-
-            appStartPath = string.Format(appStartPath + "\\{0}\\" + filename, foldername);
-            return appStartPath;
-        }
+           
+        }       
     }
 }
