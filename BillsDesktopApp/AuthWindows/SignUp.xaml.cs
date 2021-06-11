@@ -103,7 +103,9 @@ namespace BillsDesktopApp.AuthWindows
             var company = new Companies
             {
                 Name = txtCompanyName.Text,
-                TaxNumber = txtTaxNumber.Text
+                TaxNumber = txtTaxNumber.Text,
+                LogoImagePath = "logo-placeholder.jpeg",
+                SignutreImagePath = "SignutrePlaceHolder.png"
             };
 
             if (!IsValid)

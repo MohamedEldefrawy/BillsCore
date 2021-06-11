@@ -108,16 +108,17 @@ namespace BillsDesktopApp.CompanyWindows
                 imgLogo.Source = bitmap;
                 lblLogoFilePath.Content = selectedCompany.LogoImagePath;
             }
-            else
-            {
-                string destenationPath = GetDestinationPath("logo-placeholder.jpeg", @"Static\Logos");
-                BitmapImage bitmap = new();
-                bitmap.BeginInit();
-                bitmap.UriSource = new Uri(destenationPath);
-                bitmap.EndInit();
-                imgLogo.Source = bitmap;
-                lblLogoFilePath.Content = "logo-placeholder.jpeg";
-            }
+
+            //else
+            //{
+            //    string destenationPath = GetDestinationPath("logo-placeholder.jpeg", @"Static\Logos");
+            //    BitmapImage bitmap = new();
+            //    bitmap.BeginInit();
+            //    bitmap.UriSource = new Uri(destenationPath);
+            //    bitmap.EndInit();
+            //    imgLogo.Source = bitmap;
+            //    lblLogoFilePath.Content = "logo-placeholder.jpeg";
+            //}
 
             if (selectedCompany.SignutreImagePath != null)
             {
@@ -129,16 +130,17 @@ namespace BillsDesktopApp.CompanyWindows
                 imgSignutre.Source = bitmap;
                 lblSignutreFilePath.Content = selectedCompany.SignutreImagePath;
             }
-            else
-            {
-                string destenationPath = GetDestinationPath("SignutrePlaceHolder.png", @"Static\Signutres");
-                BitmapImage bitmap = new();
-                bitmap.BeginInit();
-                bitmap.UriSource = new Uri(destenationPath);
-                bitmap.EndInit();
-                imgSignutre.Source = bitmap;
-                lblSignutreFilePath.Content = "SignutrePlaceHolder.png";
-            }
+
+            //else
+            //{
+            //    string destenationPath = GetDestinationPath("SignutrePlaceHolder.png", @"Static\Signutres");
+            //    BitmapImage bitmap = new();
+            //    bitmap.BeginInit();
+            //    bitmap.UriSource = new Uri(destenationPath);
+            //    bitmap.EndInit();
+            //    imgSignutre.Source = bitmap;
+            //    lblSignutreFilePath.Content = "SignutrePlaceHolder.png";
+            //}
 
         }
 
