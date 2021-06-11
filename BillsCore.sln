@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BillsDesktopApp", "BillsDes
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Utilities", "Utilities\Utilities.csproj", "{EB8C1693-FAA3-4C9F-87FF-6DF9124252A5}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup", "Setup\Setup.vdproj", "{75068897-55BF-4CEF-8640-3F6F32700F54}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,8 @@ Global
 		{EB8C1693-FAA3-4C9F-87FF-6DF9124252A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EB8C1693-FAA3-4C9F-87FF-6DF9124252A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EB8C1693-FAA3-4C9F-87FF-6DF9124252A5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{75068897-55BF-4CEF-8640-3F6F32700F54}.Debug|Any CPU.ActiveCfg = Debug
+		{75068897-55BF-4CEF-8640-3F6F32700F54}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

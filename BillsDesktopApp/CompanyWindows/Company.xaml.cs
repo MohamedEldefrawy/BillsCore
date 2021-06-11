@@ -50,7 +50,7 @@ namespace BillsDesktopApp.CompanyWindows
 
 
                 string name = Path.GetFileName(selectedFileName);
-                string destenationPath = GetDestinationPath(name, @"Static\Logos");
+                string destenationPath = Environment.CurrentDirectory + @"\Static\Logos\" + name;
 
                 File.Copy(selectedFileName, destenationPath, true);
 
@@ -69,28 +69,20 @@ namespace BillsDesktopApp.CompanyWindows
             if (dlg.ShowDialog() == true)
             {
                 string selectedFileName = dlg.FileName;
-                BitmapImage bitmap = new BitmapImage();
+                BitmapImage bitmap = new();
                 bitmap.BeginInit();
                 bitmap.UriSource = new Uri(selectedFileName);
                 bitmap.EndInit();
                 imgSignutre.Source = bitmap;
 
                 string name = Path.GetFileName(selectedFileName);
-                string destenationPath = GetDestinationPath(name, @"Static\Signutres");
+                string destenationPath = Environment.CurrentDirectory + @"\Static\Signutres\" + name;
 
                 File.Copy(selectedFileName, destenationPath, true);
 
                 lblSignutreFilePath.Content = name;
                 selectedCompany.SignutreImagePath = name;
             }
-        }
-
-        private static string GetDestinationPath(string filename, string foldername)
-        {
-            string appStartPath = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
-
-            appStartPath = string.Format(appStartPath + "\\{0}\\" + filename, foldername);
-            return appStartPath;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -100,7 +92,7 @@ namespace BillsDesktopApp.CompanyWindows
 
             if (selectedCompany.LogoImagePath != null)
             {
-                string destenationPath = GetDestinationPath(selectedCompany.LogoImagePath, @"Static\Logos");
+                string destenationPath = Environment.CurrentDirectory + @"\Static\Logos\" + selectedCompany.LogoImagePath;
                 BitmapImage bitmap = new();
                 bitmap.BeginInit();
                 bitmap.UriSource = new Uri(destenationPath);
@@ -111,7 +103,7 @@ namespace BillsDesktopApp.CompanyWindows
 
             if (selectedCompany.SignutreImagePath != null)
             {
-                string destenationPath = GetDestinationPath(selectedCompany.SignutreImagePath, @"Static\Signutres");
+                string destenationPath = Environment.CurrentDirectory + @"\Static\Signutres\" + selectedCompany.SignutreImagePath;
                 BitmapImage bitmap = new();
                 bitmap.BeginInit();
                 bitmap.UriSource = new Uri(destenationPath);
