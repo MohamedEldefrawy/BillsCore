@@ -51,14 +51,6 @@ namespace BillsDesktopApp.OrdersWindows
                 Visibility = Visibility.Hidden;
             }
         }
-        private static string GetDestinationPath(string filename, string foldername)
-        {
-            string appStartPath = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
-
-            appStartPath = string.Format(appStartPath + "\\{0}\\" + filename, foldername);
-            return appStartPath;
-        }
-
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
@@ -67,19 +59,35 @@ namespace BillsDesktopApp.OrdersWindows
             var selectedUser = usersRepository.Find(u => u.UserName == txtUsername.Text).SingleOrDefault();
             var selectedCompany = companiesRepository.Find(c => c.ID == selectedUser.CompanyId).SingleOrDefault();
 
-            string destenationPathLogo = GetDestinationPath(selectedCompany.LogoImagePath, @"Static\Logos");
-            BitmapImage bitmapLogo = new();
-            bitmapLogo.BeginInit();
-            bitmapLogo.UriSource = new Uri(destenationPathLogo);
-            bitmapLogo.EndInit();
-            imgLogo.Source = bitmapLogo;
+            try
+            {
+                string destenationPathLogo = Environment.CurrentDirectory + @"\Static\Logos\" + selectedCompany.LogoImagePath;
+                BitmapImage bitmapLogo = new();
+                bitmapLogo.BeginInit();
+                bitmapLogo.UriSource = new Uri(destenationPathLogo);
+                bitmapLogo.EndInit();
+                imgLogo.Source = bitmapLogo;
+            }
+            catch (Exception ex)
+            {
 
-            string destenationPathSignutre = GetDestinationPath(selectedCompany.SignutreImagePath, @"Static\Signutres");
-            BitmapImage bitmapSignutre = new();
-            bitmapSignutre.BeginInit();
-            bitmapSignutre.UriSource = new Uri(destenationPathSignutre);
-            bitmapSignutre.EndInit();
-            imgSignutre.Source = bitmapSignutre;
+                MessageBox.Show(ex.Message);
+            }
+
+            try
+            {
+                string destenationPathSignutre = Environment.CurrentDirectory + @"\Static\Signutres\" + selectedCompany.SignutreImagePath;
+                BitmapImage bitmapSignutre = new();
+                bitmapSignutre.BeginInit();
+                bitmapSignutre.UriSource = new Uri(destenationPathSignutre);
+                bitmapSignutre.EndInit();
+                imgSignutre.Source = bitmapSignutre;
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.Message);
+            }
 
             dgProducts.ItemsSource = OrderDetails;
         }

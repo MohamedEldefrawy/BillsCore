@@ -32,6 +32,39 @@ namespace BillsDesktopApp.CompanyWindows
             InitializeComponent();
         }
 
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            selectedCompany = CompaniesService.Find(c => c.TaxNumber == txtTaxNumber.Text &&
+                c.Name.ToLower() == txtCompanyName.Text.ToLower()).SingleOrDefault();
+
+            if (selectedCompany.LogoImagePath != null)
+            {
+                string destenationPath = Environment.CurrentDirectory + @"\Static\Logos\" + selectedCompany.LogoImagePath;
+                BitmapImage bitmap = new();
+
+                bitmap.BeginInit();
+                bitmap.UriSource = new Uri(destenationPath);
+                bitmap.EndInit();
+                imgLogo.Source = bitmap;
+                lblLogoFilePath.Content = selectedCompany.LogoImagePath;
+
+
+            }
+
+            if (selectedCompany.SignutreImagePath != null)
+            {
+                string destenationPath = Environment.CurrentDirectory + @"\Static\Signutres\" + selectedCompany.SignutreImagePath;
+                BitmapImage bitmap = new();
+
+                bitmap.BeginInit();
+                bitmap.UriSource = new Uri(destenationPath);
+                bitmap.EndInit();
+                imgSignutre.Source = bitmap;
+                lblSignutreFilePath.Content = selectedCompany.SignutreImagePath;
+
+            }
+        }
+
         private void BtnLogoBrowse_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog dlg = new();
@@ -52,7 +85,11 @@ namespace BillsDesktopApp.CompanyWindows
                 string name = Path.GetFileName(selectedFileName);
                 string destenationPath = Environment.CurrentDirectory + @"\Static\Logos\" + name;
 
+
                 File.Copy(selectedFileName, destenationPath, true);
+                File.SetAttributes(destenationPath, FileAttributes.Normal);
+
+
 
                 selectedCompany.LogoImagePath = name;
                 lblLogoFilePath.Content = name;
@@ -78,40 +115,18 @@ namespace BillsDesktopApp.CompanyWindows
                 string name = Path.GetFileName(selectedFileName);
                 string destenationPath = Environment.CurrentDirectory + @"\Static\Signutres\" + name;
 
+
                 File.Copy(selectedFileName, destenationPath, true);
+                File.SetAttributes(destenationPath, FileAttributes.Normal);
+
+
+
 
                 lblSignutreFilePath.Content = name;
                 selectedCompany.SignutreImagePath = name;
             }
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            selectedCompany = CompaniesService.Find(c => c.TaxNumber == txtTaxNumber.Text &&
-                c.Name.ToLower() == txtCompanyName.Text.ToLower()).SingleOrDefault();
-
-            if (selectedCompany.LogoImagePath != null)
-            {
-                string destenationPath = Environment.CurrentDirectory + @"\Static\Logos\" + selectedCompany.LogoImagePath;
-                BitmapImage bitmap = new();
-                bitmap.BeginInit();
-                bitmap.UriSource = new Uri(destenationPath);
-                bitmap.EndInit();
-                imgLogo.Source = bitmap;
-                lblLogoFilePath.Content = selectedCompany.LogoImagePath;
-            }
-
-            if (selectedCompany.SignutreImagePath != null)
-            {
-                string destenationPath = Environment.CurrentDirectory + @"\Static\Signutres\" + selectedCompany.SignutreImagePath;
-                BitmapImage bitmap = new();
-                bitmap.BeginInit();
-                bitmap.UriSource = new Uri(destenationPath);
-                bitmap.EndInit();
-                imgSignutre.Source = bitmap;
-                lblSignutreFilePath.Content = selectedCompany.SignutreImagePath;
-            }
-        }
 
         private void BtnSave_Click(object sender, RoutedEventArgs e)
         {
