@@ -59,35 +59,22 @@ namespace BillsDesktopApp.OrdersWindows
             var selectedUser = usersRepository.Find(u => u.UserName == txtUsername.Text).SingleOrDefault();
             var selectedCompany = companiesRepository.Find(c => c.ID == selectedUser.CompanyId).SingleOrDefault();
 
-            try
-            {
-                string destenationPathLogo = Environment.CurrentDirectory + @"\Static\Logos\" + selectedCompany.LogoImagePath;
-                BitmapImage bitmapLogo = new();
-                bitmapLogo.BeginInit();
-                bitmapLogo.UriSource = new Uri(destenationPathLogo);
-                bitmapLogo.EndInit();
-                imgLogo.Source = bitmapLogo;
-            }
-            catch (Exception ex)
-            {
 
-                MessageBox.Show(ex.Message);
-            }
+            string destenationPathLogo = Environment.CurrentDirectory + @"\Static\Logos\" + selectedCompany.LogoImagePath;
+            BitmapImage bitmapLogo = new();
+            bitmapLogo.BeginInit();
+            bitmapLogo.UriSource = new Uri(destenationPathLogo);
+            bitmapLogo.EndInit();
+            imgLogo.Source = bitmapLogo;
 
-            try
-            {
-                string destenationPathSignutre = Environment.CurrentDirectory + @"\Static\Signutres\" + selectedCompany.SignutreImagePath;
-                BitmapImage bitmapSignutre = new();
-                bitmapSignutre.BeginInit();
-                bitmapSignutre.UriSource = new Uri(destenationPathSignutre);
-                bitmapSignutre.EndInit();
-                imgSignutre.Source = bitmapSignutre;
-            }
-            catch (Exception ex)
-            {
 
-                MessageBox.Show(ex.Message);
-            }
+            string destenationPathSignutre = Environment.CurrentDirectory + @"\Static\Signutres\" + selectedCompany.SignutreImagePath;
+            BitmapImage bitmapSignutre = new();
+            bitmapSignutre.BeginInit();
+            bitmapSignutre.UriSource = new Uri(destenationPathSignutre);
+            bitmapSignutre.EndInit();
+            imgSignutre.Source = bitmapSignutre;
+
 
             dgProducts.ItemsSource = OrderDetails;
         }
